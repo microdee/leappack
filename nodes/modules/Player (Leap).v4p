@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta33.7.dtd" >
-   <PATCH nodename="C:\vvvv\libs\mcropack\nodes\Plugins\Leap\Player (Leap).v4p" systemname="Player (Leap)" filename="C:\vvvv\libs\mcropack\nodes\Plugins\Leap\Player (Leap).v4p" scrollx="0" scrolly="735">
-   <BOUNDS type="Window" left="2490" top="1590" width="9000" height="12465">
+   <PATCH nodename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Player (Leap).v4p" systemname="Player (Leap)" filename="C:\vvvv\libs\mcropack\nodes\Plugins\Leap\Player (Leap).v4p" scrollx="765" scrolly="0">
+   <BOUNDS type="Window" left="17700" top="2295" width="9000" height="12465">
    </BOUNDS>
    <PACK Name="addonpack" Version="33.7.0">
    </PACK>
@@ -65,7 +65,7 @@
    </PIN>
    <PIN pinname="Input Count" slicecount="1" values="3">
    </PIN>
-   <PIN pinname="Input 3" slicecount="1" values=".meta">
+   <PIN pinname="Input 3" slicecount="1" values=".meta" visible="1">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -241,7 +241,7 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
-   <PIN pinname="Y Input Value" slicecount="1" values="6.2">
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE systemname="Change (Animation)" nodename="Change (Animation)" componentmode="Hidden" id="53">
@@ -542,4 +542,20 @@
    </LINK>
    <PACK Name="VVVV.Packs" Version="0.2.0">
    </PACK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="90" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="3255" top="750" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="3255" top="750" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" visible="1" values=".lflm">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="text">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="90" srcpinname="Output String" dstnodeid="4" dstpinname="Input 3">
+   </LINK>
    </PATCH>

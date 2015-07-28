@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta33.7.dtd" >
-   <PATCH nodename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Player (Leap JSON).v4p" systemname="Player (Leap JSON)" filename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Player (Leap JSON).v4p" scrollx="2700" scrolly="0">
+   <PATCH nodename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Player (Leap JSON).v4p" systemname="Player (Leap JSON)" filename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Player (Leap JSON).v4p" scrollx="0" scrolly="360">
    <BOUNDS type="Window" left="17700" top="2295" width="9000" height="12465">
    </BOUNDS>
    <PACK Name="addonpack" Version="33.7.0">
@@ -392,14 +392,6 @@
    </LINK>
    <PACK Name="VVVV.Packs" Version="0.2.0">
    </PACK>
-   <NODE systemname="JsonParser (JSON)" filename="..\..\..\..\..\..\libs\VObjects\nodes\plugins\x64\VVVV.Nodes.VObjects.dll" nodename="JsonParser (JSON)" componentmode="Hidden" id="90">
-   <BOUNDS type="Node" left="1260" top="2145" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="JSON" visible="1">
-   </PIN>
-   <PIN pinname="Output json" visible="1">
-   </PIN>
-   </NODE>
    <NODE systemname="Reader (String)" filename="%VVVV%\lib\nodes\modules\String\Reader (String).v4p" nodename="Reader (String)" componentmode="Hidden" id="91">
    <BOUNDS type="Node" left="1260" top="1665" width="100" height="100">
    </BOUNDS>
@@ -426,24 +418,6 @@
    </NODE>
    <LINK srcnodeid="92" srcpinname="Output Enum" dstnodeid="91" dstpinname="Encoding">
    </LINK>
-   <LINK srcnodeid="91" srcpinname="Content" dstnodeid="90" dstpinname="JSON">
-   </LINK>
-   <NODE systemname="JsonArray (JSON)" filename="..\..\..\..\..\..\libs\VObjects\nodes\plugins\x64\VVVV.Nodes.VObjects.dll" nodename="JsonArray (JSON)" componentmode="Hidden" id="94">
-   <BOUNDS type="Node" left="1260" top="2895" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Jobject" visible="1">
-   </PIN>
-   <PIN pinname="path" visible="1">
-   </PIN>
-   <PIN pinname="key" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Parse" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="90" srcpinname="Output json" dstnodeid="94" dstpinname="Jobject">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="95" systemname="IOBox (String)">
    <BOUNDS type="Box" left="1440" top="2475" width="660" height="240">
    </BOUNDS>
@@ -458,8 +432,6 @@
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="95" srcpinname="Output String" dstnodeid="94" dstpinname="path">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="96" systemname="IOBox (String)">
    <BOUNDS type="Box" left="2160" top="2460" width="285" height="240">
    </BOUNDS>
@@ -474,26 +446,6 @@
    <PIN pinname="Maximum Characters" slicecount="1" values="-1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="96" srcpinname="Output String" dstnodeid="94" dstpinname="key">
-   </LINK>
-   <NODE systemname="JsonArray (JSON)" filename="..\..\..\..\..\..\libs\VObjects\nodes\plugins\x64\VVVV.Nodes.VObjects.dll" nodename="JsonArray (JSON)" componentmode="Hidden" id="97">
-   <BOUNDS type="Node" left="2130" top="2895" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Jobject" visible="1">
-   </PIN>
-   <PIN pinname="path" visible="1">
-   </PIN>
-   <PIN pinname="key" visible="1" slicecount="1" values="t">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Parse" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="90" srcpinname="Output json" dstnodeid="97" dstpinname="Jobject">
-   </LINK>
-   <LINK srcnodeid="95" srcpinname="Output String" dstnodeid="97" dstpinname="path">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="98" systemname="IOBox (String)">
    <BOUNDS type="Box" left="2565" top="2475" width="285" height="240">
    </BOUNDS>
@@ -510,12 +462,10 @@
    <PIN pinname="Output String" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="98" srcpinname="Output String" dstnodeid="97" dstpinname="key">
-   </LINK>
    <NODE systemname="GetSlice (String)" nodename="GetSlice (String)" componentmode="Hidden" id="29">
    <BOUNDS type="Node" left="2880" top="6030" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input" visible="1" slicecount="1" values="text">
+   <PIN pinname="Input" visible="1">
    </PIN>
    <PIN pinname="Index" visible="1" slicecount="1" values="867">
    </PIN>
@@ -523,8 +473,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="68" srcpinname="Nearest Index" dstnodeid="29" dstpinname="Index">
-   </LINK>
-   <LINK srcnodeid="97" srcpinname="Output" dstnodeid="29" dstpinname="Input">
    </LINK>
    <NODE systemname="Decode (Raw Base64)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Decode (Raw Base64)" componentmode="Hidden" id="100">
    <BOUNDS type="Node" left="1365" top="9045" width="100" height="100">
@@ -540,10 +488,6 @@
    </LINK>
    <LINK srcnodeid="86" srcpinname="Output" dstnodeid="31" dstpinname="DeSerialize">
    </LINK>
-   <LINK srcnodeid="85" srcpinname="Output" dstnodeid="94" dstpinname="Parse">
-   </LINK>
-   <LINK srcnodeid="85" srcpinname="Output" dstnodeid="97" dstpinname="Parse">
-   </LINK>
    <NODE systemname="Decode (Raw Base64)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Decode (Raw Base64)" componentmode="Hidden" id="103">
    <BOUNDS type="Node" left="1260" top="3600" width="100" height="100">
    </BOUNDS>
@@ -552,8 +496,6 @@
    <PIN pinname="Output Data" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="94" srcpinname="Output" dstnodeid="103" dstpinname="Input String">
-   </LINK>
    <NODE systemname="AsValue (Raw)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="AsValue (Raw)" componentmode="Hidden" id="105">
    <BOUNDS type="Node" left="1260" top="4035" width="100" height="100">
    </BOUNDS>
@@ -613,5 +555,51 @@
    <LINK srcnodeid="108" srcpinname="Output" dstnodeid="68" dstpinname="Reference">
    </LINK>
    <LINK srcnodeid="108" srcpinname="Output" dstnodeid="67" dstpinname="Input">
+   </LINK>
+   <NODE systemname="JsonArray (JSON)" filename="%VVVV%\packs\VObjects\nodes\plugins\x64\VVVV.Nodes.VObjects.dll" nodename="JsonArray (JSON)" componentmode="Hidden" id="113">
+   <BOUNDS type="Node" left="1260" top="2895" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Jobject" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="95" srcpinname="Output String" dstnodeid="113" dstpinname="path">
+   </LINK>
+   <LINK srcnodeid="96" srcpinname="Output String" dstnodeid="113" dstpinname="key">
+   </LINK>
+   <LINK srcnodeid="85" srcpinname="Output" dstnodeid="113" dstpinname="Parse">
+   </LINK>
+   <LINK srcnodeid="113" srcpinname="Output" dstnodeid="103" dstpinname="Input String">
+   </LINK>
+   <NODE systemname="JsonArray (JSON)" filename="%VVVV%\packs\VObjects\nodes\plugins\x64\VVVV.Nodes.VObjects.dll" nodename="JsonArray (JSON)" componentmode="Hidden" id="97">
+   <BOUNDS type="Node" left="2130" top="2895" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Jobject" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="path" visible="1">
+   </PIN>
+   <PIN pinname="key" visible="1" slicecount="1" values="t">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Parse" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="95" srcpinname="Output String" dstnodeid="97" dstpinname="path">
+   </LINK>
+   <LINK srcnodeid="98" srcpinname="Output String" dstnodeid="97" dstpinname="key">
+   </LINK>
+   <LINK srcnodeid="97" srcpinname="Output" dstnodeid="29" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="85" srcpinname="Output" dstnodeid="97" dstpinname="Parse">
+   </LINK>
+   <NODE systemname="JsonParser (JSON)" filename="%VVVV%\packs\VObjects\nodes\plugins\x64\VVVV.Nodes.VObjects.dll" nodename="JsonParser (JSON)" componentmode="Hidden" id="114">
+   <BOUNDS type="Node" left="1260" top="2145" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <LINK srcnodeid="91" srcpinname="Content" dstnodeid="114" dstpinname="JSON">
+   </LINK>
+   <LINK srcnodeid="114" srcpinname="Output json" dstnodeid="113" dstpinname="Jobject">
+   </LINK>
+   <LINK srcnodeid="114" srcpinname="Output json" dstnodeid="97" dstpinname="Jobject">
    </LINK>
    </PATCH>

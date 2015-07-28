@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta33.7.dtd" >
-   <PATCH nodename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Record (Leap).v4p" systemname="Record (Leap)" filename="C:\vvvv\libs\mcropack\nodes\Plugins\Leap\Record (Leap).v4p" scrollx="0" scrolly="2880">
-   <BOUNDS type="Window" left="29235" top="1845" width="11265" height="9225">
+   <PATCH nodename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Record (Leap).v4p" systemname="Record (Leap)" filename="C:\vvvv\libs\mcropack\nodes\Plugins\Leap\Record (Leap).v4p" scrollx="0" scrolly="5040">
+   <BOUNDS type="Window" left="17175" top="5025" width="11265" height="9225">
    </BOUNDS>
    <PACK Name="addonpack" Version="33.7.0">
    </PACK>

@@ -78,6 +78,11 @@ namespace VVVV.Nodes
 
         [Input("Age Filtering Threshold", Visibility = PinVisibility.OnlyInspector, DefaultValue=1500)]
         public Pin<float> FAgeThreshold;
+
+        [Input("Background Frames")]
+        public ISpread<bool> FBckgFrames;
+        [Input("Optimize for HMD")]
+        public ISpread<bool> FHMD;
         
         [Output("Device")]
         public ISpread<Leap.Device> FDevice;
@@ -89,6 +94,7 @@ namespace VVVV.Nodes
 
         public static Leap.Device leapdevice;
         public static Leap.Controller leapcontroller;
+        public bool FirstFrame = true;
 
         public static float GlobalScale = (float)0.01;
         public static float AgeCorrectionThreshold = (float)1500;
@@ -97,8 +103,11 @@ namespace VVVV.Nodes
         private void leapinit()
         {
             leapcontroller = new Controller();
-            leapcontroller.SetPolicyFlags(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
-            leapcontroller.SetPolicyFlags(Controller.PolicyFlag.POLICY_IMAGES);
+            Controller.PolicyFlag flags = Controller.PolicyFlag.POLICY_IMAGES;
+            if (FBckgFrames[0]) flags = flags | Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES;
+            if (FHMD[0]) flags = flags | Controller.PolicyFlag.POLICY_OPTIMIZE_HMD;
+            leapcontroller.SetPolicy(flags);
+
             leapcontroller.EnableGesture(Gesture.GestureType.TYPE_CIRCLE);
             leapcontroller.EnableGesture(Gesture.GestureType.TYPE_KEY_TAP);
             leapcontroller.EnableGesture(Gesture.GestureType.TYPE_SCREEN_TAP);
@@ -107,7 +116,7 @@ namespace VVVV.Nodes
             leapdevice = leapcontroller.Devices[0];
         }
 
-        public LeapDeviceNode()
+        public void OnImportsSatisfied()
         {
             leapinit();
         }
@@ -130,15 +139,16 @@ namespace VVVV.Nodes
                 FDevice.SliceCount = 0;
                 FController.SliceCount = 0;
                 FFrame.SliceCount = 0;
-                if (FReinit[0])
-                {
-                    leapcontroller.Dispose();
-                    leapinit();
-                }
+            }
+            if (FReinit[0] || FirstFrame)
+            {
+                if (leapcontroller != null) leapcontroller.Dispose();
+                leapinit();
             }
             GlobalScale = FScale[0];
             GlobalZMul = (FMirror[0]) ? -1 : 1;
             AgeCorrectionThreshold = FAgeThreshold[0];
+            FirstFrame = false;
         }
     }
 

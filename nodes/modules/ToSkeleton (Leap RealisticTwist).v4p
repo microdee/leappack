@@ -1,5 +1,5 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta33.7.dtd" >
-   <PATCH nodename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" systemname="ToSkeleton (Leap RealisticTwist)" filename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" scrollx="0" scrolly="14760">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha33.9.dtd" >
+   <PATCH nodename="C:\vvvv\libs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" systemname="ToSkeleton (Leap RealisticTwist)" filename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" scrollx="0" scrolly="0">
    <BOUNDS type="Window" left="5925" top="1500" width="15585" height="12720">
    </BOUNDS>
    <PACK Name="VVVV.Packs" Version="0.2.0">
@@ -583,7 +583,7 @@
    <NODE systemname="Hand (Leap)" filename="%VVVV%\packs\leappack\nodes\plugins\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="58">
    <BOUNDS type="Node" left="4455" top="3000" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Basis" visible="1">
    </PIN>
@@ -881,7 +881,7 @@
    </BOUNDS>
    <PIN pinname="Filter" slicecount="1" visible="1" values="Thumb">
    </PIN>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Fingers" visible="1">
    </PIN>
@@ -1039,7 +1039,7 @@
    </BOUNDS>
    <PIN pinname="Filter" slicecount="1" visible="1" values="Thumb">
    </PIN>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Fingers" visible="1">
    </PIN>
@@ -1197,7 +1197,7 @@
    </BOUNDS>
    <PIN pinname="Filter" slicecount="1" visible="1" values="Thumb">
    </PIN>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Fingers" visible="1">
    </PIN>
@@ -1353,7 +1353,7 @@
    </BOUNDS>
    <PIN pinname="Filter" slicecount="1" visible="1" values="Thumb">
    </PIN>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Fingers" visible="1">
    </PIN>
@@ -1551,7 +1551,7 @@
    </BOUNDS>
    <PIN pinname="Filter" slicecount="1" visible="1" values="Thumb">
    </PIN>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Fingers" visible="1">
    </PIN>
@@ -2103,7 +2103,7 @@
    <NODE systemname="Hand (Leap)" filename="%VVVV%\packs\leappack\nodes\plugins\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="329">
    <BOUNDS type="Node" left="5175" top="1245" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Hands" visible="1">
+   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Side" visible="1">
    </PIN>
@@ -2147,7 +2147,7 @@
    <NODE systemname="Select (Node)" filename="%VVVV%\lib\nodes\modules\Node\Select (Node).v4p" nodename="Select (Node)" componentmode="Hidden" id="330">
    <BOUNDS type="Node" left="4470" top="2280" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Select" visible="1">
    </PIN>
@@ -4229,7 +4229,7 @@
    <LINK srcnodeid="518" srcpinname="Transform Out" dstnodeid="463" dstpinname="Transform In">
    </LINK>
    <NODE systemname="Subtract (Value)" nodename="Subtract (Value)" componentmode="Hidden" id="519">
-   <BOUNDS type="Node" left="19725" top="5175" width="100" height="100">
+   <BOUNDS type="Node" left="19935" top="5010" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input 2" visible="1">
    </PIN>
@@ -4391,7 +4391,7 @@
    <NODE systemname="Hand (Leap)" filename="%VVVV%\packs\leappack\nodes\plugins\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="554">
    <BOUNDS type="Node" left="11280" top="9390" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Basis" visible="1">
    </PIN>
@@ -4595,7 +4595,7 @@
    <NODE systemname="Hand (Leap)" filename="%VVVV%\packs\leappack\nodes\plugins\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="595">
    <BOUNDS type="Node" left="12465" top="17325" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Basis" visible="1">
    </PIN>
@@ -4677,7 +4677,7 @@
    <NODE systemname="Hand (Leap)" filename="%VVVV%\packs\leappack\nodes\plugins\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="603">
    <BOUNDS type="Node" left="13695" top="25185" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Basis" visible="1">
    </PIN>
@@ -4975,7 +4975,7 @@
    <NODE systemname="Hand (Leap)" filename="%VVVV%\packs\leappack\nodes\plugins\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="612">
    <BOUNDS type="Node" left="14970" top="32550" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Basis" visible="1">
    </PIN>
@@ -5249,7 +5249,7 @@
    <NODE systemname="Hand (Leap)" filename="%VVVV%\packs\leappack\nodes\plugins\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="618">
    <BOUNDS type="Node" left="15375" top="40875" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Hands" visible="1" slicecount="1" values="||">
+   <PIN pinname="Hands" visible="1">
    </PIN>
    <PIN pinname="Basis" visible="1">
    </PIN>
@@ -7805,7 +7805,7 @@
    </BOUNDS>
    <PIN pinname="Input 2" visible="1">
    </PIN>
-   <PIN pinname="Input" visible="1">
+   <PIN pinname="Input" visible="1" slicecount="1" values="0.368405730588132">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -7823,8 +7823,6 @@
    <LINK srcnodeid="760" srcpinname="Output" dstnodeid="755" dstpinname="Animation Transform">
    </LINK>
    <LINK srcnodeid="758" srcpinname="Count" dstnodeid="759" dstpinname="Input 2">
-   </LINK>
-   <LINK srcnodeid="142" srcpinname="Z" dstnodeid="759" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="759" srcpinname="Output" dstnodeid="757" dstpinname="X">
    </LINK>
@@ -7885,7 +7883,7 @@
    </BOUNDS>
    <PIN pinname="Input 2" visible="1">
    </PIN>
-   <PIN pinname="Input" visible="1" slicecount="1" values="1">
+   <PIN pinname="Input" visible="1">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
@@ -7906,8 +7904,6 @@
    </LINK>
    <LINK srcnodeid="763" srcpinname="Output" dstnodeid="765" dstpinname="X">
    </LINK>
-   <LINK srcnodeid="519" srcpinname="Output" dstnodeid="763" dstpinname="Input">
-   </LINK>
    <LINK srcnodeid="394" srcpinname="Skeleton" dstnodeid="767" dstpinname="Skeleton">
    </LINK>
    <LINK srcnodeid="767" srcpinname="Skeleton" dstnodeid="502" dstpinname="Skeleton">
@@ -7915,5 +7911,115 @@
    <LINK srcnodeid="460" srcpinname="Transform Out" dstnodeid="351" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="140" srcpinname="Transform Out" dstnodeid="321" dstpinname="Input">
+   </LINK>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="768">
+   <BOUNDS type="Node" left="4110" top="300" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="4110" top="300" width="480" height="480">
+   </BOUNDS>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|HMD Mode|">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <NODE systemname="Switch (Value Input)" nodename="Switch (Value Input)" componentmode="Hidden" id="769">
+   <BOUNDS type="Node" left="7590" top="3750" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Switch" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="768" srcpinname="Y Output Value" dstnodeid="769" dstpinname="Switch">
+   </LINK>
+   <LINK srcnodeid="769" srcpinname="Output" dstnodeid="140" dstpinname="X">
+   </LINK>
+   <NODE systemname="Subtract (Value)" nodename="Subtract (Value)" componentmode="Hidden" id="770">
+   <BOUNDS type="Node" left="7305" top="5115" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="0.5">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="142" srcpinname="Z" dstnodeid="770" dstpinname="Input 1">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="771" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="8070" top="3225" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="8070" top="3225" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.5">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="771" srcpinname="Y Output Value" dstnodeid="769" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="770" srcpinname="Output" dstnodeid="759" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="769" srcpinname="Output" dstnodeid="770" dstpinname="Input 2">
+   </LINK>
+   <NODE systemname="Switch (Value Input)" nodename="Switch (Value Input)" componentmode="Hidden" id="774">
+   <BOUNDS type="Node" left="21330" top="3435" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Switch" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="768" srcpinname="Y Output Value" dstnodeid="774" dstpinname="Switch">
+   </LINK>
+   <NODE systemname="Subtract (Value)" nodename="Subtract (Value)" componentmode="Hidden" id="773">
+   <BOUNDS type="Node" left="20070" top="5460" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="0.5">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="772" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="21810" top="2910" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="21810" top="2910" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0.5">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="772" srcpinname="Y Output Value" dstnodeid="774" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="774" srcpinname="Output" dstnodeid="773" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="774" srcpinname="Output" dstnodeid="460" dstpinname="X">
+   </LINK>
+   <LINK srcnodeid="519" srcpinname="Output" dstnodeid="773" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="773" srcpinname="Output" dstnodeid="763" dstpinname="Input">
    </LINK>
    </PATCH>

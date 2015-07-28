@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta33.7.dtd" >
-   <PATCH nodename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Record (Leap JSON).v4p" systemname="Record (Leap JSON)" filename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Record (Leap JSON).v4p" scrollx="270" scrolly="0">
-   <BOUNDS type="Window" left="16320" top="2100" width="11265" height="9225">
+   <PATCH nodename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Record (Leap JSON).v4p" systemname="Record (Leap JSON)" filename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\Record (Leap JSON).v4p" scrollx="270" scrolly="1800">
+   <BOUNDS type="Window" left="32625" top="2835" width="11265" height="9225">
    </BOUNDS>
    <PACK Name="addonpack" Version="33.7.0">
    </PACK>
