@@ -1,8 +1,8 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha33.9.dtd" >
-   <PATCH nodename="C:\vvvv\libs\leappack\girlpower\Girlpower.v4p" systemname="Device (Leap) help" filename="E:\vvvv\mcropack\VVVV.Packs.mcro\nodes\Plugins\Leap\Device (Leap) help.v4p" scrollx="0" scrolly="-360">
-   <BOUNDS type="Window" left="1065" top="150" width="19470" height="14400">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta34.1.dtd" >
+   <PATCH nodename="C:\vvvv\libs\mcropack\packs\leappack\girlpower\Girlpower.v4p" systemname="Device (Leap) help" filename="E:\vvvv\mcropack\VVVV.Packs.mcro\nodes\Plugins\Leap\Device (Leap) help.v4p" scrollx="2130" scrolly="40395">
+   <BOUNDS type="Window" left="7515" top="690" width="19470" height="14400">
    </BOUNDS>
-   <NODE systemname="Hand (Leap)" filename="LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="2">
+   <NODE systemname="Hand (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="2">
    <BOUNDS type="Node" left="3825" top="9795" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Hands" visible="1">
@@ -44,7 +44,7 @@
    <PIN pinname="Pinch" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="Frame (Leap)" filename="LeapDevices.dll" nodename="Frame (Leap)" componentmode="Hidden" id="3">
+   <NODE systemname="Frame (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Frame (Leap)" componentmode="Hidden" id="3">
    <BOUNDS type="Node" left="4005" top="7605" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Controller" visible="1" slicecount="1" values="||">
@@ -164,7 +164,7 @@
    </LINK>
    <LINK srcnodeid="14" srcpinname="Layer" dstnodeid="10" dstpinname="Layer 2">
    </LINK>
-   <NODE systemname="Finger (Leap)" filename="LeapDevices.dll" nodename="Finger (Leap)" componentmode="Hidden" id="16">
+   <NODE systemname="Finger (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Finger (Leap)" componentmode="Hidden" id="16">
    <BOUNDS type="Node" left="5730" top="11550" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Fingers" visible="1" slicecount="1" values="||">
@@ -180,7 +180,7 @@
    </NODE>
    <PACK Name="ImagePack" Version="0.1.0">
    </PACK>
-   <PACK Name="addonpack" Version="33.7.0">
+   <PACK Name="addonpack" Version="34.1.0">
    </PACK>
    <NODE systemname="Translate (Transform)" nodename="Translate (Transform)" componentmode="Hidden" id="28">
    <BOUNDS type="Node" left="5730" top="16710" width="100" height="100">
@@ -192,7 +192,7 @@
    <PIN pinname="Z" slicecount="1" values="-0.5">
    </PIN>
    </NODE>
-   <NODE systemname="Arm (Leap)" filename="LeapDevices.dll" nodename="Arm (Leap)" componentmode="Hidden" id="58">
+   <NODE systemname="Arm (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Arm (Leap)" componentmode="Hidden" id="58">
    <BOUNDS type="Node" left="14805" top="14775" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Arms" visible="1">
@@ -206,7 +206,7 @@
    <PIN pinname="ElbowXYZ" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="Bone (Leap)" filename="LeapDevices.dll" nodename="Bone (Leap)" componentmode="Hidden" id="59">
+   <NODE systemname="Bone (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Bone (Leap)" componentmode="Hidden" id="59">
    <BOUNDS type="Node" left="5700" top="13755" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Bones" visible="1">
@@ -580,13 +580,13 @@
    </LINK>
    <LINK srcnodeid="131" srcpinname="Transform Out" dstnodeid="129" dstpinname="Transform In">
    </LINK>
-   <NODE systemname="DeviceInfo (Leap)" filename="LeapDevices.dll" nodename="DeviceInfo (Leap)" componentmode="Hidden" id="134">
+   <NODE systemname="DeviceInfo (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="DeviceInfo (Leap)" componentmode="Hidden" id="134">
    <BOUNDS type="Node" left="795" top="2925" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Device" visible="1" slicecount="1" values="||">
    </PIN>
    </NODE>
-   <NODE systemname="Device (Leap)" filename="LeapDevices.dll" nodename="Device (Leap)" componentmode="Hidden" id="141">
+   <NODE systemname="Device (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Device (Leap)" componentmode="Hidden" id="141">
    <BOUNDS type="Node" left="3570" top="2715" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Reinitialize" slicecount="1" values="0">
@@ -722,7 +722,7 @@
    </NODE>
    <LINK srcnodeid="134" srcpinname="Streaming" dstnodeid="157" dstpinname="Y Input Value">
    </LINK>
-   <NODE systemname="Swipe (Leap Gesture)" filename="LeapDevices.dll" nodename="Swipe (Leap Gesture)" componentmode="Hidden" id="164">
+   <NODE systemname="Swipe (Leap Gesture)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Swipe (Leap Gesture)" componentmode="Hidden" id="164">
    <BOUNDS type="Node" left="34005" top="15615" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Gestures" visible="1" slicecount="1" values="||">
@@ -792,7 +792,7 @@
    </NODE>
    <LINK srcnodeid="169" srcpinname="Render State" dstnodeid="168" dstpinname="Render State">
    </LINK>
-   <NODE systemname="Circle (Leap Gesture)" filename="LeapDevices.dll" nodename="Circle (Leap Gesture)" componentmode="Hidden" id="170">
+   <NODE systemname="Circle (Leap Gesture)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Circle (Leap Gesture)" componentmode="Hidden" id="170">
    <BOUNDS type="Node" left="21810" top="12270" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Gestures" visible="1" slicecount="1" values="||">
@@ -1056,7 +1056,7 @@
    </NODE>
    <LINK srcnodeid="197" srcpinname="Render State" dstnodeid="15" dstpinname="Render State">
    </LINK>
-   <NODE systemname="Pointables (Leap Split)" filename="LeapDevices.dll" nodename="Pointables (Leap Split)" componentmode="Hidden" id="199">
+   <NODE systemname="Pointables (Leap Split)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Pointables (Leap Split)" componentmode="Hidden" id="199">
    <BOUNDS type="Node" left="6000" top="10620" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Pointables" visible="1">
@@ -1076,7 +1076,7 @@
    </LINK>
    <LINK srcnodeid="199" srcpinname="Finger Bin Size" dstnodeid="195" dstpinname="Select">
    </LINK>
-   <NODE systemname="Gestures (Leap Split)" filename="LeapDevices.dll" nodename="Gestures (Leap Split)" componentmode="Hidden" id="200">
+   <NODE systemname="Gestures (Leap Split)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Gestures (Leap Split)" componentmode="Hidden" id="200">
    <BOUNDS type="Node" left="21795" top="9840" width="13515" height="270">
    </BOUNDS>
    <PIN pinname="Gestures" visible="1">
@@ -1104,7 +1104,7 @@
    </LINK>
    <LINK srcnodeid="187" srcpinname="Y Output Value" dstnodeid="200" dstpinname="Set Configuration">
    </LINK>
-   <NODE systemname="Keep (Leap Gesture)" filename="LeapDevices.dll" nodename="Keep (Leap Gesture)" componentmode="Hidden" id="201">
+   <NODE systemname="Keep (Leap Gesture)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Keep (Leap Gesture)" componentmode="Hidden" id="201">
    <BOUNDS type="Node" left="21795" top="7860" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Gestures" visible="1">
@@ -1308,7 +1308,7 @@
    <PIN pinname="Transform Out" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="KeyTap (Leap Gesture)" filename="LeapDevices.dll" nodename="KeyTap (Leap Gesture)" componentmode="Hidden" id="212">
+   <NODE systemname="KeyTap (Leap Gesture)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="KeyTap (Leap Gesture)" componentmode="Hidden" id="212">
    <BOUNDS type="Node" left="27135" top="14100" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Gestures" visible="1" slicecount="1" values="||">
@@ -1610,7 +1610,7 @@
    </LINK>
    <LINK srcnodeid="227" srcpinname="Render State" dstnodeid="237" dstpinname="Render State">
    </LINK>
-   <NODE systemname="ScreenTap (Leap Gesture)" filename="LeapDevices.dll" nodename="ScreenTap (Leap Gesture)" componentmode="Hidden" id="234">
+   <NODE systemname="ScreenTap (Leap Gesture)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="ScreenTap (Leap Gesture)" componentmode="Hidden" id="234">
    <BOUNDS type="Node" left="30795" top="13980" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Gestures" visible="1" slicecount="1" values="||">
@@ -1634,7 +1634,7 @@
    </LINK>
    <LINK srcnodeid="237" srcpinname="Layer" dstnodeid="209" dstpinname="Layer 3">
    </LINK>
-   <NODE systemname="FingerList (Leap)" filename="LeapDevices.dll" nodename="FingerList (Leap)" componentmode="Hidden" id="238">
+   <NODE systemname="FingerList (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="FingerList (Leap)" componentmode="Hidden" id="238">
    <BOUNDS type="Node" left="13320" top="26460" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Hands" visible="1">
@@ -1656,7 +1656,7 @@
    </NODE>
    <LINK srcnodeid="239" srcpinname="Output Enum" dstnodeid="238" dstpinname="Filter">
    </LINK>
-   <NODE systemname="Finger (Leap)" filename="LeapDevices.dll" nodename="Finger (Leap)" componentmode="Hidden" id="240">
+   <NODE systemname="Finger (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Finger (Leap)" componentmode="Hidden" id="240">
    <BOUNDS type="Node" left="13830" top="27090" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Pointables" visible="1">
@@ -1718,7 +1718,7 @@
    </NODE>
    <LINK srcnodeid="244" srcpinname="Render State" dstnodeid="243" dstpinname="Render State">
    </LINK>
-   <NODE systemname="Hand (Leap)" filename="LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="245">
+   <NODE systemname="Hand (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="245">
    <BOUNDS type="Node" left="10935" top="24780" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Hands" visible="1">
@@ -1776,7 +1776,7 @@
    </NODE>
    <LINK srcnodeid="249" srcpinname="Render State" dstnodeid="121" dstpinname="Render State">
    </LINK>
-   <NODE systemname="Hand (Leap)" filename="LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="250">
+   <NODE systemname="Hand (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="250">
    <BOUNDS type="Node" left="11805" top="13035" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Hands" visible="1">
@@ -1952,7 +1952,7 @@
    </LINK>
    <LINK srcnodeid="170" srcpinname="Progress" dstnodeid="178" dstpinname="Z">
    </LINK>
-   <NODE systemname="InteractionBox (Leap)" filename="LeapDevices.dll" nodename="InteractionBox (Leap)" componentmode="Hidden" id="261">
+   <NODE systemname="InteractionBox (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="InteractionBox (Leap)" componentmode="Hidden" id="261">
    <BOUNDS type="Node" left="6375" top="27795" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Controller" visible="1" slicecount="1" values="||">
@@ -2020,7 +2020,7 @@
    </NODE>
    <LINK srcnodeid="267" srcpinname="Layer Out" dstnodeid="263" dstpinname="Layer 1">
    </LINK>
-   <NODE systemname="DeviceInfo (Leap)" filename="LeapDevices.dll" nodename="DeviceInfo (Leap)" componentmode="Hidden" id="268">
+   <NODE systemname="DeviceInfo (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="DeviceInfo (Leap)" componentmode="Hidden" id="268">
    <BOUNDS type="Node" left="4695" top="24585" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Device" visible="1">
@@ -2122,7 +2122,7 @@
    </LINK>
    <LINK srcnodeid="268" srcpinname="View AnglesXY" dstnodeid="269" dstpinname="FOV">
    </LINK>
-   <NODE id="279" systemname="SuppressDiagonals (DX11.GeomFX)" filename="..\..\geom11\SuppressDiagonals.gsfx" nodename="SuppressDiagonals (DX11.GeomFX)" componentmode="Hidden">
+   <NODE id="279" systemname="SuppressDiagonals (DX11.GeomFX)" filename="..\..\mp.dx\nodes\geom11\SuppressDiagonals.gsfx" nodename="SuppressDiagonals (DX11.GeomFX)" componentmode="Hidden">
    <BOUNDS type="Node" left="3435" top="28635" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Geometry" visible="1">
@@ -2137,14 +2137,14 @@
    </PIN>
    <PIN pinname="Geometry Out" visible="1">
    </PIN>
-   <PIN pinname="Output Layout" visible="1">
+   <PIN pinname="Output Layout" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="As Auto" slicecount="1" values="1">
    </PIN>
    <PIN pinname="Max Elements" slicecount="1" values="30">
    </PIN>
    </NODE>
-   <NODE systemname="SuppressDiagonals (DX11.GeomFX)" filename="..\..\geom11\SuppressDiagonals.gsfx" nodename="SuppressDiagonals (DX11.GeomFX)" componentmode="Hidden" id="284">
+   <NODE systemname="SuppressDiagonals (DX11.GeomFX)" filename="..\..\mp.dx\nodes\geom11\SuppressDiagonals.gsfx" nodename="SuppressDiagonals (DX11.GeomFX)" componentmode="Hidden" id="284">
    <BOUNDS type="Node" left="5775" top="29310" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Geometry" visible="1">
@@ -2155,7 +2155,7 @@
    </PIN>
    <PIN pinname="Technique" slicecount="1" values="UsualLayout">
    </PIN>
-   <PIN pinname="Output Layout" visible="1">
+   <PIN pinname="Output Layout" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Max Elements" slicecount="1" values="30">
    </PIN>
@@ -2178,16 +2178,6 @@
    <PIN pinname="Layer" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="UsualInpuElements (DX11)" filename="..\..\modules\UsualInpuElements (DX11).v4p" nodename="UsualInpuElements (DX11)" componentmode="Hidden" id="286">
-   <BOUNDS type="Node" left="4725" top="27690" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="286" srcpinname="Output" dstnodeid="279" dstpinname="Output Layout">
-   </LINK>
-   <LINK srcnodeid="286" srcpinname="Output" dstnodeid="284" dstpinname="Output Layout">
-   </LINK>
    <LINK srcnodeid="276" srcpinname="Transform Out" dstnodeid="285" dstpinname="Transform In">
    </LINK>
    <LINK srcnodeid="285" srcpinname="Layer" dstnodeid="267" dstpinname="Layer 1">
@@ -2274,7 +2264,7 @@
    <PIN pinname="String Type" slicecount="1" values="String">
    </PIN>
    </NODE>
-   <NODE systemname="Images (Leap)" filename="LeapDevices.dll" nodename="Images (Leap)" componentmode="Hidden" id="292">
+   <NODE systemname="Images (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Images (Leap)" componentmode="Hidden" id="292">
    <BOUNDS type="Node" left="11190" top="7440" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Controller" visible="1">
@@ -2422,7 +2412,7 @@
    </NODE>
    <LINK srcnodeid="306" srcpinname="Transform Out" dstnodeid="304" dstpinname="Transform In">
    </LINK>
-   <NODE systemname="ColorChannelRemapFormat (DX11.TextureFX)" filename="..\..\texture11\ColorChannelRemapFormat.tfx" nodename="ColorChannelRemapFormat (DX11.TextureFX)" componentmode="Hidden" id="310">
+   <NODE systemname="ColorChannelRemapFormat (DX11.TextureFX)" filename="..\..\mp.dx\nodes\texture11\ColorChannelRemapFormat.tfx" nodename="ColorChannelRemapFormat (DX11.TextureFX)" componentmode="Hidden" id="310">
    <BOUNDS type="Node" left="11160" top="9525" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Texture In" visible="1">
@@ -2442,7 +2432,7 @@
    <LINKPOINT x="6390" y="17835">
    </LINKPOINT>
    </LINK>
-   <NODE systemname="GetFrame (Leap)" filename="LeapDevices.dll" nodename="GetFrame (Leap)" componentmode="Hidden" id="313">
+   <NODE systemname="GetFrame (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="GetFrame (Leap)" componentmode="Hidden" id="313">
    <BOUNDS type="Node" left="3585" top="6360" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Frame ID in history" visible="1">
@@ -2460,7 +2450,7 @@
    <PIN pinname="Output" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="Frame (Leap)" filename="LeapDevices.dll" nodename="Frame (Leap)" componentmode="Hidden" id="315">
+   <NODE systemname="Frame (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Frame (Leap)" componentmode="Hidden" id="315">
    <BOUNDS type="Node" left="3345" top="9165" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Controller" visible="1">
@@ -2594,7 +2584,7 @@
    </LINK>
    <LINK srcnodeid="250" srcpinname="Palm PositionXYZ" dstnodeid="268" dstpinname="Boundary Reference PositionXYZ" hiddenwhenlocked="1">
    </LINK>
-   <NODE systemname="Record (Leap JSON)" filename="%VVVV%\packs\leappack\nodes\modules\Record (Leap JSON).v4p" nodename="Record (Leap JSON)" componentmode="Hidden" id="370">
+   <NODE systemname="Record (Leap JSON)" filename="..\nodes\modules\Record (Leap JSON).v4p" nodename="Record (Leap JSON)" componentmode="Hidden" id="370">
    <BOUNDS type="Node" left="6870" top="2940" width="810" height="270">
    </BOUNDS>
    <PIN pinname="Frame" visible="1">
@@ -2870,7 +2860,7 @@
    </LINK>
    <PACK Name="VVVV.Packs" Version="0.2.0">
    </PACK>
-   <NODE systemname="Player (Leap JSON)" filename="%VVVV%\packs\leappack\nodes\modules\Player (Leap JSON).v4p" nodename="Player (Leap JSON)" componentmode="Hidden" id="400" debug="0">
+   <NODE systemname="Player (Leap JSON)" filename="..\nodes\modules\Player (Leap JSON).v4p" nodename="Player (Leap JSON)" componentmode="Hidden" id="400" debug="0">
    <BOUNDS type="Node" left="4530" top="4260" width="100" height="100">
    </BOUNDS>
    <BOUNDS type="Window" left="17700" top="2295" width="9000" height="12465">
@@ -2948,66 +2938,6 @@
    </NODE>
    <LINK srcnodeid="370" srcpinname="Frame Count" dstnodeid="413" dstpinname="Y Input Value">
    </LINK>
-   <NODE systemname="ToSkeleton (Leap RealisticTwist)" filename="%VVVV%\packs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" componentmode="Hidden" id="425" nodename="ToSkeleton (Leap RealisticTwist)">
-   <BOUNDS type="Node" left="14100" top="33975" width="1080" height="270">
-   </BOUNDS>
-   <BOUNDS type="Box" left="14100" top="33975" width="4800" height="3600">
-   </BOUNDS>
-   <BOUNDS type="Window" left="5925" top="1500" width="15585" height="12720">
-   </BOUNDS>
-   <PIN pinname="Hands" visible="1">
-   </PIN>
-   <PIN pinname="Skeleton" visible="1">
-   </PIN>
-   <PIN pinname="Root" visible="1">
-   </PIN>
-   <PIN pinname="Left Wrist" slicecount="1" values="Bip01_R_Hand001">
-   </PIN>
-   <PIN pinname="Left Thumb 0" slicecount="1" values="Bip01_R_Finger043">
-   </PIN>
-   <PIN pinname="Left Elbow" slicecount="1" values="Bip01_R_Forearm001">
-   </PIN>
-   <PIN pinname="Left Thumb 1" slicecount="1" values="Bip01_R_Finger044">
-   </PIN>
-   <PIN pinname="Left Thumb 2" slicecount="1" values="Bip01_R_Finger045">
-   </PIN>
-   <PIN pinname="Left Thumb 3" slicecount="1" values="Bip01_R_Finger0Nub001">
-   </PIN>
-   <PIN pinname="Left Index 0" slicecount="1" values="Bip01_R_Finger046">
-   </PIN>
-   <PIN pinname="Left Index 1" slicecount="1" values="Bip01_R_Finger047">
-   </PIN>
-   <PIN pinname="Left Index 2" slicecount="1" values="Bip01_R_Finger048">
-   </PIN>
-   <PIN pinname="Left Index 3" slicecount="1" values="Bip01_R_Finger1Nub001">
-   </PIN>
-   <PIN pinname="Left Middle 0" slicecount="1" values="Bip01_R_Finger049">
-   </PIN>
-   <PIN pinname="Left Middle 1" slicecount="1" values="Bip01_R_Finger050">
-   </PIN>
-   <PIN pinname="Left Middle 2" slicecount="1" values="Bip01_R_Finger051">
-   </PIN>
-   <PIN pinname="Left Middle 3" visible="1" pintype="Input" slicecount="1" values="Bip01_R_Finger2Nub001">
-   </PIN>
-   <PIN pinname="Left Ring 0" visible="1" pintype="Input" slicecount="1" values="Bip01_R_Finger052">
-   </PIN>
-   <PIN pinname="Left Ring 1" slicecount="1" values="Bip01_R_Finger053">
-   </PIN>
-   <PIN pinname="Left Ring 2" slicecount="1" values="Bip01_R_Finger054">
-   </PIN>
-   <PIN pinname="Left Ring 3" slicecount="1" values="Bip01_R_Finger3Nub001">
-   </PIN>
-   <PIN pinname="Left Pinky 0" slicecount="1" values="Bip01_R_Finger055">
-   </PIN>
-   <PIN pinname="Left Pinky 1" slicecount="1" values="Bip01_R_Finger056">
-   </PIN>
-   <PIN pinname="Left Pinky 2" slicecount="1" values="Bip01_R_Finger057">
-   </PIN>
-   <PIN pinname="Left Pinky 3" visible="1" pintype="Input" slicecount="1" values="Bip01_R_Finger4Nub001">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="315" srcpinname="Hands" dstnodeid="425" dstpinname="Hands">
-   </LINK>
    <NODE systemname="SceneFile (DX11.Geometry Assimp)" filename="%VVVV%\packs\dx11\nodes\plugins\VVVV.DX11.Nodes.Assimp.dll" nodename="SceneFile (DX11.Geometry Assimp)" componentmode="Hidden" id="428">
    <BOUNDS type="Node" left="14610" top="31830" width="100" height="100">
    </BOUNDS>
@@ -3066,8 +2996,6 @@
    </NODE>
    <LINK srcnodeid="432" srcpinname="Output String" dstnodeid="431" dstpinname="Root">
    </LINK>
-   <LINK srcnodeid="431" srcpinname="Skeleton" dstnodeid="425" dstpinname="Skeleton">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="433" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="15420" top="31095" width="480" height="480">
    </BOUNDS>
@@ -3087,8 +3015,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="433" srcpinname="Y Output Value" dstnodeid="428" dstpinname="Reload">
-   </LINK>
-   <LINK srcnodeid="432" srcpinname="Output String" dstnodeid="425" dstpinname="Root">
    </LINK>
    <NODE systemname="PhongDirectional (DX11.Effect)" filename="%VVVV%\packs\dx11\nodes\dx11\PhongDirectional.fx" nodename="PhongDirectional (DX11.Effect)" componentmode="Hidden" id="452">
    <BOUNDS type="Node" left="12315" top="40875" width="100" height="100">
@@ -3130,7 +3056,7 @@
    </NODE>
    <LINK srcnodeid="456" srcpinname="Render State" dstnodeid="452" dstpinname="Render State">
    </LINK>
-   <NODE systemname="Camera (Transform VOOCAM)" filename="..\..\modules\Camera (Transform VOOCAM).v4p" nodename="Camera (Transform VOOCAM)" componentmode="Hidden" id="457">
+   <NODE systemname="Camera (Transform VOOCAM)" filename="..\..\mp.voocam\nodes\modules\Camera (Transform VOOCAM).v4p" nodename="Camera (Transform VOOCAM)" componentmode="Hidden" id="457">
    <BOUNDS type="Node" left="7050" top="46800" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Mouse" visible="1">
@@ -3156,10 +3082,12 @@
    </LINK>
    <LINK srcnodeid="457" srcpinname="Projection" dstnodeid="6" dstpinname="Projection">
    </LINK>
-   <NODE systemname="MouseKeyboard (VOOCAM)" filename="..\..\modules\MouseKeyboard (VOOCAM).v4p" nodename="MouseKeyboard (VOOCAM)" componentmode="Hidden" id="458">
+   <NODE systemname="MouseKeyboard (VOOCAM)" filename="..\..\mp.voocam\nodes\modules\MouseKeyboard (VOOCAM).v4p" nodename="MouseKeyboard (VOOCAM)" componentmode="Hidden" id="458">
    <BOUNDS type="Node" left="8505" top="47295" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Camera In" visible="1">
+   </PIN>
+   <PIN pinname="Camera Thru" visible="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="457" srcpinname="Camera Out" dstnodeid="458" dstpinname="Camera In">
@@ -3170,6 +3098,8 @@
    <PIN pinname="Layer 1" visible="1">
    </PIN>
    <PIN pinname="Layer Out" visible="1">
+   </PIN>
+   <PIN pinname="Enabled" slicecount="1" values="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="452" srcpinname="Layer" dstnodeid="459" dstpinname="Layer 1">
@@ -3201,14 +3131,12 @@
    </BOUNDS>
    <PIN pinname="Scene" visible="1">
    </PIN>
-   <PIN pinname="Skeleton" visible="1">
+   <PIN pinname="Skeleton" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Geometry Out" visible="1">
    </PIN>
    </NODE>
    <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="462" dstpinname="Scene">
-   </LINK>
-   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="462" dstpinname="Skeleton">
    </LINK>
    <NODE systemname="Cons (DX11.Geometry)" filename="%VVVV%\packs\dx11\nodes\plugins\VVVV.DX11.Nodes.dll" nodename="Cons (DX11.Geometry)" componentmode="Hidden" id="464">
    <BOUNDS type="Node" left="12585" top="37065" width="100" height="100">
@@ -3251,7 +3179,7 @@
    </BOUNDS>
    <PIN pinname="Scene" visible="1">
    </PIN>
-   <PIN pinname="Skeleton" visible="1">
+   <PIN pinname="Skeleton" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Geometry Out" visible="1">
    </PIN>
@@ -3259,8 +3187,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="466" dstpinname="Scene">
-   </LINK>
-   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="466" dstpinname="Skeleton">
    </LINK>
    <NODE systemname="ApplyTransform (Transform Direction)" nodename="ApplyTransform (Transform Direction)" componentmode="Hidden" id="467" filename="%VVVV%\lib\nodes\modules\Transform\ApplyTransform (Transform Direction).v4p">
    <BOUNDS type="Node" left="11415" top="38310" width="100" height="100">
@@ -3334,7 +3260,7 @@
    <PIN pinname="Output" visible="1">
    </PIN>
    </NODE>
-   <NODE systemname="Hand (Leap)" filename="LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="475">
+   <NODE systemname="Hand (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="475">
    <BOUNDS type="Node" left="10470" top="33300" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Hands" visible="1">
@@ -3492,16 +3418,6 @@
    </LINK>
    <LINK srcnodeid="374" srcpinname="Y Output Value" dstnodeid="400" dstpinname="Evaluate">
    </LINK>
-   <NODE systemname="AxisAndGrid (DX11)" filename="..\..\mcropack\nodes\modules\AxisAndGrid (DX11).v4p" nodename="AxisAndGrid (DX11)" componentmode="Hidden" id="9">
-   <BOUNDS type="Node" left="3870" top="21990" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Layer" visible="1">
-   </PIN>
-   <BOUNDS type="Window" left="2685" top="1020" width="15810" height="13725">
-   </BOUNDS>
-   </NODE>
-   <LINK srcnodeid="9" srcpinname="Layer" dstnodeid="10" dstpinname="Layer 1">
-   </LINK>
    <LINK srcnodeid="475" srcpinname="Side" dstnodeid="477" dstpinname="Select">
    </LINK>
    <NODE systemname="SkinnedHand" filename="SkinnedHand.v4p" componentmode="Hidden" id="487" nodename="SkinnedHand.v4p">
@@ -3513,10 +3429,10 @@
    </BOUNDS>
    <PIN pinname="Index" slicecount="1" values="0">
    </PIN>
+   <PIN pinname="Skeleton" slicecount="1" values="||">
+   </PIN>
    </NODE>
    <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="487" dstpinname="Scene">
-   </LINK>
-   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="487" dstpinname="Skeleton">
    </LINK>
    <LINK srcnodeid="487" srcpinname="Geometry Out" dstnodeid="474" dstpinname="Input">
    </LINK>
@@ -3529,10 +3445,10 @@
    </BOUNDS>
    <PIN pinname="Index" slicecount="1" values="1">
    </PIN>
+   <PIN pinname="Skeleton" slicecount="1" values="||">
+   </PIN>
    </NODE>
    <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="488" dstpinname="Scene">
-   </LINK>
-   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="488" dstpinname="Skeleton">
    </LINK>
    <LINK srcnodeid="488" srcpinname="Geometry Out" dstnodeid="477" dstpinname="Input">
    </LINK>
@@ -3602,4 +3518,108 @@
    <PIN pinname="String Type" slicecount="1" values="MultiLine">
    </PIN>
    </NODE>
+   <NODE systemname="UsualInputElements (DX11)" filename="..\..\mp.dx\nodes\modules\geometry\UsualInputElements (DX11).v4p" nodename="UsualInputElements (DX11)" componentmode="Hidden" id="286">
+   <BOUNDS type="Node" left="4725" top="27690" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="286" srcpinname="Output" dstnodeid="279" dstpinname="Output Layout">
+   </LINK>
+   <LINK srcnodeid="286" srcpinname="Output" dstnodeid="284" dstpinname="Output Layout">
+   </LINK>
+   <NODE systemname="AxisAndGrid (DX11)" filename="..\..\mp.dx\nodes\modules\essentials\AxisAndGrid (DX11).v4p" nodename="AxisAndGrid (DX11)" componentmode="Hidden" id="9">
+   <BOUNDS type="Node" left="3870" top="21990" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <BOUNDS type="Window" left="2685" top="1020" width="15810" height="13725">
+   </BOUNDS>
+   <PIN pinname="Enabled" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="9" srcpinname="Layer" dstnodeid="10" dstpinname="Layer 1">
+   </LINK>
+   <NODE systemname="ToSkeleton (Leap RealisticTwist)" filename="..\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" componentmode="Hidden" id="425" nodename="ToSkeleton (Leap RealisticTwist)">
+   <BOUNDS type="Node" left="14100" top="33975" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="14100" top="33975" width="4800" height="3600">
+   </BOUNDS>
+   <BOUNDS type="Window" left="5925" top="1500" width="15585" height="12720">
+   </BOUNDS>
+   <PIN pinname="Hands" visible="1">
+   </PIN>
+   <PIN pinname="Skeleton" visible="1">
+   </PIN>
+   <PIN pinname="Root" visible="1">
+   </PIN>
+   <PIN pinname="Left Wrist" slicecount="1" values="Bip01_R_Hand001">
+   </PIN>
+   <PIN pinname="Left Thumb 0" slicecount="1" values="Bip01_R_Finger043">
+   </PIN>
+   <PIN pinname="Left Elbow" slicecount="1" values="Bip01_R_Forearm001">
+   </PIN>
+   <PIN pinname="Left Thumb 1" slicecount="1" values="Bip01_R_Finger044">
+   </PIN>
+   <PIN pinname="Left Thumb 2" slicecount="1" values="Bip01_R_Finger045">
+   </PIN>
+   <PIN pinname="Left Thumb 3" slicecount="1" values="Bip01_R_Finger0Nub001">
+   </PIN>
+   <PIN pinname="Left Index 0" slicecount="1" values="Bip01_R_Finger046">
+   </PIN>
+   <PIN pinname="Left Index 1" slicecount="1" values="Bip01_R_Finger047">
+   </PIN>
+   <PIN pinname="Left Index 2" slicecount="1" values="Bip01_R_Finger048">
+   </PIN>
+   <PIN pinname="Left Index 3" slicecount="1" values="Bip01_R_Finger1Nub001">
+   </PIN>
+   <PIN pinname="Left Middle 0" slicecount="1" values="Bip01_R_Finger049">
+   </PIN>
+   <PIN pinname="Left Middle 1" slicecount="1" values="Bip01_R_Finger050">
+   </PIN>
+   <PIN pinname="Left Middle 2" slicecount="1" values="Bip01_R_Finger051">
+   </PIN>
+   <PIN pinname="Left Middle 3" visible="1" pintype="Input" slicecount="1" values="Bip01_R_Finger2Nub001">
+   </PIN>
+   <PIN pinname="Left Ring 0" visible="1" pintype="Input" slicecount="1" values="Bip01_R_Finger052">
+   </PIN>
+   <PIN pinname="Left Ring 1" slicecount="1" values="Bip01_R_Finger053">
+   </PIN>
+   <PIN pinname="Left Ring 2" slicecount="1" values="Bip01_R_Finger054">
+   </PIN>
+   <PIN pinname="Left Ring 3" slicecount="1" values="Bip01_R_Finger3Nub001">
+   </PIN>
+   <PIN pinname="Left Pinky 0" slicecount="1" values="Bip01_R_Finger055">
+   </PIN>
+   <PIN pinname="Left Pinky 1" slicecount="1" values="Bip01_R_Finger056">
+   </PIN>
+   <PIN pinname="Left Pinky 2" slicecount="1" values="Bip01_R_Finger057">
+   </PIN>
+   <PIN pinname="Left Pinky 3" visible="1" pintype="Input" slicecount="1" values="Bip01_R_Finger4Nub001">
+   </PIN>
+   <PIN pinname="Scene" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="315" srcpinname="Hands" dstnodeid="425" dstpinname="Hands">
+   </LINK>
+   <LINK srcnodeid="431" srcpinname="Skeleton" dstnodeid="425" dstpinname="Skeleton">
+   </LINK>
+   <LINK srcnodeid="432" srcpinname="Output String" dstnodeid="425" dstpinname="Root">
+   </LINK>
+   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="462" dstpinname="Skeleton">
+   </LINK>
+   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="466" dstpinname="Skeleton">
+   </LINK>
+   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="487" dstpinname="Skeleton">
+   </LINK>
+   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="488" dstpinname="Skeleton">
+   </LINK>
+   <NODE systemname="SpaceMouse (VOOCAM)" filename="..\..\mp.voocam\nodes\modules\SpaceMouse (VOOCAM).v4p" nodename="SpaceMouse (VOOCAM)" componentmode="Hidden" id="494">
+   <BOUNDS type="Node" left="8505" top="47835" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Camera In" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="458" srcpinname="Camera Thru" dstnodeid="494" dstpinname="Camera In">
+   </LINK>
    </PATCH>

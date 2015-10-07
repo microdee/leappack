@@ -50,6 +50,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -73,7 +74,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FeralTic">
-      <HintPath>dependecies\x64\FeralTic.dll</HintPath>
+      <HintPath>dependecies\x86\FeralTic.dll</HintPath>
     </Reference>
     <Reference Include="LeapCSharp.NET4.0">
       <HintPath>LeapSDK\lib\LeapCSharp.NET4.0.dll</HintPath>
@@ -94,13 +95,13 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.DX11.Core">
-      <HintPath>dependecies\x64\VVVV.DX11.Core.dll</HintPath>
+      <HintPath>dependecies\x86\VVVV.DX11.Core.dll</HintPath>
     </Reference>
     <Reference Include="VVVV.DX11.Lib">
-      <HintPath>dependecies\x64\VVVV.DX11.Lib.dll</HintPath>
+      <HintPath>dependecies\x86\VVVV.DX11.Lib.dll</HintPath>
     </Reference>
     <Reference Include="VVVV.DX11.Nodes">
-      <HintPath>dependecies\x64\VVVV.DX11.Nodes.dll</HintPath>
+      <HintPath>dependecies\x86\VVVV.DX11.Nodes.dll</HintPath>
     </Reference>
     <Reference Include="VVVV.Hosting, Version=32.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
