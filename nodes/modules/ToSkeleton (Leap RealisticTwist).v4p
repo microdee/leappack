@@ -1,5 +1,5 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta34.1.dtd" >
-   <PATCH nodename="C:\vvvv\libs\mcropack\packs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" systemname="ToSkeleton (Leap RealisticTwist)" filename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" scrollx="0" scrolly="720">
+   <PATCH nodename="C:\vvvv\libs\mcropack\packs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" systemname="ToSkeleton (Leap RealisticTwist)" filename="C:\vvvv\app\vvvv_45beta33.7_x64\packs\leappack\nodes\modules\ToSkeleton (Leap RealisticTwist).v4p" scrollx="0" scrolly="2385">
    <BOUNDS type="Window" left="5925" top="1500" width="15585" height="12720">
    </BOUNDS>
    <PACK Name="VVVV.Packs" Version="0.2.0">
@@ -39,9 +39,9 @@
    </PIN>
    </NODE>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="12" systemname="IOBox (String)">
-   <BOUNDS type="Box" left="4830" top="12975" width="1695" height="240">
+   <BOUNDS type="Box" left="5205" top="12930" width="1695" height="240">
    </BOUNDS>
-   <BOUNDS type="Node" left="4830" top="12975" width="0" height="0">
+   <BOUNDS type="Node" left="5205" top="12930" width="0" height="0">
    </BOUNDS>
    <PIN pinname="Input String" slicecount="1" visible="1" values="Bip01_R_Hand001">
    </PIN>
@@ -1523,6 +1523,8 @@
    <NODE systemname="SetJoint (Skeleton)" filename="%VVVV%\addonpack\lib\nodes\plugins\SkeletonNodes.dll" nodename="SetJoint (Skeleton)" componentmode="Hidden" id="269">
    <BOUNDS type="Node" left="570" top="6135" width="100" height="100">
    </BOUNDS>
+   <PIN pinname="Skeleton" visible="1">
+   </PIN>
    </NODE>
    <LINK srcnodeid="113" srcpinname="Output String" dstnodeid="269" dstpinname="Joint Name">
    </LINK>
@@ -2017,15 +2019,13 @@
    </PIN>
    </NODE>
    <NODE systemname="AvoidNIL (Transform)" filename="..\..\..\mp.essentials\nodes\modules\transform\AvoidNIL (Transform).v4p" nodename="AvoidNIL (Transform)" componentmode="Hidden" id="322">
-   <BOUNDS type="Node" left="4785" top="12420" width="100" height="100">
+   <BOUNDS type="Node" left="4110" top="12945" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Input" visible="1" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Output" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="153" srcpinname="Transform Out" dstnodeid="322" dstpinname="Input">
-   </LINK>
    <LINK srcnodeid="322" srcpinname="Output" dstnodeid="13" dstpinname="Animation Transform">
    </LINK>
    <NODE systemname="AvoidNIL (Transform)" filename="..\..\..\mp.essentials\nodes\modules\transform\AvoidNIL (Transform).v4p" nodename="AvoidNIL (Transform)" componentmode="Hidden" id="323">
@@ -7778,8 +7778,6 @@
    </NODE>
    <LINK srcnodeid="756" srcpinname="Output String" dstnodeid="755" dstpinname="Joint Name">
    </LINK>
-   <LINK srcnodeid="755" srcpinname="Skeleton" dstnodeid="13" dstpinname="Skeleton">
-   </LINK>
    <NODE systemname="Rotate (Transform)" nodename="Rotate (Transform)" componentmode="Hidden" id="757">
    <BOUNDS type="Node" left="4725" top="11220" width="100" height="100">
    </BOUNDS>
@@ -7906,8 +7904,6 @@
    </LINK>
    <LINK srcnodeid="394" srcpinname="Skeleton" dstnodeid="767" dstpinname="Skeleton">
    </LINK>
-   <LINK srcnodeid="767" srcpinname="Skeleton" dstnodeid="502" dstpinname="Skeleton">
-   </LINK>
    <LINK srcnodeid="460" srcpinname="Transform Out" dstnodeid="351" dstpinname="Input">
    </LINK>
    <LINK srcnodeid="140" srcpinname="Transform Out" dstnodeid="321" dstpinname="Input">
@@ -8021,5 +8017,71 @@
    <LINK srcnodeid="519" srcpinname="Output" dstnodeid="773" dstpinname="Input 1">
    </LINK>
    <LINK srcnodeid="773" srcpinname="Output" dstnodeid="763" dstpinname="Input">
+   </LINK>
+   <NODE systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox" id="775">
+   <BOUNDS type="Node" left="2100" top="6510" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2100" top="6510" width="480" height="480">
+   </BOUNDS>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Toggle">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="Forearm">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Switch (Node Input)" nodename="Switch (Node Input)" componentmode="Hidden" id="776">
+   <BOUNDS type="Node" left="3435" top="12885" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Switch" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="775" srcpinname="Y Output Value" dstnodeid="776" dstpinname="Switch">
+   </LINK>
+   <LINK srcnodeid="269" srcpinname="Skeleton" dstnodeid="776" dstpinname="Input 1">
+   </LINK>
+   <LINK srcnodeid="755" srcpinname="Skeleton" dstnodeid="776" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="776" srcpinname="Output" dstnodeid="13" dstpinname="Skeleton">
+   </LINK>
+   <NODE systemname="Switch (Node Input)" nodename="Switch (Node Input)" componentmode="Hidden" id="777">
+   <BOUNDS type="Node" left="15795" top="12930" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Switch" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Input 1" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="775" srcpinname="Y Output Value" dstnodeid="777" dstpinname="Switch">
+   </LINK>
+   <LINK srcnodeid="51" srcpinname="Skeleton" dstnodeid="777" dstpinname="Input 1">
+   <LINKPOINT x="18465" y="55170">
+   </LINKPOINT>
+   <LINKPOINT x="14745" y="10110">
+   </LINKPOINT>
+   <LINKPOINT x="15750" y="9600">
+   </LINKPOINT>
+   </LINK>
+   <LINK srcnodeid="767" srcpinname="Skeleton" dstnodeid="777" dstpinname="Input 2">
+   </LINK>
+   <LINK srcnodeid="777" srcpinname="Output" dstnodeid="502" dstpinname="Skeleton">
+   </LINK>
+   <LINK srcnodeid="153" srcpinname="Transform Out" dstnodeid="322" dstpinname="Input">
    </LINK>
    </PATCH>

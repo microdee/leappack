@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv45beta34.1.dtd" >
-   <PATCH nodename="C:\vvvv\libs\mcropack\packs\leappack\girlpower\Girlpower.v4p" systemname="Device (Leap) help" filename="E:\vvvv\mcropack\VVVV.Packs.mcro\nodes\Plugins\Leap\Device (Leap) help.v4p" scrollx="2130" scrolly="40395">
-   <BOUNDS type="Window" left="7515" top="690" width="19470" height="14400">
+   <PATCH nodename="C:\vvvv\libs\mcropack\packs\leappack\girlpower\Girlpower.v4p" systemname="Device (Leap) help" filename="E:\vvvv\mcropack\VVVV.Packs.mcro\nodes\Plugins\Leap\Device (Leap) help.v4p" scrollx="5220" scrolly="27390">
+   <BOUNDS type="Window" left="5055" top="690" width="19470" height="14400">
    </BOUNDS>
    <NODE systemname="Hand (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="2">
    <BOUNDS type="Node" left="3825" top="9795" width="100" height="100">
@@ -2953,7 +2953,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="14625" top="30390" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input String" slicecount="1" visible="1" values="assets\RiggedPepperFullHands.dae">
+   <PIN pinname="Input String" slicecount="1" visible="1" values="assets\RiggedSaltFullHands.dae">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="||">
    </PIN>
@@ -2969,15 +2969,13 @@
    <NODE systemname="Skeleton (Skeleton Assimp)" filename="%VVVV%\packs\dx11\nodes\plugins\VVVV.DX11.Nodes.Assimp.dll" nodename="Skeleton (Skeleton Assimp)" componentmode="Hidden" id="431">
    <BOUNDS type="Node" left="14055" top="32865" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Scene" visible="1">
+   <PIN pinname="Scene" visible="1" slicecount="1" values="||">
    </PIN>
-   <PIN pinname="Root" visible="1">
+   <PIN pinname="Root" visible="1" slicecount="1" values="male_arm">
    </PIN>
    <PIN pinname="Skeleton" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="431" dstpinname="Scene">
-   </LINK>
    <NODE nodename="IOBox (String)" componentmode="InABox" id="432" systemname="IOBox (String)">
    <BOUNDS type="Box" left="14925" top="32670" width="990" height="240">
    </BOUNDS>
@@ -2994,8 +2992,6 @@
    <PIN pinname="Output String" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="432" srcpinname="Output String" dstnodeid="431" dstpinname="Root">
-   </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="433" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="15420" top="31095" width="480" height="480">
    </BOUNDS>
@@ -3122,44 +3118,10 @@
    </NODE>
    <LINK srcnodeid="370" srcpinname="Success" dstnodeid="461" dstpinname="Y Input Value">
    </LINK>
-   <NODE systemname="SkinnedHand" filename="SkinnedHand.v4p" componentmode="Hidden" id="462" nodename="SkinnedHand.v4p">
-   <BOUNDS type="Node" left="15180" top="35460" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="15180" top="35460" width="4800" height="3600">
-   </BOUNDS>
-   <BOUNDS type="Window" left="9180" top="9165" width="9000" height="6000">
-   </BOUNDS>
-   <PIN pinname="Scene" visible="1">
-   </PIN>
-   <PIN pinname="Skeleton" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Geometry Out" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="462" dstpinname="Scene">
-   </LINK>
-   <NODE systemname="Cons (DX11.Geometry)" filename="%VVVV%\packs\dx11\nodes\plugins\VVVV.DX11.Nodes.dll" nodename="Cons (DX11.Geometry)" componentmode="Hidden" id="464">
-   <BOUNDS type="Node" left="12585" top="37065" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input 1" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Input 2" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   <PIN pinname="Input Count" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="Input 3" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Input 4" visible="1" slicecount="1" values="||">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="464" srcpinname="Output" dstnodeid="452" dstpinname="Geometry">
-   </LINK>
    <NODE id="430" systemname="SceneExplorer (Assimp)" filename="%VVVV%\packs\dx11\nodes\plugins\VVVV.DX11.Nodes.Assimp.dll" nodename="SceneExplorer (Assimp)" componentmode="InAWindow">
    <BOUNDS type="Node" left="16380" top="32055" width="100" height="100">
    </BOUNDS>
-   <PIN pinname="Scene" visible="1">
+   <PIN pinname="Scene" visible="1" slicecount="1" values="||">
    </PIN>
    <BOUNDS type="Window" left="600" top="0" width="6000" height="15600">
    </BOUNDS>
@@ -3168,26 +3130,6 @@
    <PIN pinname="Mesh Id" visible="1">
    </PIN>
    </NODE>
-   <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="430" dstpinname="Scene">
-   </LINK>
-   <NODE systemname="SkinnedHand" filename="SkinnedHand.v4p" componentmode="Hidden" id="466" nodename="SkinnedHand.v4p">
-   <BOUNDS type="Node" left="16815" top="35505" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="16815" top="35505" width="4800" height="3600">
-   </BOUNDS>
-   <BOUNDS type="Window" left="9180" top="9165" width="9000" height="6000">
-   </BOUNDS>
-   <PIN pinname="Scene" visible="1">
-   </PIN>
-   <PIN pinname="Skeleton" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Geometry Out" visible="1">
-   </PIN>
-   <PIN pinname="Index" slicecount="1" values="3">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="466" dstpinname="Scene">
-   </LINK>
    <NODE systemname="ApplyTransform (Transform Direction)" nodename="ApplyTransform (Transform Direction)" componentmode="Hidden" id="467" filename="%VVVV%\lib\nodes\modules\Transform\ApplyTransform (Transform Direction).v4p">
    <BOUNDS type="Node" left="11415" top="38310" width="100" height="100">
    </BOUNDS>
@@ -3250,18 +3192,8 @@
    </NODE>
    <LINK srcnodeid="471" srcpinname="Y Output Value" dstnodeid="10" dstpinname="Enabled">
    </LINK>
-   <NODE systemname="Select (Node)" filename="%VVVV%\lib\nodes\modules\Node\Select (Node).v4p" nodename="Select (Node)" componentmode="Hidden" id="474">
-   <BOUNDS type="Node" left="12255" top="36105" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Select" visible="1" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
    <NODE systemname="Hand (Leap)" filename="..\nodes\plugins\x64\LeapDevices.dll" nodename="Hand (Leap)" componentmode="Hidden" id="475">
-   <BOUNDS type="Node" left="10470" top="33300" width="100" height="100">
+   <BOUNDS type="Node" left="9750" top="32865" width="100" height="100">
    </BOUNDS>
    <PIN pinname="Hands" visible="1">
    </PIN>
@@ -3303,60 +3235,6 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="315" srcpinname="Hands" dstnodeid="475" dstpinname="Hands">
-   </LINK>
-   <NODE systemname="NOT (Boolean)" nodename="NOT (Boolean)" componentmode="Hidden" id="476">
-   <BOUNDS type="Node" left="13110" top="34650" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="475" srcpinname="Side" dstnodeid="476" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="474" srcpinname="Output" dstnodeid="464" dstpinname="Input 1">
-   </LINK>
-   <NODE systemname="Select (Node)" filename="%VVVV%\lib\nodes\modules\Node\Select (Node).v4p" nodename="Select (Node)" componentmode="Hidden" id="477">
-   <BOUNDS type="Node" left="13320" top="36135" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Select" visible="1">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="477" srcpinname="Output" dstnodeid="464" dstpinname="Input 2">
-   </LINK>
-   <NODE systemname="Select (Node)" filename="%VVVV%\lib\nodes\modules\Node\Select (Node).v4p" nodename="Select (Node)" componentmode="Hidden" id="478">
-   <BOUNDS type="Node" left="15105" top="36105" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Select" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="462" srcpinname="Geometry Out" dstnodeid="478" dstpinname="Input">
-   </LINK>
-   <NODE systemname="Select (Node)" filename="%VVVV%\lib\nodes\modules\Node\Select (Node).v4p" nodename="Select (Node)" componentmode="Hidden" id="479">
-   <BOUNDS type="Node" left="16485" top="36180" width="100" height="100">
-   </BOUNDS>
-   <PIN pinname="Input" visible="1" slicecount="1" values="||">
-   </PIN>
-   <PIN pinname="Select" visible="1" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="466" srcpinname="Geometry Out" dstnodeid="479" dstpinname="Input">
-   </LINK>
-   <LINK srcnodeid="476" srcpinname="Output" dstnodeid="474" dstpinname="Select">
-   </LINK>
-   <LINK srcnodeid="475" srcpinname="Side" dstnodeid="478" dstpinname="Select">
-   </LINK>
-   <LINK srcnodeid="475" srcpinname="Side" dstnodeid="479" dstpinname="Select">
    </LINK>
    <NODE nodename="IOBox (Node)" componentmode="InABox" id="480" systemname="IOBox (Node)">
    <BOUNDS type="Box" left="5805" top="9030" width="795" height="240">
@@ -3417,40 +3295,6 @@
    <LINK srcnodeid="485" srcpinname="Output" dstnodeid="370" dstpinname="Evaluate">
    </LINK>
    <LINK srcnodeid="374" srcpinname="Y Output Value" dstnodeid="400" dstpinname="Evaluate">
-   </LINK>
-   <LINK srcnodeid="475" srcpinname="Side" dstnodeid="477" dstpinname="Select">
-   </LINK>
-   <NODE systemname="SkinnedHand" filename="SkinnedHand.v4p" componentmode="Hidden" id="487" nodename="SkinnedHand.v4p">
-   <BOUNDS type="Node" left="12180" top="35325" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="12180" top="35325" width="4800" height="3600">
-   </BOUNDS>
-   <BOUNDS type="Window" left="9180" top="6255" width="9000" height="8910">
-   </BOUNDS>
-   <PIN pinname="Index" slicecount="1" values="0">
-   </PIN>
-   <PIN pinname="Skeleton" slicecount="1" values="||">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="487" dstpinname="Scene">
-   </LINK>
-   <LINK srcnodeid="487" srcpinname="Geometry Out" dstnodeid="474" dstpinname="Input">
-   </LINK>
-   <NODE systemname="SkinnedHand" filename="SkinnedHand.v4p" componentmode="Hidden" id="488" nodename="SkinnedHand.v4p">
-   <BOUNDS type="Node" left="13815" top="35445" width="100" height="100">
-   </BOUNDS>
-   <BOUNDS type="Box" left="13815" top="35445" width="4800" height="3600">
-   </BOUNDS>
-   <BOUNDS type="Window" left="9180" top="6255" width="9000" height="8910">
-   </BOUNDS>
-   <PIN pinname="Index" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Skeleton" slicecount="1" values="||">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="488" dstpinname="Scene">
-   </LINK>
-   <LINK srcnodeid="488" srcpinname="Geometry Out" dstnodeid="477" dstpinname="Input">
    </LINK>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="489" systemname="IOBox (Value Advanced)">
    <BOUNDS type="Box" left="4260" top="225" width="480" height="480">
@@ -3551,7 +3395,7 @@
    </PIN>
    <PIN pinname="Skeleton" visible="1">
    </PIN>
-   <PIN pinname="Root" visible="1">
+   <PIN pinname="Root" visible="1" slicecount="1" values="male_arm">
    </PIN>
    <PIN pinname="Left Wrist" slicecount="1" values="Bip01_R_Hand001">
    </PIN>
@@ -3581,7 +3425,7 @@
    </PIN>
    <PIN pinname="Left Middle 3" visible="1" pintype="Input" slicecount="1" values="Bip01_R_Finger2Nub001">
    </PIN>
-   <PIN pinname="Left Ring 0" visible="1" pintype="Input" slicecount="1" values="Bip01_R_Finger052">
+   <PIN pinname="Left Ring 0" visible="-1" pintype="Input" slicecount="1" values="Bip01_R_Finger052">
    </PIN>
    <PIN pinname="Left Ring 1" slicecount="1" values="Bip01_R_Finger053">
    </PIN>
@@ -3604,16 +3448,6 @@
    </LINK>
    <LINK srcnodeid="431" srcpinname="Skeleton" dstnodeid="425" dstpinname="Skeleton">
    </LINK>
-   <LINK srcnodeid="432" srcpinname="Output String" dstnodeid="425" dstpinname="Root">
-   </LINK>
-   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="462" dstpinname="Skeleton">
-   </LINK>
-   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="466" dstpinname="Skeleton">
-   </LINK>
-   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="487" dstpinname="Skeleton">
-   </LINK>
-   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="488" dstpinname="Skeleton">
-   </LINK>
    <NODE systemname="SpaceMouse (VOOCAM)" filename="..\..\mp.voocam\nodes\modules\SpaceMouse (VOOCAM).v4p" nodename="SpaceMouse (VOOCAM)" componentmode="Hidden" id="494">
    <BOUNDS type="Node" left="8505" top="47835" width="100" height="100">
    </BOUNDS>
@@ -3621,5 +3455,233 @@
    </PIN>
    </NODE>
    <LINK srcnodeid="458" srcpinname="Camera Thru" dstnodeid="494" dstpinname="Camera In">
+   </LINK>
+   <NODE systemname="SkeletalMesh (DX11 Assimp)" filename="..\..\mp.dx\nodes\modules\assimp\SkeletalMesh (DX11 Assimp).v4p" nodename="SkeletalMesh (DX11 Assimp)" componentmode="Hidden" id="495">
+   <BOUNDS type="Node" left="13620" top="35385" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Scene" visible="1">
+   </PIN>
+   <PIN pinname="Skeleton" visible="1">
+   </PIN>
+   <PIN pinname="No Caching" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Tangent Vectors" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Geometry Out" visible="1">
+   </PIN>
+   <PIN pinname="Filter for Node" visible="1">
+   </PIN>
+   <PIN pinname="Comparison" slicecount="1" visible="1" pintype="Input" values="Contains">
+   </PIN>
+   <PIN pinname="Case Sensitive" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Subset Vertex Count" visible="1">
+   </PIN>
+   <PIN pinname="Reset" visible="1" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="495" dstpinname="Scene">
+   </LINK>
+   <LINK srcnodeid="425" srcpinname="Skeleton" dstnodeid="495" dstpinname="Skeleton">
+   </LINK>
+   <NODE systemname="Count (Value)" nodename="Count (Value)" componentmode="Hidden" id="496">
+   <BOUNDS type="Node" left="12405" top="33795" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Count" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="475" srcpinname="Side" dstnodeid="496" dstpinname="Input">
+   </LINK>
+   <NODE systemname="EQ (Value)" nodename="EQ (Value)" componentmode="Hidden" id="497">
+   <BOUNDS type="Node" left="12420" top="34245" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input 1" visible="1">
+   </PIN>
+   <PIN pinname="Inverse Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="496" srcpinname="Count" dstnodeid="497" dstpinname="Input 1">
+   </LINK>
+   <NODE systemname="Select (Node)" filename="%VVVV%\lib\nodes\modules\Node\Select (Node).v4p" nodename="Select (Node)" componentmode="Hidden" id="498">
+   <BOUNDS type="Node" left="13635" top="36165" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Select" visible="1">
+   </PIN>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="497" srcpinname="Inverse Output" dstnodeid="498" dstpinname="Select">
+   </LINK>
+   <LINK srcnodeid="495" srcpinname="Geometry Out" dstnodeid="498" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="498" srcpinname="Output" dstnodeid="452" dstpinname="Geometry">
+   </LINK>
+   <NODE systemname="Switch (String Input)" nodename="Switch (String Input)" componentmode="Hidden" id="499">
+   <BOUNDS type="Node" left="13320" top="34020" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Switch" visible="1">
+   </PIN>
+   <PIN pinname="Input 1" slicecount="1" values="_right002" visible="1">
+   </PIN>
+   <PIN pinname="Input 2" slicecount="1" values="_right">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="475" srcpinname="Side" dstnodeid="499" dstpinname="Switch">
+   </LINK>
+   <NODE systemname="AvoidNIL (String)" filename="%VVVV%\lib\nodes\modules\String\AvoidNIL (String).v4p" nodename="AvoidNIL (String)" componentmode="Hidden" id="500">
+   <BOUNDS type="Node" left="13320" top="34470" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="499" srcpinname="Output" dstnodeid="500" dstpinname="Input">
+   </LINK>
+   <LINK srcnodeid="500" srcpinname="Output" dstnodeid="495" dstpinname="Filter for Node">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="501" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="15510" top="35850" width="795" height="960">
+   </BOUNDS>
+   <BOUNDS type="Node" left="15510" top="35850" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Rows" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Y Input Value" slicecount="4" values="0,,,">
+   </PIN>
+   <PIN pinname="Vector Size" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="|0, 0, 0, 1|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="495" srcpinname="Subset Vertex Count" dstnodeid="501" dstpinname="Y Input Value">
+   </LINK>
+   <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="502" systemname="IOBox (Enumerations)">
+   <BOUNDS type="Box" left="14895" top="34620" width="1590" height="270">
+   </BOUNDS>
+   <BOUNDS type="Node" left="14895" top="34620" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input Enum" slicecount="1" visible="1" values="ContainsAny">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="502" srcpinname="Output Enum" dstnodeid="495" dstpinname="Comparison">
+   </LINK>
+   <NODE systemname="SceneFile (DX11.Geometry Assimp)" filename="%VVVV%\packs\dx11\nodes\plugins\VVVV.DX11.Nodes.Assimp.dll" nodename="SceneFile (DX11.Geometry Assimp)" componentmode="Hidden" id="505">
+   <BOUNDS type="Node" left="18090" top="31800" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Filename" visible="1">
+   </PIN>
+   <PIN pinname="Scene" visible="1">
+   </PIN>
+   <PIN pinname="Reload" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="504" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="18105" top="30360" width="2985" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="18105" top="30360" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" visible="1" values="assets\RiggedSaltFullHands.dae">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="|All Files (*.*)||*.*|">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="Filename">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="504" srcpinname="Output String" dstnodeid="505" dstpinname="Filename">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="503" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="18900" top="31065" width="480" height="480">
+   </BOUNDS>
+   <BOUNDS type="Node" left="18900" top="31065" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="0">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Boolean">
+   </PIN>
+   <PIN pinname="Behavior" slicecount="1" values="Bang">
+   </PIN>
+   <PIN pinname="X Input Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="503" srcpinname="Y Output Value" dstnodeid="505" dstpinname="Reload">
+   </LINK>
+   <LINK srcnodeid="505" srcpinname="Scene" dstnodeid="431" dstpinname="Scene">
+   </LINK>
+   <LINK srcnodeid="428" srcpinname="Scene" dstnodeid="430" dstpinname="Scene">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="506" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="13050" top="32925" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="13050" top="32925" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" visible="1" values="_right002">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="text">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="507" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="13350" top="33225" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="13350" top="33225" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" visible="1" values="_left">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="text">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="507" srcpinname="Output String" dstnodeid="499" dstpinname="Input 1">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="508" systemname="IOBox (String)">
+   <BOUNDS type="Box" left="15225" top="32970" width="990" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="15225" top="32970" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Input String" slicecount="1" visible="1" values="female_arm">
+   </PIN>
+   <PIN pinname="Default" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="File Mask" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Maximum Characters" slicecount="1" values="-1">
+   </PIN>
+   <PIN pinname="Output String" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="508" srcpinname="Output String" dstnodeid="425" dstpinname="Root">
+   </LINK>
+   <LINK srcnodeid="508" srcpinname="Output String" dstnodeid="431" dstpinname="Root">
    </LINK>
    </PATCH>
