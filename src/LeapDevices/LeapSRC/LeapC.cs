@@ -112,7 +112,7 @@ namespace LeapInternal
     eLeapValueType_Unknown,
     eLeapValueType_Boolean,
     eLeapValueType_Int32,
-    eleapValueType_Float,
+    eLeapValueType_Float,
     eLeapValueType_String
   };
 
@@ -189,9 +189,10 @@ namespace LeapInternal
   };
 
 
-  //Note:
+  //Note the following LeapC structs are just IntPtrs in C#:
   // LEAP_CONNECTION is an IntPtr
   // LEAP_DEVICE is an IntPtr
+  // LEAP_CLOCK_REBASER is an IntPtr
 
   [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
   public struct LEAP_CONNECTION_CONFIG
@@ -365,6 +366,7 @@ namespace LeapInternal
     {
       return new Leap.Vector(x, y, z);
     }
+
     public LEAP_VECTOR(Leap.Vector leap)
     {
       x = leap.x;
@@ -374,24 +376,19 @@ namespace LeapInternal
   }
 
   [StructLayout(LayoutKind.Sequential, Pack = 1)]
-  public struct LEAP_MATRIX
+  public struct LEAP_QUATERNION
   {
-    public LEAP_VECTOR x_basis;
-    public LEAP_VECTOR y_basis;
-    public LEAP_VECTOR z_basis;
+    public float x;
+    public float y;
+    public float z;
+    public float w;
 
-    public Leap.Matrix ToLeapMatrix()
+    public LEAP_QUATERNION(Leap.LeapQuaternion q)
     {
-      return new Leap.Matrix(x_basis.ToLeapVector(),
-                             y_basis.ToLeapVector(),
-                             z_basis.ToLeapVector());
-    }
-
-    public LEAP_MATRIX(Leap.Matrix leap)
-    {
-      x_basis = new LEAP_VECTOR(leap.xBasis);
-      y_basis = new LEAP_VECTOR(leap.yBasis);
-      z_basis = new LEAP_VECTOR(leap.zBasis);
+      x = q.x;
+      y = q.y;
+      z = q.z;
+      w = q.w;
     }
   }
 
@@ -401,7 +398,7 @@ namespace LeapInternal
     public LEAP_VECTOR prev_joint;
     public LEAP_VECTOR next_joint;
     public float width;
-    public LEAP_MATRIX basis;
+    public LEAP_QUATERNION rotation;
   }
 
   [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -440,13 +437,13 @@ namespace LeapInternal
     public float grab_angle;
     public float pinch_strength;
     public float grab_strength;
-    public IntPtr palm; //LEAP_PALM*
-    public IntPtr thumb; //LEAP_DIGIT*
-    public IntPtr index; //LEAP_DIGIT*
-    public IntPtr middle; //LEAP_DIGIT*
-    public IntPtr ring; //LEAP_DIGIT*
-    public IntPtr pinky; //LEAP_DIGIT*
-    public IntPtr arm; //LEAP_BONE*
+    public LEAP_PALM palm;
+    public LEAP_DIGIT thumb;
+    public LEAP_DIGIT index;
+    public LEAP_DIGIT middle;
+    public LEAP_DIGIT ring;
+    public LEAP_DIGIT pinky;
+    public LEAP_BONE arm;
   }
 
 
@@ -521,6 +518,18 @@ namespace LeapInternal
     [DllImport("LeapC", EntryPoint = "LeapGetNow")]
     public static extern long GetNow();
 
+    [DllImport("LeapC", EntryPoint = "LeapCreateClockRebaser")]
+    public static extern eLeapRS CreateClockRebaser(out IntPtr phClockRebaser);
+
+    [DllImport("LeapC", EntryPoint = "LeapDestroyClockRebaser")]
+    public static extern eLeapRS DestroyClockRebaser(IntPtr hClockRebaser);
+
+    [DllImport("LeapC", EntryPoint = "LeapUpdateRebase")]
+    public static extern eLeapRS UpdateRebase(IntPtr hClockRebaser, Int64 userClock, Int64 leapClock);
+
+    [DllImport("LeapC", EntryPoint = "LeapRebaseClock")]
+    public static extern eLeapRS RebaseClock(IntPtr hClockRebaser, Int64 userClock, out Int64 leapClock);
+
     [DllImport("LeapC", EntryPoint = "LeapCreateConnection")]
     public static extern eLeapRS CreateConnection(ref LEAP_CONNECTION_CONFIG pConfig, out IntPtr pConnection);
 
@@ -564,6 +573,11 @@ namespace LeapInternal
     [DllImport("LeapC", EntryPoint = "LeapPollConnection")]
     public static extern eLeapRS PollConnection(IntPtr hConnection, UInt32 timeout, ref LEAP_CONNECTION_MESSAGE msg);
 
+    [DllImport("LeapC", EntryPoint = "LeapGetFrameSize")]
+    public static extern eLeapRS GetFrameSize(IntPtr hConnection, Int64 timestamp, out UInt64 pncbEvent);
+
+    [DllImport("LeapC", EntryPoint = "LeapInterpolateFrame")]
+    public static extern eLeapRS InterpolateFrame(IntPtr hConnection, Int64 timestamp, IntPtr pEvent, UInt64 ncbEvent);
 
     [DllImport("LeapC", EntryPoint = "LeapRequestImages")]
     public static extern eLeapRS RequestImages(IntPtr hConnection, ref LEAP_IMAGE_FRAME_DESCRIPTION description, out LEAP_IMAGE_FRAME_REQUEST_TOKEN pToken);
@@ -601,7 +615,7 @@ namespace LeapInternal
     public static eLeapRS SaveConfigValue(IntPtr hConnection, string key, float value, out UInt32 requestId)
     {
       LEAP_VARIANT_VALUE_TYPE valueStruct = new LEAP_VARIANT_VALUE_TYPE();
-      valueStruct.type = eLeapValueType.eleapValueType_Float;
+      valueStruct.type = eLeapValueType.eLeapValueType_Float;
       valueStruct.floatValue = value;
       return LeapC.SaveConfigWithValueType(hConnection, key, valueStruct, out requestId);
     }

@@ -344,7 +344,7 @@ namespace VVVV.Nodes
 
                 FBone[i].SliceCount = 4;
                 for (int j = 0; j < 4; j++)
-                    FBone[i][j] = FFinger[i].Bone(j);
+                    FBone[i][j] = FFinger[i].Bone((Bone.BoneType)j);
             }
         }
         public void SpecificOff()

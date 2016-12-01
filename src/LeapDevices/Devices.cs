@@ -20,7 +20,7 @@ namespace VVVV.Nodes
 {
     public static class TrackingHelper
     {
-        public static Matrix4x4 ToMatrix4x4(this Leap.Matrix m)
+        public static Matrix4x4 ToMatrix4x4(this Leap.LeapTransform m)
         {
             Matrix4x4 tmp = new Matrix4x4();
             tmp.m11 = m.xBasis.x;
@@ -33,6 +33,11 @@ namespace VVVV.Nodes
             tmp.m32 = m.yBasis.z;
             tmp.m33 = m.zBasis.z;
             tmp.m44 = 1;
+            return tmp;
+        }
+        public static Vector4D ToVector4D(this Leap.LeapQuaternion V)
+        {
+            Vector4D tmp = new Vector4D((double)V.x, (double)V.y, (double)V.z, (double)V.w);
             return tmp;
         }
         public static Vector3D ToVector3D(this Leap.Vector V)

@@ -421,13 +421,32 @@ namespace Leap
     /**
      * Returns the frame object with all hands transformed by the specified
      * transform matrix.
-     * @param trs a Matrix containing translation, rotation, and scale.
+     * @param trs a LeapTransform containing translation, rotation, and scale.
      * @param history The age of the frame to return, counting backwards from
      * the most recent frame (0) into the past and up to the maximum age (59).
      */
-    public Frame GetTransformedFrame(Matrix trs, int history = 0)
+    public Frame GetTransformedFrame(LeapTransform trs, int history = 0)
     {
       return Frame(history).TransformedCopy(trs);
+    }
+
+    /**
+    * Returns the Frame at the specified time, interpolating the data between existing frames, if necessary.
+    * 
+    * 
+    */
+    public Frame GetInterpolatedFrame(Int64 time){
+      return _connection.GetInterpolatedFrame(time);
+    }
+
+    /**
+    * Returns the Frame at the specified time, interpolating the data between existing frames, if necessary,
+    * and transforms the data using the specified transform matrix.
+    * 
+    * 
+    */
+    public Frame GetTransformedInterpolatedFrame(LeapTransform trs, Int64 time){
+      return _connection.GetInterpolatedFrame(time).TransformedCopy(trs);
     }
 
     /**

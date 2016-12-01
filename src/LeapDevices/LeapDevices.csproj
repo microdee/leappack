@@ -146,6 +146,7 @@
     <Compile Include="LeapSRC\Arm.cs" />
     <Compile Include="LeapSRC\Bone.cs" />
     <Compile Include="LeapSRC\CircularObjectBuffer.cs" />
+    <Compile Include="LeapSRC\ClockCorrelator.cs" />
     <Compile Include="LeapSRC\Config.cs" />
     <Compile Include="LeapSRC\Connection.cs" />
     <Compile Include="LeapSRC\Controller.cs" />
@@ -166,6 +167,8 @@
     <Compile Include="LeapSRC\ImageFuture.cs" />
     <Compile Include="LeapSRC\InteractionBox.cs" />
     <Compile Include="LeapSRC\LeapC.cs" />
+    <Compile Include="LeapSRC\LeapQuaternion.cs" />
+    <Compile Include="LeapSRC\LeapTransform.cs" />
     <Compile Include="LeapSRC\Logger.cs" />
     <Compile Include="LeapSRC\Matrix.cs" />
     <Compile Include="LeapSRC\MessageSeverity.cs" />
@@ -174,6 +177,7 @@
     <Compile Include="LeapSRC\PooledObject.cs" />
     <Compile Include="LeapSRC\ServiceFrameFactory.cs" />
     <Compile Include="LeapSRC\StructMarshal.cs" />
+    <Compile Include="LeapSRC\TimeBracket.cs" />
     <Compile Include="LeapSRC\Vector.cs" />
     <Compile Include="Organizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
