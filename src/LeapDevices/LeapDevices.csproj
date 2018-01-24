@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -81,30 +81,53 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FeralTic">
-      <HintPath>dependecies\x86\FeralTic.dll</HintPath>
+      <HintPath>dependecies\x64\FeralTic.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LeapCSharp.NET4.5">
+      <HintPath>dependecies\LeapCSharp.NET4.5.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>dependecies\x64\SharpDX.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11">
+      <HintPath>dependecies\x64\SharpDX.Direct3D11.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.DXGI">
+      <HintPath>dependecies\x64\SharpDX.DXGI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="SlimDX">
       <HintPath>dependecies\x64\SlimDX.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition.CodePlex">
       <HintPath>dependecies\x64\System.ComponentModel.Composition.CodePlex.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
       <HintPath>dependecies\x64\System.Reactive.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Reactive.Interfaces">
       <HintPath>dependecies\x64\System.Reactive.Interfaces.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Reactive.Linq">
       <HintPath>dependecies\x64\System.Reactive.Linq.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>dependecies\x64\System.Reactive.PlatformServices.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Reflection.Context.CodePlex">
       <HintPath>dependecies\x64\System.Reflection.Context.CodePlex.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -113,72 +136,45 @@
     <Reference Include="System.Xml" />
     <Reference Include="VVVV.Core">
       <HintPath>dependecies\x64\VVVV.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.DX11.Core">
-      <HintPath>dependecies\x86\VVVV.DX11.Core.dll</HintPath>
+      <HintPath>dependecies\x64\VVVV.DX11.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.DX11.Lib">
-      <HintPath>dependecies\x86\VVVV.DX11.Lib.dll</HintPath>
+      <HintPath>dependecies\x64\VVVV.DX11.Lib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.DX11.Nodes">
-      <HintPath>dependecies\x86\VVVV.DX11.Nodes.dll</HintPath>
+      <HintPath>dependecies\x64\VVVV.DX11.Nodes.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Hosting">
       <HintPath>dependecies\x64\VVVV.Hosting.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.PluginInterfaces">
       <HintPath>dependecies\x64\VVVV.PluginInterfaces.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils">
       <HintPath>dependecies\x64\VVVV.Utils.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.Utils3rdParty">
       <HintPath>dependecies\x64\VVVV.Utils3rdParty.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="VVVV.UtilsIL">
       <HintPath>dependecies\x64\VVVV.UtilsIL.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Devices.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="Images.cs" />
-    <Compile Include="LeapSRC\Arm.cs" />
-    <Compile Include="LeapSRC\Bone.cs" />
-    <Compile Include="LeapSRC\CircularObjectBuffer.cs" />
-    <Compile Include="LeapSRC\ClockCorrelator.cs" />
-    <Compile Include="LeapSRC\Config.cs" />
-    <Compile Include="LeapSRC\Connection.cs" />
-    <Compile Include="LeapSRC\Controller.cs" />
-    <Compile Include="LeapSRC\CSharpExtensions.cs" />
-    <Compile Include="LeapSRC\Device.cs" />
-    <Compile Include="LeapSRC\DeviceList.cs" />
-    <Compile Include="LeapSRC\DistortionData.cs" />
-    <Compile Include="LeapSRC\DistortionDictionary.cs" />
-    <Compile Include="LeapSRC\Events.cs" />
-    <Compile Include="LeapSRC\FailedDevice.cs" />
-    <Compile Include="LeapSRC\FailedDeviceList.cs" />
-    <Compile Include="LeapSRC\Finger.cs" />
-    <Compile Include="LeapSRC\Frame.cs" />
-    <Compile Include="LeapSRC\Hand.cs" />
-    <Compile Include="LeapSRC\IController.cs" />
-    <Compile Include="LeapSRC\Image.cs" />
-    <Compile Include="LeapSRC\ImageData.cs" />
-    <Compile Include="LeapSRC\ImageFuture.cs" />
-    <Compile Include="LeapSRC\InteractionBox.cs" />
-    <Compile Include="LeapSRC\LeapC.cs" />
-    <Compile Include="LeapSRC\LeapQuaternion.cs" />
-    <Compile Include="LeapSRC\LeapTransform.cs" />
-    <Compile Include="LeapSRC\Logger.cs" />
-    <Compile Include="LeapSRC\Matrix.cs" />
-    <Compile Include="LeapSRC\MessageSeverity.cs" />
-    <Compile Include="LeapSRC\ObjectPool.cs" />
-    <Compile Include="LeapSRC\PendingImages.cs" />
-    <Compile Include="LeapSRC\PooledObject.cs" />
-    <Compile Include="LeapSRC\ServiceFrameFactory.cs" />
-    <Compile Include="LeapSRC\StructMarshal.cs" />
-    <Compile Include="LeapSRC\TimeBracket.cs" />
-    <Compile Include="LeapSRC\Vector.cs" />
     <Compile Include="Organizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tracking.cs" />

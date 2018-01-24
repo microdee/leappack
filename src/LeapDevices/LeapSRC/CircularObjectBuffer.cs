@@ -41,7 +41,7 @@ namespace LeapInternal
     }
 
     /** Put an item at the head of the list. Once full, this will overwrite the oldest item. */
-    public virtual void Put(T item)
+    public virtual void Put(ref T item)
     {
       lock (locker)
       {
@@ -65,16 +65,24 @@ namespace LeapInternal
     }
 
     /** Get the item indexed backward from the head of the list */
-    public T Get(int index = 0)
+    public void Get(out T t, int index = 0)
     {
       lock (locker)
       {
         if (IsEmpty || (index > Count - 1) || index < 0)
-          return new T(); //default(T);
-        int effectiveIndex = current - index;
-        if (effectiveIndex < 0)
-          effectiveIndex += Capacity;
-        return array[effectiveIndex];
+        {
+          t = new T(); //default(T);
+        }
+        else
+        {
+          int effectiveIndex = current - index;
+          if (effectiveIndex < 0)
+          {
+            effectiveIndex += Capacity;
+          }
+
+          t = array[effectiveIndex];
+        }
       }
     }
 
@@ -92,7 +100,9 @@ namespace LeapInternal
         int j = 0;
         for (int i = Count - 1; i >= 0; i--)
         {
-          newArray[j++] = this.Get(i);
+          T t;
+          Get(out t, i);
+          newArray[j++] = t;
         }
         this.array = newArray;
         this.Capacity = newCapacity;

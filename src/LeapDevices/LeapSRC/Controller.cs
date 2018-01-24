@@ -51,13 +51,23 @@ namespace Leap
      * By default the synchronization context of the thread creating the controller
      * instance is used. You can change the context if desired.
      */
-    public SynchronizationContext EventContext { get; set; }
+    public SynchronizationContext EventContext
+    {
+      get
+      {
+        return _connection.EventContext;
+      }
+      set
+      {
+        _connection.EventContext = value;
+      }
+    }
     /**
-    * Dispatched when the connection is initialized (but not necessarily connected).
-    *
-    * Can be dispatched more than once, if connection is restarted.
-    * @since 3.0
-    */
+     * Dispatched when the connection is initialized (but not necessarily connected).
+     *
+     * Can be dispatched more than once, if connection is restarted.
+     * @since 3.0
+     */
     public event EventHandler<LeapEventArgs> Init
     {
       add
@@ -74,7 +84,7 @@ namespace Leap
      * Dispatched when the connection to the service is established.
      * @since 3.0
      */
-    public event EventHandler<ConnectionEventArgs> Connect   
+    public event EventHandler<ConnectionEventArgs> Connect
     {
       add
       {
@@ -90,60 +100,197 @@ namespace Leap
      * Dispatched if the connection to the service is lost.
      * @since 3.0
      */
-    public event EventHandler<ConnectionLostEventArgs> Disconnect;
+    public event EventHandler<ConnectionLostEventArgs> Disconnect
+    {
+      add
+      {
+        _connection.LeapConnectionLost += value;
+      }
+      remove
+      {
+        _connection.LeapConnectionLost -= value;
+      }
+    }
     /**
      * Dispatched when a tracking frame is ready.
      * @since 3.0
      */
-    public event EventHandler<FrameEventArgs> FrameReady;
+    public event EventHandler<FrameEventArgs> FrameReady
+    {
+      add
+      {
+        _connection.LeapFrame += value;
+      }
+      remove
+      {
+        _connection.LeapFrame -= value;
+      }
+    }
     /**
-    * Dispatched when a Leap Motion device is connected.
-    * @since 3.0
-    */
-    public event EventHandler<DeviceEventArgs> Device;
+     * Dispatched when an internal tracking frame is ready.
+     * @since 3.0
+     */
+    public event EventHandler<InternalFrameEventArgs> InternalFrameReady
+    {
+      add
+      {
+        _connection.LeapInternalFrame += value;
+      }
+      remove
+      {
+        _connection.LeapInternalFrame -= value;
+      }
+    }
     /**
-    * Dispatched when when a Leap Motion device is disconnected.
-    * @since 3.0
-    */
-    public event EventHandler<DeviceEventArgs> DeviceLost;
+     * Dispatched when a Leap Motion device is connected.
+     * @since 3.0
+     */
+    public event EventHandler<DeviceEventArgs> Device
+    {
+      add
+      {
+        _connection.LeapDevice += value;
+      }
+      remove
+      {
+        _connection.LeapDevice -= value;
+      }
+    }
     /**
-    * Dispatched when an image is ready. Call Controller.RequestImage()
-    * to request that an image be sent to your application.
-    * @since 3.0
-    */
-    public event EventHandler<ImageEventArgs> ImageReady;
+     * Dispatched when when a Leap Motion device is disconnected.
+     * @since 3.0
+     */
+    public event EventHandler<DeviceEventArgs> DeviceLost
+    {
+      add
+      {
+        _connection.LeapDeviceLost += value;
+      }
+      remove
+      {
+        _connection.LeapDeviceLost -= value;
+      }
+    }
     /**
-    * Dispatched when a requested image cannot be sent.
-    * @since 3.0
-    */
-    public event EventHandler<ImageRequestFailedEventArgs> ImageRequestFailed;
+     * Dispatched when an image is ready. Call Controller.RequestImage()
+     * to request that an image be sent to your application.
+     * @since 3.0
+     */
+    public event EventHandler<ImageEventArgs> ImageReady
+    {
+      add
+      {
+        _connection.LeapImageReady += value;
+      }
+      remove
+      {
+        _connection.LeapImageReady -= value;
+      }
+    }
     /**
-    * Dispatched when a Leap device fails to initialize.
-    * @since 3.0
-    */
-    public event EventHandler<DeviceFailureEventArgs> DeviceFailure;
+     * Dispatched when a requested image cannot be sent.
+     * @since 3.0
+     */
+    public event EventHandler<ImageRequestFailedEventArgs> ImageRequestFailed
+    {
+      add
+      {
+        _connection.LeapImageRequestFailed += value;
+      }
+      remove
+      {
+        _connection.LeapImageRequestFailed -= value;
+      }
+    }
     /**
-    * Dispatched when the system generates a loggable event.
-    * @since 3.0
-    */
-    public event EventHandler<LogEventArgs> LogMessage;
+     * Dispatched when a Leap device fails to initialize.
+     * @since 3.0
+     */
+    public event EventHandler<DeviceFailureEventArgs> DeviceFailure
+    {
+      add
+      {
+        _connection.LeapDeviceFailure += value;
+      }
+      remove
+      {
+        _connection.LeapDeviceFailure -= value;
+      }
+    }
     /**
-    * Dispatched when a policy changes.
-    * @since 3.0
-    */
-    public event EventHandler<PolicyEventArgs> PolicyChange;
+     * Dispatched when the system generates a loggable event.
+     * @since 3.0
+     */
+    public event EventHandler<LogEventArgs> LogMessage
+    {
+      add
+      {
+        _connection.LeapLogEvent += value;
+      }
+      remove
+      {
+        _connection.LeapLogEvent -= value;
+      }
+    }
     /**
-    * Dispatched when a configuration seting changes.
-    * @since 3.0
-    */
-    public event EventHandler<ConfigChangeEventArgs> ConfigChange;
+     * Dispatched when a policy changes.
+     * @since 3.0
+     */
+    public event EventHandler<PolicyEventArgs> PolicyChange
+    {
+      add
+      {
+        _connection.LeapPolicyChange += value;
+      }
+      remove
+      {
+        _connection.LeapPolicyChange -= value;
+      }
+    }
     /**
-    * Dispatched when the image distortion map changes.
-    * The distortion map can change when the Leap device switches orientation,
-    * or a new device becomes active.
-    * @since 3.0
-    */
-    public event EventHandler<DistortionEventArgs> DistortionChange;
+     * Dispatched when a configuration seting changes.
+     * @since 3.0
+     */
+    public event EventHandler<ConfigChangeEventArgs> ConfigChange
+    {
+      add
+      {
+        _connection.LeapConfigChange += value;
+      }
+      remove
+      {
+        _connection.LeapConfigChange -= value;
+      }
+    }
+    /**
+     * Dispatched when the image distortion map changes.
+     * The distortion map can change when the Leap device switches orientation,
+     * or a new device becomes active.
+     * @since 3.0
+     */
+    public event EventHandler<DistortionEventArgs> DistortionChange
+    {
+      add
+      {
+        _connection.LeapDistortionChange += value;
+      }
+      remove
+      {
+        _connection.LeapDistortionChange -= value;
+      }
+    }
+
+    public event EventHandler<DroppedFrameEventArgs> DroppedFrame
+    {
+      add
+      {
+        _connection.LeapDroppedFrame += value;
+      }
+      remove
+      {
+        _connection.LeapDroppedFrame -= value;
+      }
+    }
 
     //TODO revisit dispose code
     public void Dispose()
@@ -169,12 +316,12 @@ namespace Leap
     }
 
     /**
-    * Constructs a Controller object.
-    *
-    * The default constructor uses a connection key of 0.
-    *
-    * @since 1.0
-    */
+     * Constructs a Controller object.
+     *
+     * The default constructor uses a connection key of 0.
+     *
+     * @since 1.0
+     */
     public Controller() : this(0)
     {
     }
@@ -193,22 +340,12 @@ namespace Leap
      */
     public Controller(int connectionKey)
     {
-      EventContext = SynchronizationContext.Current;
       _connection = Connection.GetConnection(connectionKey);
+      _connection.EventContext = SynchronizationContext.Current;
 
       _connection.LeapInit += OnInit;
       _connection.LeapConnection += OnConnect;
       _connection.LeapConnectionLost += OnDisconnect;
-      _connection.LeapFrame += OnFrame;
-      _connection.LeapImageReady += OnImages;
-      _connection.LeapImageRequestFailed += OnFailedImageRequest;
-      _connection.LeapPolicyChange += OnPolicyChange;
-      _connection.LeapLogEvent += OnLogEvent;
-      _connection.LeapConfigChange += OnConfigChange;
-      _connection.LeapDevice += OnDevice;
-      _connection.LeapDeviceLost += OnDeviceLost;
-      _connection.LeapDeviceFailure += OnDeviceFailure;
-      _connection.LeapDistortionChange += OnDistortionChange;
 
       _connection.Start();
     }
@@ -405,7 +542,25 @@ namespace Leap
      */
     public Frame Frame(int history)
     {
-      return _connection.Frames.Get(history);
+      Frame frame = new Frame();
+      LEAP_TRACKING_EVENT trackingEvent;
+      _connection.Frames.Get(out trackingEvent, history);
+      frame.CopyFrom(ref trackingEvent);
+      return frame;
+    }
+
+    /**
+     * Identical to Frame(history) but instead of constructing a new frame and returning
+     * it, the user provides a frame object to be filled with data instead.
+     *
+     * @param toFill The frame object to fill with tracking data.
+     * @param history The age of the frame to return.
+     */
+    public void Frame(Frame toFill, int history)
+    {
+      LEAP_TRACKING_EVENT trackingEvent;
+      _connection.Frames.Get(out trackingEvent, history);
+      toFill.CopyFrom(ref trackingEvent);
     }
 
     /**
@@ -419,6 +574,32 @@ namespace Leap
     }
 
     /**
+     * Fills a frame object with the most recent tracking data.
+     *
+     * @param toFill The frame object to fill with tracking data.
+     */
+    public void Frame(Frame toFill)
+    {
+      Frame(toFill, 0);
+    }
+
+    /**
+     * Returns the timestamp of a recent tracking frame.  Use the
+     * optional history parameter to specify how many frames in the past
+     * to retrieve the timestamp.  Leave the history parameter as
+     * it's default value to return the timestamp of the most recent
+     * tracked frame.
+     *
+     * @param history the age of the timestamp to return,
+     */
+    public long FrameTimestamp(int history = 0)
+    {
+      LEAP_TRACKING_EVENT trackingEvent;
+      _connection.Frames.Get(out trackingEvent, history);
+      return trackingEvent.info.timestamp;
+    }
+
+    /**
      * Returns the frame object with all hands transformed by the specified
      * transform matrix.
      * @param trs a LeapTransform containing translation, rotation, and scale.
@@ -427,26 +608,21 @@ namespace Leap
      */
     public Frame GetTransformedFrame(LeapTransform trs, int history = 0)
     {
-      return Frame(history).TransformedCopy(trs);
+      return new Frame().CopyFrom(Frame(history)).Transform(trs);
     }
 
     /**
     * Returns the Frame at the specified time, interpolating the data between existing frames, if necessary.
-    * 
-    * 
+     *
     */
-    public Frame GetInterpolatedFrame(Int64 time){
+    public Frame GetInterpolatedFrame(Int64 time)
+    {
       return _connection.GetInterpolatedFrame(time);
     }
 
-    /**
-    * Returns the Frame at the specified time, interpolating the data between existing frames, if necessary,
-    * and transforms the data using the specified transform matrix.
-    * 
-    * 
-    */
-    public Frame GetTransformedInterpolatedFrame(LeapTransform trs, Int64 time){
-      return _connection.GetInterpolatedFrame(time).TransformedCopy(trs);
+    public void GetInterpolatedFrame(Frame toFill, Int64 time)
+    {
+      _connection.GetInterpolatedFrame(toFill, time);
     }
 
     /**
@@ -569,6 +745,7 @@ namespace Leap
      *
      * @since 1.0
      */
+      [Flags]
     public enum PolicyFlag
     {
       /**
@@ -582,85 +759,36 @@ namespace Leap
        */
       POLICY_BACKGROUND_FRAMES = (1 << 0),
       /**
+       * Receive images from sensor cameras.
+       * @since 2.1.2
+       */
+      POLICY_IMAGES = (1 << 1),
+      /**
        * Optimize the tracking for head-mounted device.
        * @since 2.1.2
        */
       POLICY_OPTIMIZE_HMD = (1 << 2),
       /**
-      * Allow pausing and unpausing of the Leap Motion service.
-      * @since 3.0
-      */
+       * Allow pausing and unpausing of the Leap Motion service.
+       * @since 3.0
+       */
       POLICY_ALLOW_PAUSE_RESUME = (1 << 3),
     }
 
     protected virtual void OnInit(object sender, LeapEventArgs eventArgs)
     {
       _hasInitialized = true;
-      _init.DispatchOnContext<LeapEventArgs>(this, EventContext, eventArgs);
     }
 
     protected virtual void OnConnect(object sender, ConnectionEventArgs eventArgs)
     {
       _hasConnected = true;
-      _connect.DispatchOnContext<ConnectionEventArgs>(this, EventContext, eventArgs);
     }
 
     protected virtual void OnDisconnect(object sender, ConnectionLostEventArgs eventArgs)
     {
       _hasInitialized = false;
       _hasConnected = false;
-      Disconnect.DispatchOnContext<ConnectionLostEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnDevice(object sender, DeviceEventArgs eventArgs)
-    {
-      Device.DispatchOnContext<DeviceEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnDeviceLost(object sender, DeviceEventArgs eventArgs)
-    {
-      DeviceLost.DispatchOnContext<DeviceEventArgs>(this, EventContext, eventArgs);
-    }
-
-    //Rebroadcasted events from connection
-    protected virtual void OnFrame(object sender, FrameEventArgs eventArgs)
-    {
-      FrameReady.DispatchOnContext<FrameEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnImages(object sender, ImageEventArgs eventArgs)
-    {
-      ImageReady.DispatchOnContext<ImageEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnFailedImageRequest(object sender, ImageRequestFailedEventArgs eventArgs)
-    {
-      ImageRequestFailed.DispatchOnContext<ImageRequestFailedEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnDistortionChange(object sender, DistortionEventArgs eventArgs)
-    {
-      DistortionChange.DispatchOnContext<DistortionEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnLogEvent(object sender, LogEventArgs eventArgs)
-    {
-      LogMessage.DispatchOnContext<LogEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnPolicyChange(object sender, PolicyEventArgs eventArgs)
-    {
-      PolicyChange.DispatchOnContext<PolicyEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnConfigChange(object sender, ConfigChangeEventArgs eventArgs)
-    {
-      ConfigChange.DispatchOnContext<ConfigChangeEventArgs>(this, EventContext, eventArgs);
-    }
-
-    protected virtual void OnDeviceFailure(object sender, DeviceFailureEventArgs eventArgs)
-    {
-      DeviceFailure.DispatchOnContext<DeviceFailureEventArgs>(this, EventContext, eventArgs);
     }
   }
 }

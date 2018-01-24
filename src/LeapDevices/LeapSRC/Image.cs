@@ -156,32 +156,34 @@ namespace Leap
         /**
          * Provides the corrected camera ray intercepting the specified point on the image.
          *
-         * Given a point on the image, ``rectify()`` corrects for camera distortion
+         * Given a point on the image, ``PixelToRectilinear()`` corrects for camera distortion
          * and returns the true direction from the camera to the source of that image point
          * within the Leap Motion field of view.
          *
-         * This direction vector has an x and y component [x, y, 0], with the third element
-         * always zero. Note that this vector uses the 2D camera coordinate system
+         * This direction vector has an x and y component [x, y, 1], with the third element
+         * always one. Note that this vector uses the 2D camera coordinate system
          * where the x-axis parallels the longer (typically horizontal) dimension and
          * the y-axis parallels the shorter (vertical) dimension. The camera coordinate
          * system does not correlate to the 3D Leap Motion coordinate system.
          *
          * \include Image_rectify_1.txt
          *
-         * @param uv A Vector containing the position of a pixel in the image.
-         * @returns A Vector containing the ray direction (the z-component of the vector is always 0).
+         * **Note:** This function should be called immediately after an image is obtained. Incorrect
+         * results will be returned if the image orientation has changed or a different device is plugged
+         * in between the time the image was received and the time this function is called.
+         *
+         * Note, this function was formerly named Rectify().
+         *
+         * @param camera whether the pixel parameter is a pixel in the left or the right stereo image.
+         * @param pixel A Vector containing the position of a pixel in the image.
+         * @returns A Vector containing the ray direction (the z-component of the vector is always one).
          * @since 2.1.0
          */
-        public Vector Rectify (Vector uv)
+        public Vector PixelToRectilinear (PerspectiveType camera, Vector pixel)
         {
             if(this.IsValid && imageData.isComplete){
-                //TODO update Rectify to deal with stacked images and distortion
-                //Warp uv to correct distortion
-                Vector rectified = Warp(uv);
-                //normalize to ray
-                rectified.x = (rectified.x/Width - RayOffsetX) / RayScaleX ;
-                rectified.y = (rectified.y/Height - RayOffsetY) / RayScaleY ;
-                return rectified;
+              Connection connection = Connection.GetConnection();
+              return connection.PixelToRectilinear(camera, pixel);
             }
             return Vector.Zero;
         }
@@ -190,7 +192,7 @@ namespace Leap
          * Provides the point in the image corresponding to a ray projecting
          * from the camera.
          *
-         * Given a ray projected from the camera in the specified direction, ``warp()``
+         * Given a ray projected from the camera in the specified direction, ``RectilinearToPixel()``
          * corrects for camera distortion and returns the corresponding pixel
          * coordinates in the image.
          *
@@ -200,72 +202,28 @@ namespace Leap
          *
          * \include Image_warp_1.txt
          *
-         * The ``warp()`` function returns pixel coordinates outside of the image bounds
+         * The ``RectilinearToPixel()`` function returns pixel coordinates outside of the image bounds
          * if you project a ray toward a point for which there is no recorded data.
          *
-         * ``warp()`` is typically not fast enough for realtime distortion correction.
+         * ``RectilinearToPixel()`` is typically not fast enough for realtime distortion correction.
          * For better performance, use a shader program exectued on a GPU.
          *
-         * @param xy A Vector containing the ray direction.
-         * @returns A Vector containing the pixel coordinates [x, y, 0] (with z always zero).
+         * **Note:** This function should be called immediately after an image is obtained. Incorrect
+         * results will be returned if the image orientation has changed or a different device is plugged
+         * in between the time the image was received and the time this function is called.
+         *
+         * Note, this function was formerly named Warp().
+         *
+         * @param camera whether the ray parameter intercepts the left or the right stereo image.
+         * @param ray A Vector containing the ray direction.
+         * @returns A Vector containing the pixel coordinates [x, y, 1] (with z always one).
          * @since 2.1.0
          */
-        public Vector Warp (Vector xy)
-        {
-            //TODO Need to update Warp to deal with stacked images and distortion
-            if(this.IsValid && imageData.isComplete)
-                return Warp(xy, imageData.width, imageData.height);
-            return Vector.Zero;
-        }
-
-        /**
-         * Finds the undistorted brightness for a pixel in a target image.
-         * The brightness is scaled and undistorted using bilinear interpolation.
-         * @param xy A Vector containing the ray direction.
-         * @param targetWidth the width of the destination image.
-         * @param targtHeight the height of the destination image.
-         * @returns A Vector containing the pixel coordinates [x, y, 0] (with z always zero).
-         */
-        public Vector Warp (Vector xy, float targetWidth, float targetHeight)
+        public Vector RectilinearToPixel (PerspectiveType camera, Vector ray)
         {
             if(this.IsValid && imageData.isComplete){
-                //Calculate the position in the calibration map (still with a fractional part)
-                float calibrationX = 63 * xy.x / targetWidth;
-                float calibrationY = 62 * (1 - xy.y / targetHeight); // The y origin is at the bottom
-                //Save the fractional part to use as the weight for interpolation
-                float weightX = calibrationX - (int)calibrationX;
-                float weightY = calibrationY - (int)calibrationY;
-
-                //Get the integer x,y coordinates of the closest calibration map points to the target pixel
-                int x1 = (int)calibrationX; //Note truncation to int
-                int y1 = (int)calibrationY;
-                int x2 = x1 + 1;
-                int y2 = y1 + 1;
-
-                //Look up the x and y values for the 4 calibration map points around the target
-                float dX1 = Distortion [x1 * 2 + y1 * DistortionWidth];
-                float dX2 = Distortion [x2 * 2 + y1 * DistortionWidth];
-                float dX3 = Distortion [x1 * 2 + y2 * DistortionWidth];
-                float dX4 = Distortion [x2 * 2 + y2 * DistortionWidth];
-                float dY1 = Distortion [x1 * 2 + y1 * DistortionWidth + 1];
-                float dY2 = Distortion [x2 * 2 + y1 * DistortionWidth + 1];
-                float dY3 = Distortion [x1 * 2 + y2 * DistortionWidth + 1];
-                float dY4 = Distortion [x2 * 2 + y2 * DistortionWidth + 1];
-
-                //Bilinear interpolation of the looked-up values:
-                // X value
-                float dX = dX1 * (1 - weightX) * (1 - weightY) +
-                           dX2 * weightX * (1 - weightY) +
-                           dX3 * (1 - weightX) * weightY +
-                           dX4 * weightX * weightY;
-
-                // Y value
-                float dY = dY1 * (1 - weightX) * (1 - weightY) +
-                           dY2 * weightX * (1 - weightY) +
-                           dY3 * (1 - weightX) * weightY +
-                           dY4 * weightX * weightY;
-
-                return new Vector (dX * Width, dY * Height, 0);
+              Connection connection = Connection.GetConnection();
+              return connection.RectilinearToPixel(camera, ray);
             }
             return Vector.Zero;
         }

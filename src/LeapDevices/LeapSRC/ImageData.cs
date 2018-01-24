@@ -28,10 +28,10 @@ namespace LeapInternal
         public UInt32 bpp;
         public UInt32 width;
         public UInt32 height;
-        public float RayOffsetX;
-        public float RayOffsetY;
-        public float RayScaleX;
-        public float RayScaleY;
+        public float RayOffsetX = .5f;
+        public float RayOffsetY = .5f;
+        public float RayScaleX = 0.125f;
+        public float RayScaleY = 0.125f;
         public int DistortionSize;
         public UInt64 DistortionMatrixKey;
         public DistortionData DistortionData;
@@ -64,10 +64,6 @@ namespace LeapInternal
                 this.height = height;
                 this.timestamp = timestamp;
                 this.frame_id = frame_id;
-                this.RayOffsetX = x_offset;
-                this.RayOffsetY = y_offset;
-                this.RayScaleX = x_scale;
-                this.RayScaleY = y_offset;
                 this.DistortionData = distortionData;
                 this.DistortionSize = distortion_size;
                 this.DistortionMatrixKey = distortion_matrix_version;

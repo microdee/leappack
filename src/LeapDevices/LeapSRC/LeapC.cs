@@ -24,15 +24,11 @@ namespace LeapInternal
   public enum eLeapDeviceCaps : uint
   {
     eLeapDeviceCaps_Color = 0x00000001, //!< The device can send color images
-    eLeapDeviceCaps_Embedded = 0x00010000 //!< The device is embedded in another piece of hardware, such as a keyboard or laptop
   };
 
   public enum eLeapDeviceType : uint
   {
     eLeapDeviceType_Peripheral = 0x0003, //!< The Leap Motion consumer peripheral
-    eLeapDeviceType_Legacy = 0x1001, //!< HOPS/PONGO Legacy device
-    eLeapDeviceType_Hops = 0x1002, //!< Leap Motion HOPS Keyboard
-    eLeapDeviceType_Pongo = 0x1003, //!< Leap Motion Pongo laptop-embedded device
     eLeapDeviceType_Dragonfly = 0x1102, //!< Internal research product codename "Dragonfly"
     eLeapDeviceType_Nightcrawler = 0x1201 //!< Internal research product codename "Nightcrawler"
   };
@@ -171,7 +167,9 @@ namespace LeapInternal
      */
     eLeapEventType_DeviceLost, //!< Event asserted when the underlying device object has been lost
     eLeapEventType_ConfigResponse, //!< Response to a Config value request
-    eLeapEventType_ConfigChange //!< Success response to a Config value change
+    eLeapEventType_ConfigChange, //!< Success response to a Config value change
+    eLeapEventType_DeviceStatusChange,
+    eLeapEventType_DroppedFrame,
   };
 
   public enum eLeapDeviceFlag : uint
@@ -188,6 +186,12 @@ namespace LeapInternal
     eLeapConnectionFlags_Default = 0x00000000, //!< Currently there is only a default state flag.
   };
 
+  public enum eLeapDroppedFrameType
+  {
+    eLeapDroppedFrameType_PreprocessingQueue,
+    eLeapDroppedFrameType_TrackingQueue,
+    eLeapDroppedFrameType_Other
+  };
 
   //Note the following LeapC structs are just IntPtrs in C#:
   // LEAP_CONNECTION is an IntPtr
@@ -257,6 +261,13 @@ namespace LeapInternal
     public UInt32 nHands;
     public IntPtr pHands; //LEAP_HAND*
     public float framerate;
+  }
+
+  [StructLayout(LayoutKind.Sequential, Pack = 1)]
+  public struct LEAP_DROPPED_FRAME_EVENT
+  {
+    public Int64 frame_id;
+    public eLeapDroppedFrameType reason;
   }
 
   [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -383,6 +394,11 @@ namespace LeapInternal
     public float z;
     public float w;
 
+    public Leap.LeapQuaternion ToLeapQuaternion()
+    {
+      return new Leap.LeapQuaternion(x, y, z, w);
+    }
+
     public LEAP_QUATERNION(Leap.LeapQuaternion q)
     {
       x = q.x;
@@ -423,6 +439,7 @@ namespace LeapInternal
     public LEAP_VECTOR normal;
     public float width;
     public LEAP_VECTOR direction;
+    public LEAP_QUATERNION orientation;
   }
 
   [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -585,13 +602,18 @@ namespace LeapInternal
     [DllImport("LeapC", EntryPoint = "LeapCancelImageFrameRequest")]
     public static extern eLeapRS CancelImageFrameRequest(IntPtr hConnection, LEAP_IMAGE_FRAME_REQUEST_TOKEN token);
 
+    [DllImport("LeapC", EntryPoint = "LeapPixelToRectilinear")]
+    public static extern LEAP_VECTOR  LeapPixelToRectilinear(IntPtr hConnection, eLeapPerspectiveType camera, LEAP_VECTOR pixel);
+
+    [DllImport("LeapC", EntryPoint = "LeapRectilinearToPixel")]
+    public static extern LEAP_VECTOR  LeapRectilinearToPixel(IntPtr hConnection, eLeapPerspectiveType camera, LEAP_VECTOR rectilinear);
+
     [DllImport("LeapC", EntryPoint = "LeapCloseDevice")]
     public static extern void CloseDevice(IntPtr pDevice);
 
     [DllImport("LeapC", EntryPoint = "LeapDestroyConnection")]
     public static extern void DestroyConnection(IntPtr connection);
 
-    //Config functions
     [DllImport("LeapC", EntryPoint = "LeapSaveConfigValue")]
     private static extern eLeapRS SaveConfigValue(IntPtr hConnection, string key, IntPtr value, out UInt32 requestId);
 
@@ -657,6 +679,32 @@ namespace LeapInternal
       return callResult;
     }
 
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
+    public struct LEAP_RECORDING_PARAMETERS {
+      public UInt32 mode;
+    }
+    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
+    public struct LEAP_RECORDING_STATUS {
+      public UInt32 mode;
+    }
+
+    [DllImport("LeapC", EntryPoint = "LeapRecordingOpen")]
+    public static extern eLeapRS RecordingOpen(ref IntPtr ppRecording, string userPath, LEAP_RECORDING_PARAMETERS parameters);
+
+    [DllImport("LeapC", EntryPoint = "LeapRecordingClose")]
+    public static extern eLeapRS RecordingClose(ref IntPtr ppRecording);
+
+    [DllImport("LeapC", EntryPoint = "LeapRecordingGetStatus")]
+    public static extern eLeapRS LeapRecordingGetStatus(IntPtr pRecording, ref LEAP_RECORDING_STATUS status);
+
+    [DllImport("LeapC", EntryPoint = "LeapRecordingReadSize")]
+    public static extern eLeapRS RecordingReadSize(IntPtr pRecording, ref UInt64 pncbEvent);
+
+    [DllImport("LeapC", EntryPoint = "LeapRecordingRead")]
+    public static extern eLeapRS RecordingRead(IntPtr pRecording, ref LEAP_TRACKING_EVENT pEvent, UInt64 ncbEvent);
+
+    [DllImport("LeapC", EntryPoint = "LeapRecordingWrite")]
+    public static extern eLeapRS RecordingWrite(IntPtr pRecording, ref LEAP_TRACKING_EVENT pEvent, ref UInt64 pnBytesWritten);
 
   }//end LeapC
 } //end LeapInternal namespace

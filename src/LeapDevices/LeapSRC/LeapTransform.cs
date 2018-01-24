@@ -10,13 +10,32 @@ namespace Leap
 {
   using System;
 
+  /**
+  * The LeapTransform class represents a transform in three dimensional space.
+  *
+  * Note that the LeapTransform class replaces the Leap.Matrix class.
+  * @since 3.1.2
+  */
   public struct LeapTransform
   {
+    /**
+    * Constructs a new transform from the specified translation and rotation.
+    * @param translation the translation vector.
+    * @param rotation the rotation quaternion.
+    * @since 3.1.2
+    */
     public LeapTransform(Vector translation, LeapQuaternion rotation) :
       this(translation, rotation, Vector.Ones)
     {
     }
 
+    /**
+    * Constructs a new transform from the specified translation, rotation and scale.
+    * @param translation the translation vector.
+    * @param rotation the rotation quaternion.
+    * @param scale the scale vector.
+    * @since 3.1.2
+    */
     public LeapTransform(Vector translation, LeapQuaternion rotation, Vector scale) :
       this()
     {
@@ -26,22 +45,52 @@ namespace Leap
       this.rotation = rotation; // Calls validateBasis
     }
 
+    /**
+    * Transforms the specified position vector, applying translation, rotation and scale.
+    * @param point the position vector to transform.
+    * @returns the new position vector.
+    * @since 3.1.2
+    */
     public Vector TransformPoint(Vector point)
     {
       return _xBasisScaled * point.x + _yBasisScaled * point.y + _zBasisScaled * point.z + translation;
     }
 
+    /**
+    * Transforms the specified direction vector, applying rotation only.
+    * @param direction the direction vector to transform.
+    * @returns the new direction vector.
+    * @since 3.1.2
+    */
     public Vector TransformDirection(Vector direction)
     {
       return _xBasis * direction.x + _yBasis * direction.y + _zBasis * direction.z;
     }
 
+    /**
+    * Transforms the specified velocity vector, applying rotation and scale.
+    * @param point the velocity vector to transform.
+    * @returns the new velocity vector.
+    * @since 3.1.2
+    */
     public Vector TransformVelocity(Vector velocity)
     {
       return _xBasisScaled * velocity.x + _yBasisScaled * velocity.y + _zBasisScaled * velocity.z;
     }
 
-    // This is only usable when the basis vectors have not been modified directly.
+    /**
+    * Transforms the specified quaternion.
+    * Multiplies the quaternion representing the rotational part of this transform by the specified
+    * quaternion.
+    *
+    * **Important:** Modifying the basis vectors of this transform directly leaves the underlying quaternion in
+    * an indeterminate state. Neither this function nor the LeapTransform.rotation quaternion can be used after
+    * the basis vectors are set.
+    *
+    * @param rhs the quaternion to transform.
+    * @returns the new quaternion.
+    * @since 3.1.2
+    */
     public LeapQuaternion TransformQuaternion(LeapQuaternion rhs)
     {
       if (_quaternionDirty)
@@ -59,7 +108,10 @@ namespace Leap
       return t;
     }
 
-    // Additionally mirror transformed data accross the X axis.  Note translation applied is unchanged.
+    /**
+    * Mirrors this transform's rotation and scale across the x-axis. Translation is not affected.
+    * @since 3.1.2
+    */
     public void MirrorX()
     {
       _xBasis = -_xBasis;
@@ -70,7 +122,10 @@ namespace Leap
       _flipAxes.z = -_flipAxes.z;
     }
 
-    // Additionally mirror transformed data accross the X axis.  Note translation applied is unchanged.
+    /**
+    * Mirrors this transform's rotation and scale across the z-axis. Translation is not affected.
+    * @since 3.1.2
+    */
     public void MirrorZ()
     {
       _zBasis = -_zBasis;
@@ -81,7 +136,15 @@ namespace Leap
       _flipAxes.y = -_flipAxes.y;
     }
 
-    // Setting xBasis directly makes it impossible to use access the rotation quaternion and TransformQuaternion.
+    /**
+    * The x-basis of the transform.
+    *
+    * **Important:** Modifying the basis vectors of this transform directly leaves the underlying quaternion in
+    * an indeterminate state. Neither the TransformQuaternion() function nor the LeapTransform.rotation quaternion
+    *  can be used after the basis vectors are set.
+    *
+    * @since 3.1.2
+    */
     public Vector xBasis {
       get { return _xBasis; }
       set {
@@ -91,7 +154,15 @@ namespace Leap
       }
     }
 
-    // Setting yBasis directly makes it impossible to use access the rotation quaternion and TransformQuaternion.
+    /**
+    * The y-basis of the transform.
+    *
+    * **Important:** Modifying the basis vectors of this transform directly leaves the underlying quaternion in
+    * an indeterminate state. Neither the TransformQuaternion() function nor the LeapTransform.rotation quaternion
+    *  can be used after the basis vectors are set.
+    *
+    * @since 3.1.2
+    */
     public Vector yBasis
     {
       get { return _yBasis; }
@@ -103,7 +174,15 @@ namespace Leap
       }
     }
 
-    // Setting zBasis directly makes it impossible to use access the rotation quaternion and TransformQuaternion.
+    /**
+    * The z-basis of the transform.
+    *
+    * **Important:** Modifying the basis vectors of this transform directly leaves the underlying quaternion in
+    * an indeterminate state. Neither the TransformQuaternion() function nor the LeapTransform.rotation quaternion
+    *  can be used after the basis vectors are set.
+    *
+    * @since 3.1.2
+    */
     public Vector zBasis
     {
       get { return _zBasis; }
@@ -115,13 +194,21 @@ namespace Leap
       }
     }
 
+    /**
+    * The translation component of the transform.
+    * @since 3.1.2
+    */
     public Vector translation { get { return _translation; }
       set {
         _translation = value;
       }
     }
 
-    // The scale does not influence the translation.
+    /**
+    * The scale factors of the transform.
+    * Scale is kept separate from translation.
+    * @since 3.1.2
+    */
     public Vector scale {
       get { return _scale; }
       set {
@@ -132,6 +219,15 @@ namespace Leap
       }
     }
 
+    /**
+    * The rotational component of the transform.
+    *
+    * **Important:** Modifying the basis vectors of this transform directly leaves the underlying quaternion in
+    * an indeterminate state. This rotation quaternion cannot be accessed after
+    * the basis vectors are modified directly.
+    *
+    * @since 3.1.2
+    */
     public LeapQuaternion rotation {
       get {
         if (_quaternionDirty)
@@ -141,12 +237,12 @@ namespace Leap
       set {
         _quaternion = value;
 
-		    float d = value.MagnitudeSquared;
-		    float s = 2.0f / d;
-		    float xs = value.x * s,   ys = value.y * s,   zs = value.z * s;
-		    float wx = value.w * xs,  wy = value.w * ys,  wz = value.w * zs;
-		    float xx = value.x * xs,  xy = value.x * ys,  xz = value.x * zs;
-		    float yy = value.y * ys,  yz = value.y * zs,  zz = value.z * zs;
+        float d = value.MagnitudeSquared;
+        float s = 2.0f / d;
+        float xs = value.x * s,   ys = value.y * s,   zs = value.z * s;
+        float wx = value.w * xs,  wy = value.w * ys,  wz = value.w * zs;
+        float xx = value.x * xs,  xy = value.x * ys,  xz = value.x * zs;
+        float yy = value.y * ys,  yz = value.y * zs,  zz = value.z * zs;
 
         _xBasis = new Vector(1.0f - (yy + zz), xy + wz, xz - wy);
         _yBasis = new Vector(xy - wz, 1.0f - (xx + zz), yz + wx);
@@ -162,6 +258,10 @@ namespace Leap
       }
     }
 
+    /**
+    * The identity transform.
+    * @since 3.1.2
+    */
     public static readonly LeapTransform Identity = new LeapTransform(Vector.Zero, LeapQuaternion.Identity, Vector.Ones);
 
     private Vector _translation;

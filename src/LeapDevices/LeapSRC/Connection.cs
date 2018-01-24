@@ -32,16 +32,15 @@ namespace LeapInternal
     }
 
     public int ConnectionKey { get; private set; }
-    public CircularObjectBuffer<Frame> Frames { get; set; }
+    public CircularObjectBuffer<LEAP_TRACKING_EVENT> Frames { get; set; }
 
-    private ServiceFrameFactory frameFactory = new ServiceFrameFactory();
     private DeviceList _devices = new DeviceList();
     private FailedDeviceList _failedDevices;
 
     private PendingImages _pendingImageRequestList = new PendingImages();
     private ObjectPool<ImageData> _imageDataCache;
     private ObjectPool<ImageData> _imageRawDataCache;
-    private int _frameBufferLength = 60;
+    private int _frameBufferLength = 60; //TODO, surface this value in LeapC, currently hardcoded!
     private int _imageBufferLength = 20 * 4;
     private ulong _standardImageBufferSize = 640 * 240 * 2; //width * heigth * 2
     private ulong _standardRawBufferSize = 640 * 240 * 2 * 8; //width * heigth * 2 images * 8 bpp
@@ -59,6 +58,8 @@ namespace LeapInternal
     private Dictionary<uint, string> _configRequests = new Dictionary<uint, string>();
 
     //Connection events
+    public SynchronizationContext EventContext { get; set; }
+
     private EventHandler<LeapEventArgs> _leapInit;
     public event EventHandler <LeapEventArgs> LeapInit{
       add{
@@ -68,6 +69,7 @@ namespace LeapInternal
       }
       remove{_leapInit -= value;}
     }
+
     private EventHandler<ConnectionEventArgs> _leapConnectionEvent;
     public event EventHandler<ConnectionEventArgs> LeapConnection{
       add{
@@ -83,12 +85,14 @@ namespace LeapInternal
     public EventHandler<DeviceFailureEventArgs> LeapDeviceFailure;
     public EventHandler<PolicyEventArgs> LeapPolicyChange;
     public EventHandler<FrameEventArgs> LeapFrame;
+    public EventHandler<InternalFrameEventArgs> LeapInternalFrame;
     public EventHandler<ImageEventArgs> LeapImageReady;
     public EventHandler<ImageRequestFailedEventArgs> LeapImageRequestFailed;
     public EventHandler<LogEventArgs> LeapLogEvent;
     public EventHandler<SetConfigResponseEventArgs> LeapConfigResponse;
     public EventHandler<ConfigChangeEventArgs> LeapConfigChange;
     public EventHandler<DistortionEventArgs> LeapDistortionChange;
+    public EventHandler<DroppedFrameEventArgs> LeapDroppedFrame;
 
     private bool _disposed = false;
 
@@ -124,7 +128,7 @@ namespace LeapInternal
       ConnectionKey = connectionKey;
       _leapConnection = IntPtr.Zero;
 
-      Frames = new CircularObjectBuffer<Frame>(_frameBufferLength);
+      Frames = new CircularObjectBuffer<LEAP_TRACKING_EVENT>(_frameBufferLength);
       _imageDataCache = new ObjectPool<ImageData>(_imageBufferLength, false);
       _imageRawDataCache = new ObjectPool<ImageData>(_imageBufferLength, false);
     }
@@ -150,6 +154,7 @@ namespace LeapInternal
       _isRunning = true;
 
       _polster = new Thread(new ThreadStart(this.processMessages));
+      _polster.Name = "LeapC Worker";
       _polster.IsBackground = true;
       _polster.Start();
     }
@@ -169,7 +174,7 @@ namespace LeapInternal
       try
       {
         eLeapRS result;
-        _leapInit.Dispatch<LeapEventArgs>(this, new LeapEventArgs(LeapEvent.EVENT_INIT));
+        _leapInit.DispatchOnContext<LeapEventArgs>(this, EventContext, new LeapEventArgs(LeapEvent.EVENT_INIT));
         while (_isRunning)
         {
           LEAP_CONNECTION_MESSAGE _msg = new LEAP_CONNECTION_MESSAGE();
@@ -241,6 +246,11 @@ namespace LeapInternal
             case eLeapEventType.eLeapEventType_ConfigResponse:
               handleConfigResponse(ref _msg);
               break;
+            case eLeapEventType.eLeapEventType_DroppedFrame:
+              LEAP_DROPPED_FRAME_EVENT dropped_frame_evt;
+              StructMarshal<LEAP_DROPPED_FRAME_EVENT>.PtrToStruct(_msg.eventStructPtr, out dropped_frame_evt);
+              handleDroppedFrame(ref dropped_frame_evt);
+              break;
             default:
               //discard unknown message types
               Logger.Log("Unhandled message type " + Enum.GetName(typeof(eLeapEventType), _msg.type));
@@ -257,30 +267,44 @@ namespace LeapInternal
 
     private void handleTrackingMessage(ref LEAP_TRACKING_EVENT trackingMsg)
     {
-      Frame newFrame = frameFactory.makeFrame(ref trackingMsg);
-      Frames.Put(newFrame);
-      this.LeapFrame.Dispatch<FrameEventArgs>(this, new FrameEventArgs(newFrame));
+      Frames.Put(ref trackingMsg);
+
+      if (LeapInternalFrame != null)
+      {
+        LeapInternalFrame.DispatchOnContext<InternalFrameEventArgs>(this, EventContext, new InternalFrameEventArgs(ref trackingMsg));
+      }
+      if (LeapFrame != null)
+      {
+        LeapFrame.DispatchOnContext<FrameEventArgs>(this, EventContext, new FrameEventArgs(new Frame().CopyFrom(ref trackingMsg)));
+      }
     }
 
-    public UInt64 GetInterpolatedFrameSize(Int64 time){
+    public UInt64 GetInterpolatedFrameSize(Int64 time)
+    {
       UInt64 size = 0;
       eLeapRS result = LeapC.GetFrameSize(_leapConnection, time, out size);
       reportAbnormalResults ("LeapC get interpolated frame call was ", result);
       return size;
     }
 
-    public Frame GetInterpolatedFrame(Int64 time){
+    public void GetInterpolatedFrame(Frame toFill, Int64 time)
+    {
       UInt64 size = GetInterpolatedFrameSize(time);
       IntPtr trackingBuffer = Marshal.AllocHGlobal((Int32)size);
       eLeapRS result = LeapC.InterpolateFrame(_leapConnection, time, trackingBuffer, size);
       reportAbnormalResults ("LeapC get interpolated frame call was ", result);
-      Frame frame = null;
       if(result == eLeapRS.eLeapRS_Success){
         LEAP_TRACKING_EVENT tracking_evt;
         StructMarshal<LEAP_TRACKING_EVENT>.PtrToStruct(trackingBuffer, out tracking_evt);
-        frame = frameFactory.makeFrame(ref tracking_evt);
+        toFill.CopyFrom(ref tracking_evt);
       }
       Marshal.FreeHGlobal(trackingBuffer);
+    }
+
+    public Frame GetInterpolatedFrame(Int64 time)
+    {
+      Frame frame = new Frame();
+      GetInterpolatedFrame(frame, time);
       return frame;
     }
 
@@ -335,13 +359,16 @@ namespace LeapInternal
 
       result = LeapC.RequestImages (_leapConnection, ref imageSpecifier, out token);
 
-      if (result == eLeapRS.eLeapRS_Success) {
+      if (result == eLeapRS.eLeapRS_Success)
+      {
         imageData.isComplete = false;
         imageData.index = token.requestID;
         Image futureImage = new Image (imageData);
         _pendingImageRequestList.Add(new ImageFuture (futureImage, imageData, LeapC.GetNow (), token));
         return futureImage;
-      } else {
+      }
+      else
+      {
         imageData.unPinHandle ();
         reportAbnormalResults ("LeapC Image Request call was ", result);
         return Image.Invalid;
@@ -369,7 +396,11 @@ namespace LeapInternal
         LEAP_DISTORTION_MATRIX matrix;
         StructMarshal<LEAP_DISTORTION_MATRIX>.PtrToStruct(imageMsg.distortionMatrix, out matrix);
         Array.Copy(matrix.matrix_data, _currentDistortionData.Data, matrix.matrix_data.Length);
-        this.LeapDistortionChange.Dispatch<DistortionEventArgs>(this, new DistortionEventArgs(_currentDistortionData));
+
+        if (LeapDistortionChange != null)
+        {
+          LeapDistortionChange.DispatchOnContext<DistortionEventArgs>(this, EventContext, new DistortionEventArgs(_currentDistortionData));
+        }
       }
 
       pendingImage.imageData.CompleteImageData(props.type,
@@ -388,7 +419,11 @@ namespace LeapInternal
           imageMsg.matrix_version);
 
       Image completedImage = pendingImage.imageObject;
-      this.LeapImageReady.Dispatch<ImageEventArgs>(this, new ImageEventArgs(completedImage));
+
+      if (LeapImageReady != null)
+      {
+        LeapImageReady.DispatchOnContext<ImageEventArgs>(this, EventContext, new ImageEventArgs(completedImage));
+      }
     }
 
     private void handleFailedImageRequest(ref LEAP_IMAGE_FRAME_REQUEST_ERROR_EVENT failed_image_evt)
@@ -424,19 +459,28 @@ namespace LeapInternal
         }
         errorEventArgs.requiredBufferSize = (long)failed_image_evt.required_buffer_len;
 
-        this.LeapImageRequestFailed.Dispatch<ImageRequestFailedEventArgs> (this, errorEventArgs);
+        if (LeapImageRequestFailed != null)
+        {
+          LeapImageRequestFailed.DispatchOnContext<ImageRequestFailedEventArgs>(this, EventContext, errorEventArgs);
+        }
       }
       _pendingImageRequestList.purgeOld(_leapConnection);
     }
 
     private void handleConnection(ref LEAP_CONNECTION_EVENT connectionMsg)
     {
-      this._leapConnectionEvent.Dispatch<ConnectionEventArgs>(this, new ConnectionEventArgs());
+      if (_leapConnectionEvent != null)
+      {
+        _leapConnectionEvent.DispatchOnContext<ConnectionEventArgs>(this, EventContext, new ConnectionEventArgs());
+      }
     }
 
     private void handleConnectionLost(ref LEAP_CONNECTION_LOST_EVENT connectionMsg)
     {
-      this.LeapConnectionLost.Dispatch<ConnectionLostEventArgs>(this, new ConnectionLostEventArgs());
+      if (LeapConnectionLost != null)
+      {
+        LeapConnectionLost.DispatchOnContext<ConnectionLostEventArgs>(this, EventContext, new ConnectionLostEventArgs());
+      }
     }
 
     private void handleDevice(ref LEAP_DEVICE_EVENT deviceMsg)
@@ -450,19 +494,17 @@ namespace LeapInternal
 
       IntPtr device;
       result = LeapC.OpenDevice(deviceMsg.device, out device);
-      uint defaultLength = 14;
-      deviceInfo.serial_length = defaultLength;
-      deviceInfo.serial = Marshal.AllocCoTaskMem((int)defaultLength);
-      deviceInfo.size = (uint)Marshal.SizeOf(deviceInfo);
-      result = LeapC.GetDeviceInfo(device, out deviceInfo);
+      if (result != eLeapRS.eLeapRS_Success)
+        return;
 
-      if (result == eLeapRS.eLeapRS_InsufficientBuffer)
-      {
-        Marshal.FreeCoTaskMem(deviceInfo.serial);
-        deviceInfo.serial = Marshal.AllocCoTaskMem((int)deviceInfo.serial_length);
-        deviceInfo.size = (uint)Marshal.SizeOf(deviceInfo);
-        result = LeapC.GetDeviceInfo(deviceHandle, out deviceInfo);
-      }
+      deviceInfo.serial = IntPtr.Zero;
+      deviceInfo.size = (uint)Marshal.SizeOf(deviceInfo);
+      result = LeapC.GetDeviceInfo(device, out deviceInfo); //Query the serial length
+      if (result != eLeapRS.eLeapRS_Success)
+        return;
+
+      deviceInfo.serial = Marshal.AllocCoTaskMem((int)deviceInfo.serial_length);
+      result = LeapC.GetDeviceInfo(device, out deviceInfo); //Query the serial
 
       if (result == eLeapRS.eLeapRS_Success)
       {
@@ -471,12 +513,15 @@ namespace LeapInternal
                                deviceInfo.v_fov, //radians
                                deviceInfo.range / 1000, //to mm
                                deviceInfo.baseline / 1000, //to mm
-                               (deviceInfo.caps == (UInt32)eLeapDeviceCaps.eLeapDeviceCaps_Embedded),
                                (deviceInfo.status == (UInt32)eLeapDeviceStatus.eLeapDeviceStatus_Streaming),
                                Marshal.PtrToStringAnsi(deviceInfo.serial));
         Marshal.FreeCoTaskMem(deviceInfo.serial);
         _devices.AddOrUpdate(apiDevice);
-        this.LeapDevice.Dispatch(this, new DeviceEventArgs(apiDevice));
+
+        if (LeapDevice != null)
+        {
+          LeapDevice.DispatchOnContext(this, EventContext, new DeviceEventArgs(apiDevice));
+        }
       }
     }
 
@@ -486,7 +531,11 @@ namespace LeapInternal
       if (lost != null)
       {
         _devices.Remove(lost);
-        this.LeapDeviceLost.Dispatch(this, new DeviceEventArgs(lost));
+
+        if (LeapDeviceLost != null)
+        {
+          LeapDeviceLost.DispatchOnContext(this, EventContext, new DeviceEventArgs(lost));
+        }
       }
     }
 
@@ -518,8 +567,11 @@ namespace LeapInternal
         _devices.Remove(failed);
       }
 
-      this.LeapDeviceFailure.Dispatch<DeviceFailureEventArgs>(this,
+      if (LeapDeviceFailure != null)
+      {
+        LeapDeviceFailure.DispatchOnContext<DeviceFailureEventArgs>(this, EventContext,
           new DeviceFailureEventArgs((uint)deviceMsg.status, failureMessage, failedSerialNumber));
+      }
     }
 
     private void handleConfigChange(ref LEAP_CONFIG_CHANGE_EVENT configEvent)
@@ -528,8 +580,11 @@ namespace LeapInternal
       _configRequests.TryGetValue(configEvent.requestId, out config_key);
       if (config_key != null)
         _configRequests.Remove(configEvent.requestId);
-      this.LeapConfigChange.Dispatch<ConfigChangeEventArgs>(this,
+      if (LeapConfigChange != null)
+      {
+        LeapConfigChange.DispatchOnContext<ConfigChangeEventArgs>(this, EventContext,
           new ConfigChangeEventArgs(config_key, configEvent.status != 0, configEvent.requestId));
+      }
     }
 
     private void handleConfigResponse(ref LEAP_CONNECTION_MESSAGE configMsg)
@@ -575,12 +630,18 @@ namespace LeapInternal
       }
       SetConfigResponseEventArgs args = new SetConfigResponseEventArgs(config_key, dataType, value, requestId);
 
-      this.LeapConfigResponse.Dispatch<SetConfigResponseEventArgs>(this, args);
+      if (LeapConfigResponse != null)
+      {
+        LeapConfigResponse.DispatchOnContext<SetConfigResponseEventArgs>(this, EventContext, args);
+      }
     }
 
     private void reportLogMessage(ref LEAP_LOG_EVENT logMsg)
     {
-      this.LeapLogEvent.Dispatch<LogEventArgs>(this, new LogEventArgs(publicSeverity(logMsg.severity), logMsg.timestamp, logMsg.message));
+      if (LeapLogEvent != null)
+      {
+        LeapLogEvent.DispatchOnContext<LogEventArgs>(this, EventContext, new LogEventArgs(publicSeverity(logMsg.severity), logMsg.timestamp, logMsg.message));
+      }
     }
 
     private MessageSeverity publicSeverity(eLeapLogSeverity leapCSeverity)
@@ -600,9 +661,20 @@ namespace LeapInternal
       }
     }
 
+    private void handleDroppedFrame(ref LEAP_DROPPED_FRAME_EVENT droppedFrame)
+    {
+      if (LeapDroppedFrame != null)
+      {
+        LeapDroppedFrame.DispatchOnContext<DroppedFrameEventArgs>(this, EventContext, new DroppedFrameEventArgs(droppedFrame.frame_id, droppedFrame.reason));
+      }
+    }
+
     private void handlePolicyChange(ref LEAP_POLICY_EVENT policyMsg)
     {
-      this.LeapPolicyChange.Dispatch<PolicyEventArgs>(this, new PolicyEventArgs(policyMsg.current_policy, _activePolicies));
+      if (LeapPolicyChange != null)
+      {
+        LeapPolicyChange.DispatchOnContext<PolicyEventArgs>(this, EventContext, new PolicyEventArgs(policyMsg.current_policy, _activePolicies));
+      }
 
       _activePolicies = policyMsg.current_policy;
 
@@ -769,6 +841,26 @@ namespace LeapInternal
       }
     }
 
+    public Vector PixelToRectilinear(Image.PerspectiveType camera, Vector pixel){
+      LEAP_VECTOR pixelStruct = new LEAP_VECTOR(pixel);
+      LEAP_VECTOR ray = LeapC.LeapPixelToRectilinear(_leapConnection,
+             (camera == Image.PerspectiveType.STEREO_LEFT ?
+             eLeapPerspectiveType.eLeapPerspectiveType_stereo_left :
+             eLeapPerspectiveType.eLeapPerspectiveType_stereo_right),
+             pixelStruct);
+      return new Vector(ray.x, ray.y, ray.z);
+    }
+
+    public Vector RectilinearToPixel(Image.PerspectiveType camera, Vector ray){
+      LEAP_VECTOR rayStruct = new LEAP_VECTOR(ray);
+      LEAP_VECTOR pixel = LeapC.LeapRectilinearToPixel(_leapConnection,
+             (camera == Image.PerspectiveType.STEREO_LEFT ?
+             eLeapPerspectiveType.eLeapPerspectiveType_stereo_left :
+             eLeapPerspectiveType.eLeapPerspectiveType_stereo_right),
+             rayStruct);
+      return new Vector(pixel.x, pixel.y, pixel.z);
+    }
+
     private eLeapRS _lastResult; //Used to avoid repeating the same log message, ie. for events like time out
     private void reportAbnormalResults(string context, eLeapRS result)
     {
@@ -776,11 +868,13 @@ namespace LeapInternal
          result != _lastResult)
       {
         string msg = context + " " + result;
-        this.LeapLogEvent.Dispatch<LogEventArgs>(this,
+        if (LeapLogEvent != null)
+        {
+          LeapLogEvent.DispatchOnContext<LogEventArgs>(this, EventContext,
             new LogEventArgs(MessageSeverity.MESSAGE_CRITICAL,
                 LeapC.GetNow(),
-                msg)
-        );
+                msg));
+        }
       }
       _lastResult = result;
     }

@@ -17,7 +17,7 @@ namespace LeapInternal
     UInt32 _pendingTimeLimit = 90000; // microseconds
     private object _locker = new object();
 
-    public UInt32 pendingTimeLimit { get{ return _pendingTimeLimit; } 
+    public UInt32 pendingTimeLimit { get{ return _pendingTimeLimit; }
                                      set{ _pendingTimeLimit = value; } }
 
     public void Add(ImageFuture pendingImage)
@@ -37,10 +37,10 @@ namespace LeapInternal
             return ir;
           }
         }
-      } 
+      }
       return null;
     }
-        
+
     public int purgeOld(IntPtr connection)
     {
       Int64 now = LeapC.GetNow();

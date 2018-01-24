@@ -27,13 +27,8 @@ namespace Leap
    * Get an InteractionBox object from a Frame object.
    * @since 1.0
    */
-  public class InteractionBox
+  public struct InteractionBox
   {
-    public InteractionBox()
-    {
-      Size = Vector.Zero;
-      Center = Vector.Zero;
-    }
 
     /**
      * Create an interaction box with a specxific size and center position.
@@ -138,12 +133,12 @@ namespace Leap
      * @returns The InteractionBox center in device coordinates.
      * @since 1.0
      */
-    public Vector Center { get; set; }
+    public Vector Center;
 
     /**
      * The dimensions of the interaction box along each axis.
      */
-    public Vector Size { get; set; }
+    public Vector Size;
 
     /**
      * The width of the InteractionBox in millimeters, measured along the x-axis.

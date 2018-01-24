@@ -7,7 +7,7 @@
 \******************************************************************************/
 namespace Leap
 {
-
+  using LeapInternal;
   using System;
   using System.Runtime.InteropServices;
 
@@ -26,11 +26,13 @@ namespace Leap
     EVENT_CONFIG_RESPONSE,   //!< Response to a Config value request
     EVENT_CONFIG_CHANGE,     //!< Success response to a Config value change
     EVENT_FRAME,             //!< A tracking frame has been received
+    EVENT_INTERNAL_FRAME,    //!< An internal tracking frame has been received
     EVENT_IMAGE,             //!< A requested image is available
     EVENT_IMAGE_REQUEST_FAILED, //!< A requested image could not be provided
     EVENT_DISTORTION_CHANGE, //!< The distortion matrix used for image correction has changed
     EVENT_LOG_EVENT,         //!< A diagnostic event has occured
     EVENT_INIT,
+    EVENT_DROPPED_FRAME,
   };
   /**
    * A generic object with no arguments beyond the event type.
@@ -59,6 +61,16 @@ namespace Leap
     }
 
     public Frame frame { get; set; }
+  }
+
+  public class InternalFrameEventArgs : LeapEventArgs
+  {
+    public InternalFrameEventArgs(ref LEAP_TRACKING_EVENT frame) : base(LeapEvent.EVENT_INTERNAL_FRAME)
+    {
+      this.frame = frame;
+    }
+
+    public LEAP_TRACKING_EVENT frame { get; set; }
   }
 
   /**
@@ -270,4 +282,15 @@ namespace Leap
     public string DeviceSerialNumber { get; set; }
   }
 
+  public class DroppedFrameEventArgs : LeapEventArgs
+  {
+    public DroppedFrameEventArgs(Int64 frame_id, eLeapDroppedFrameType type) : base(LeapEvent.EVENT_DROPPED_FRAME)
+    {
+      frameID = frame_id;
+      reason = type;
+    }
+
+    public Int64 frameID { get; set; }
+    public eLeapDroppedFrameType reason { get; set; }
+  }
 }

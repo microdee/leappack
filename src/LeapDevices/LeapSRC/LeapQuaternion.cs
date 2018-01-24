@@ -14,12 +14,19 @@ namespace Leap
 
   /**
    * The LeapQuaternion struct represents a rotation in three-dimensional space.
+   * @since 3.1.2
    */
+  [Serializable]
   public struct LeapQuaternion :
     IEquatable<LeapQuaternion>
   {
     /**
      * Creates a new LeapQuaternion with the specified component values.
+     * @param x the i-basis component
+     * @param y the j-basis component
+     * @param z the k-basis component
+     * @param w the scalar component
+     * @since 3.1.2
      */
     public LeapQuaternion(float x, float y, float z, float w) :
       this()
@@ -32,6 +39,8 @@ namespace Leap
 
     /**
      * Copies the specified LeapQuaternion.
+     * @param quaternion the LeapQuaternion to copy.
+     * @since 3.1.2
      */
     public LeapQuaternion(LeapQuaternion quaternion) :
       this()
@@ -44,6 +53,8 @@ namespace Leap
 
     /**
      * Copies the specified LEAP_QUATERNION.
+     * @param quaternion the LEAP_QUATERNION struct to copy.
+     * @since 3.1.2
      */
     public LeapQuaternion(LeapInternal.LEAP_QUATERNION quaternion) :
       this()
@@ -56,6 +67,7 @@ namespace Leap
 
     /**
      * Returns a string containing this quaternion in a human readable format: (x, y, z).
+     * @since 3.1.2
      */
     public override string ToString()
     {
@@ -64,6 +76,7 @@ namespace Leap
 
     /**
      * Compare LeapQuaternion equality component-wise.
+     * @since 3.1.2
      */
     public bool Equals(LeapQuaternion v)
     {
@@ -77,6 +90,7 @@ namespace Leap
     /**
      * Returns true if all of the quaternion's components are finite.  If any
      * component is NaN or infinite, then this returns false.
+     * @since 3.1.2
      */
     public bool IsValid()
     {
@@ -88,27 +102,32 @@ namespace Leap
 
     /**
      * The x component.
+     * @since 3.1.2
      */
     public float x;
 
     /**
      * The y component.
+     * @since 3.1.2
      */
     public float y;
 
     /**
      * The z component.
+     * @since 3.1.2
      */
     public float z;
 
     /**
      * The w component.
+     * @since 3.1.2
      */
     public float w;
 
     /**
      * The magnitude, or length, of this quaternion.
      * @returns The length of this quaternion.
+     * @since 3.1.2
      */
     public float Magnitude
     {
@@ -119,6 +138,7 @@ namespace Leap
      * The square of the magnitude, or length, of this quaternion.
      *
      * @returns The square of the length of this quaternion.
+     * @since 3.1.2
      */
     public float MagnitudeSquared
     {
@@ -129,6 +149,7 @@ namespace Leap
      * A normalized copy of this quaternion.
      *
      * @returns A LeapQuaternion object with a length of one.
+     * @since 3.1.2
      */
     public LeapQuaternion Normalized
     {
@@ -148,7 +169,8 @@ namespace Leap
      * Concatenates the rotation described by this quaternion with the one provided
      * and returns the result.
      *
-     * @returns A LeapQuaternion containging the product.
+     * @returns A LeapQuaternion containing the product.
+     * @since 3.1.2
      */
     public LeapQuaternion Multiply(LeapQuaternion rhs)
     {
@@ -159,6 +181,10 @@ namespace Leap
         w * rhs.w - x * rhs.x - y * rhs.y - z * rhs.z);
     }
 
+    /**
+    * The identity quaternion.
+     * @since 3.1.2
+    */
     public static readonly LeapQuaternion Identity = new LeapQuaternion(0, 0, 0, 1);
 
     public override int GetHashCode()

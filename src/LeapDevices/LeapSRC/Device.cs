@@ -47,7 +47,6 @@ namespace Leap
                    float verticalViewAngle,
                    float range,
                    float baseline,
-                   bool isEmbedded,
                    bool isStreaming,
                    string serialNumber)
     {
@@ -56,7 +55,6 @@ namespace Leap
       VerticalViewAngle = verticalViewAngle;
       Range = range;
       Baseline = baseline;
-      IsEmbedded = isEmbedded;
       IsStreaming = isStreaming;
       SerialNumber = serialNumber;
     }
@@ -67,7 +65,6 @@ namespace Leap
         float verticalViewAngle,
         float range,
         float baseline,
-        bool isEmbedded,
         bool isStreaming,
         string serialNumber)
     {
@@ -75,7 +72,6 @@ namespace Leap
       VerticalViewAngle = verticalViewAngle;
       Range = range;
       Baseline = baseline;
-      IsEmbedded = isEmbedded;
       IsStreaming = isStreaming;
       SerialNumber = serialNumber;
     }
@@ -87,7 +83,6 @@ namespace Leap
       VerticalViewAngle = updatedDevice.VerticalViewAngle;
       Range = updatedDevice.Range;
       Baseline = updatedDevice.Baseline;
-      IsEmbedded = updatedDevice.IsEmbedded;
       IsStreaming = updatedDevice.IsStreaming;
       SerialNumber = updatedDevice.SerialNumber;
     }
@@ -196,16 +191,6 @@ namespace Leap
     public float Baseline { get; private set; }
 
     /**
-     * Reports whether this device is embedded in another computer or computer
-     * peripheral.
-     *
-     * @returns True, if this device is embedded in a laptop, keyboard, or other computer
-     * component; false, if this device is a standalone controller.
-     * @since 1.2
-     */
-    public bool IsEmbedded { get; private set; }
-
-    /**
      * Reports whether this device is streaming data to your application.
      *
      * Currently only one controller can provide data at a time.
@@ -246,7 +231,7 @@ namespace Leap
     /**
      * The software has detected a possible smudge on the translucent cover
      * over the Leap Motion cameras.
-     * 
+     *
      * Not implemented yet.
      *
      * \include Device_isSmudged.txt

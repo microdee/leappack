@@ -30,6 +30,7 @@ namespace Leap
    * Test for validity with the Hand::isValid() function.
    * @since 1.0
    */
+  [Serializable]
   public class Hand
   {
     /**
@@ -44,17 +45,16 @@ namespace Leap
      */
     public Hand()
     {
-      PalmPosition = Vector.Zero;
-      StabilizedPalmPosition = Vector.Zero;
-      PalmVelocity = Vector.Zero;
-      PalmNormal = Vector.Zero;
-      Direction = Vector.Zero;
-      WristPosition = Vector.Zero;
-      Fingers = new List<Finger>();
+      Arm = new Arm();
+      Fingers = new List<Finger>(5);
+      Fingers.Add(new Finger());
+      Fingers.Add(new Finger());
+      Fingers.Add(new Finger());
+      Fingers.Add(new Finger());
+      Fingers.Add(new Finger());
     }
 
-
-     /**
+    /**
      * Constructs a hand.
      *
      * Generally, you should not create your own Hand objects. Such objects will not
@@ -97,6 +97,7 @@ namespace Leap
                 Vector stabilizedPalmPosition,
                 Vector palmVelocity,
                 Vector palmNormal,
+                LeapQuaternion palmOrientation,
                 Vector direction,
                 Vector wristPosition)
     {
@@ -116,39 +117,9 @@ namespace Leap
       StabilizedPalmPosition = stabilizedPalmPosition;
       PalmVelocity = palmVelocity;
       PalmNormal = palmNormal;
+      Rotation = palmOrientation;
       Direction = direction;
       WristPosition = wristPosition;
-    }
-
-    /**
-     * Returns a copy of this Hand object transformed by the specifid transform matrix.
-      */
-    public Hand TransformedCopy(LeapTransform trs)
-    {
-      List<Finger> transformedFingers = new List<Finger>(5);
-      for (int f = 0; f < this.Fingers.Count; f++)
-        transformedFingers.Add(Fingers[f].TransformedCopy(trs));
-
-      return new Hand(
-        FrameId,
-        Id,
-        Confidence,
-        GrabStrength,
-        GrabAngle,
-        PinchStrength,
-        PinchDistance,
-        PalmWidth * trs.scale.x,
-        IsLeft,
-        TimeVisible,
-        Arm.TransformedCopy(trs),
-        transformedFingers,
-        trs.TransformPoint(PalmPosition),
-        trs.TransformPoint(StabilizedPalmPosition),
-        trs.TransformVelocity(PalmVelocity),
-        trs.TransformDirection(PalmNormal),
-        trs.TransformDirection(Direction),
-        trs.TransformPoint(WristPosition)
-      );
     }
 
     /**
@@ -173,10 +144,14 @@ namespace Leap
      */
     public Finger Finger(int id)
     {
-      return this.Fingers.Find(delegate (Finger item)
+      for (int i = Fingers.Count; i-- != 0; )
       {
-        return item.Id == id;
-      });
+        if (Fingers[i].Id == id)
+        {
+          return Fingers[i];
+        }
+      }
+      return null;
     }
 
     /**
@@ -208,7 +183,7 @@ namespace Leap
       );
     }
 
-    public long FrameId { get; private set; }
+    public long FrameId;
 
     /**
      * A unique ID assigned to this Hand object, whose value remains the same
@@ -225,7 +200,7 @@ namespace Leap
      * @returns The ID of this hand.
      * @since 1.0
      */
-    public int Id { get; private set; }
+    public int Id;
 
     /**
      * The list of Finger objects detected in this frame that are attached to
@@ -238,7 +213,7 @@ namespace Leap
      * @returns The List<Finger> containing all Finger objects attached to this hand.
      * @since 1.0
      */
-    public List<Finger> Fingers { get; private set; }
+    public List<Finger> Fingers;
 
 
     /**
@@ -249,7 +224,7 @@ namespace Leap
      * @returns The Vector representing the coordinates of the palm position.
      * @since 1.0
      */
-    public Vector PalmPosition { get; private set; }
+    public Vector PalmPosition;
 
     /**
      * The rate of change of the palm position in millimeters/second.
@@ -259,7 +234,7 @@ namespace Leap
      * @returns The Vector representing the coordinates of the palm velocity.
      * @since 1.0
      */
-    public Vector PalmVelocity { get; private set; }
+    public Vector PalmVelocity;
 
     /**
      * The normal vector to the palm. If your hand is flat, this vector will
@@ -278,7 +253,7 @@ namespace Leap
      * @returns The Vector normal to the plane formed by the palm.
      * @since 1.0
      */
-    public Vector PalmNormal { get; private set; }
+    public Vector PalmNormal;
 
     /**
      * The direction from the palm position toward the fingers.
@@ -294,11 +269,11 @@ namespace Leap
      * @returns The Vector pointing from the palm position toward the fingers.
      * @since 1.0
      */
-    public Vector Direction { get; private set; }
+    public Vector Direction;
 
      /**
      * The transform of the hand.
-     * 
+     *
      * Note, in version prior to 3.1, the Basis was a Matrix object.
      * @since 3.1
      */
@@ -309,7 +284,7 @@ namespace Leap
     *
     * @since 3.1
     */
-    public LeapQuaternion Rotation { get { return Fingers[2].Bone((Bone.BoneType)0).Rotation; } } //proxy for hand rotation
+    public LeapQuaternion Rotation;
 
     /**
      * The strength of a grab hand pose.
@@ -323,7 +298,7 @@ namespace Leap
      * of the pose.
      * @since 2.0
      */
-    public float GrabStrength { get; private set; }
+    public float GrabStrength;
 
     /**
      * The angle between the fingers and the hand of a grab hand pose.
@@ -337,7 +312,7 @@ namespace Leap
      * @returns The angle of a grab hand pose between 0 and pi radians (0 and 180 degrees).
      * @since 3.0
      */
-    public float GrabAngle { get; private set; }
+    public float GrabAngle;
 
     /**
      * The holding strength of a pinch hand pose.
@@ -352,7 +327,7 @@ namespace Leap
      * of the pinch pose.
      * @since 2.0
      */
-    public float PinchStrength { get; private set; }
+    public float PinchStrength;
 
     /**
      * The distance between the thumb and index finger of a pinch hand pose.
@@ -367,7 +342,7 @@ namespace Leap
      * pose in millimeters.
      * @since 3.0
      */
-    public float PinchDistance { get; private set; }
+    public float PinchDistance;
 
     /**
      * The estimated width of the palm when the hand is in a flat position.
@@ -377,7 +352,7 @@ namespace Leap
      * @returns The width of the palm in millimeters
      * @since 2.0
      */
-    public float PalmWidth { get; private set; }
+    public float PalmWidth;
 
     /**
      * The stabilized palm position of this Hand.
@@ -393,7 +368,7 @@ namespace Leap
      * with some additional smoothing and stabilization applied.
      * @since 1.0
      */
-    public Vector StabilizedPalmPosition { get; private set; }
+    public Vector StabilizedPalmPosition;
 
     /**
      * The position of the wrist of this hand.
@@ -401,7 +376,7 @@ namespace Leap
      * @returns A vector containing the coordinates of the wrist position in millimeters.
      * @since 2.0.3
      */
-    public Vector WristPosition { get; private set; }
+    public Vector WristPosition;
 
     /**
      * The duration of time this Hand has been visible to the Leap Motion Controller.
@@ -411,7 +386,7 @@ namespace Leap
      * @returns The duration (in seconds) that this Hand has been tracked.
      * @since 1.0
      */
-    public float TimeVisible { get; private set; }
+    public float TimeVisible;
 
     /**
      * How confident we are with a given hand pose.
@@ -422,7 +397,7 @@ namespace Leap
      *
      * @since 2.0
      */
-    public float Confidence { get; private set; }
+    public float Confidence;
 
     /**
      * Identifies whether this Hand is a left hand.
@@ -432,7 +407,7 @@ namespace Leap
      * @returns True if the hand is identified as a left hand.
      * @since 2.0
      */
-    public bool IsLeft { get; private set; }
+    public bool IsLeft;
 
     /**
      * Identifies whether this Hand is a right hand.
@@ -455,6 +430,6 @@ namespace Leap
      * @returns The Arm object for this hand.
      * @since 2.0.3
      */
-    public Arm Arm { get; private set; }
+    public Arm Arm;
   }
 }

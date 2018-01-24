@@ -14,8 +14,10 @@ namespace Leap
    * The Arm class represents the forearm.
    *
    */
+  [Serializable]
   public class Arm : Bone
   {
+
     /**
      * Constructs a default Arm object.
      *
@@ -25,7 +27,7 @@ namespace Leap
      *
      * @since 2.0.3
      */
-    public Arm() {}
+    public Arm() : base() { }
 
     /**
      * Constructs a new Arm object.
@@ -40,39 +42,20 @@ namespace Leap
      * @since 3.0
      */
     public Arm(Vector elbow,
-                Vector wrist,
-                Vector center,
-                Vector direction,
-                float length,
-                float width,
-                LeapQuaternion rotation
-              ) : base(elbow,
-                        wrist,
-                        center,
-                        direction,
-                        length,
-                        width,
-                        BoneType.TYPE_METACARPAL, //ignored for arms
-                        rotation)
-    { }
-
-    /**
-     * Creates a copy of this arm, transformed by the specified transform.
-     *
-     * @param trs A LeapTransform containing the desired translation, rotation, and scale
-     * of the copied arm.
-     * @since 3.0
-     */
-    public new Arm TransformedCopy(LeapTransform trs)
-    {
-      return new Arm(trs.TransformPoint(PrevJoint),
-          trs.TransformPoint(NextJoint),
-          trs.TransformPoint(Center),
-          trs.TransformDirection(Direction),
-          Length * trs.scale.z,
-          Width * trs.scale.x,
-          trs.TransformQuaternion(Rotation));
-    }
+               Vector wrist,
+               Vector center,
+               Vector direction,
+               float length,
+               float width,
+               LeapQuaternion rotation)
+      : base(elbow,
+             wrist,
+             center,
+             direction,
+             length,
+             width,
+             BoneType.TYPE_METACARPAL, //ignored for arms
+             rotation) { }
 
     /**
      * Compare Arm object equality.

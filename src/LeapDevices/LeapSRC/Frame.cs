@@ -27,9 +27,12 @@ namespace Leap
    * Implement a Listener subclass to receive a callback event when a new Frame is available.
    * @since 1.0
    */
-  public class Frame:
-    IEquatable<Frame>
+  [Serializable]
+  public class Frame: IEquatable<Frame>
   {
+    [ThreadStatic]
+    private static Queue<Hand> _handPool;
+
     /**
      * Constructs a Frame object.
      *
@@ -46,10 +49,6 @@ namespace Leap
      */
     public Frame() {
       Hands = new List<Hand> ();
-      InteractionBox = new InteractionBox(
-        new Vector(0, 200, 0),
-        new Vector(200, 200, 200)
-      );
     }
 
     /**
@@ -61,36 +60,13 @@ namespace Leap
      * @param interactionBox The InteractionBox object for this frame.
      * @since 3.0
      */
-    public Frame(long id, long timestamp, float fps, InteractionBox interactionBox, List<Hand> hands) :
-      this()
+    public Frame(long id, long timestamp, float fps, InteractionBox interactionBox, List<Hand> hands)
     {
       Id = id;
       Timestamp = timestamp;
       CurrentFramesPerSecond = fps;
       InteractionBox = interactionBox;
       Hands = hands;
-    }
-
-    /**
-     * Creates a copy of this Frame, transforming all hands, fingers, and bones by the specified transform.
-     *
-     * @param trs A LeapTransform containing the desired translation, rotation, and scale
-     * of the copied Frame.
-     * @returns a new Frame object with the transform applied.
-     * @since 3.0
-     */
-    public Frame TransformedCopy(LeapTransform trs)
-    {
-      Frame transformedFrame = new Frame(
-        Id,
-        Timestamp,
-        CurrentFramesPerSecond,
-        new InteractionBox(InteractionBox.Center, InteractionBox.Size),
-        new List<Hand>(this.Hands.Count)
-      );
-      for (int h = 0; h < this.Hands.Count; h++)
-        transformedFrame.Hands.Add(this.Hands[h].TransformedCopy(trs));
-      return transformedFrame;
     }
 
     /**
@@ -163,10 +139,14 @@ namespace Leap
      */
     public Hand Hand(int id)
     {
-      return this.Hands.Find(delegate (Hand item)
+      for (int i = Hands.Count; i-- != 0; )
       {
-        return item.Id == id;
-      });
+        if (Hands[i].Id == id)
+        {
+          return Hands[i];
+        }
+      }
+      return null;
     }
 
     /**
@@ -210,7 +190,7 @@ namespace Leap
      * @returns The frame ID.
      * @since 1.0
      */
-    public long Id { get; private set; }
+    public long Id;
 
     /**
      * The frame capture time in microseconds elapsed since an arbitrary point in
@@ -223,7 +203,7 @@ namespace Leap
      * @returns The timestamp in microseconds.
      * @since 1.0
      */
-    public long Timestamp { get; private set; }
+    public long Timestamp;
 
     /**
      * The instantaneous framerate.
@@ -238,7 +218,7 @@ namespace Leap
      * @returns An estimate of frames per second of the Leap Motion Controller.
      * @since 1.0
      */
-    public float CurrentFramesPerSecond { get; private set; }
+    public float CurrentFramesPerSecond;
 
     /**
      * The list of Hand objects detected in this frame, given in arbitrary order.
@@ -249,7 +229,7 @@ namespace Leap
      * @returns The List<Hand> containing all Hand objects detected in this frame.
      * @since 1.0
      */
-    public List<Hand> Hands { get; set; }
+    public List<Hand> Hands;
 
     /**
      * The current InteractionBox for the frame. See the InteractionBox class
@@ -260,11 +240,44 @@ namespace Leap
      * @returns The current InteractionBox object.
      * @since 1.0
      */
-    public InteractionBox InteractionBox { get; private set; }
+    public InteractionBox InteractionBox;
 
     public int SerializeLength
     {
       get { return 0; }
+    }
+
+    /**
+     * Resizes the Hand list to have a specific size.  If the size is decreased,
+     * the removed hands are placed into the hand pool.  If the size is increased, the
+     * new spaces are filled with hands taken from the hand pool.  If the pool is
+     * empty, new hands are constructed instead.
+     */
+    internal void ResizeHandList(int count)
+    {
+      if (_handPool == null)
+      {
+        _handPool = new Queue<Hand>();
+      }
+
+      while (Hands.Count < count)
+      {
+        Hand newHand;
+        if (_handPool.Count > 0)
+        {
+          newHand = _handPool.Dequeue();
+        } else {
+          newHand = new Hand();
+        }
+        Hands.Add(newHand);
+      }
+
+      while (Hands.Count > count)
+      {
+        Hand lastHand = Hands[Hands.Count - 1];
+        Hands.RemoveAt(Hands.Count - 1);
+        _handPool.Enqueue(lastHand);
+      }
     }
   }
 }

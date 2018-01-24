@@ -30,8 +30,8 @@ namespace LeapInternal {
       }
     }
 
-    /** 
-     * Copies a struct of type T into the memory pointed to by dstPtr.  This is an 
+    /**
+     * Copies a struct of type T into the memory pointed to by dstPtr.  This is an
      * unsafe operation that assumes there is enough space allocated at the pointer
      * to accommodate the struct.
      */
@@ -40,7 +40,7 @@ namespace LeapInternal {
     }
 
     /**
-     * Copies a struct of type T into the array pointed to by arrayPtr at the 
+     * Copies a struct of type T into the array pointed to by arrayPtr at the
      * offset index specified by indexx.  This is an unsafe operation that assumes
      * there is enough space allocated in the array to accommodate the struct.
      */

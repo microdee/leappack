@@ -59,6 +59,7 @@ namespace Leap
    * \image html images/Leap_Axes.png
    * @since 1.0
    */
+  [Serializable]
   public struct Vector:
     IEquatable<Vector>
   {
@@ -327,7 +328,7 @@ namespace Leap
     public bool IsValid()
     {
       return !(float.IsNaN(x) || float.IsInfinity(x) ||
-               float.IsNaN(y) || float.IsInfinity(y) || 
+               float.IsNaN(y) || float.IsInfinity(y) ||
                float.IsNaN(z) || float.IsInfinity(z));
     }
 

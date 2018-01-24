@@ -24,17 +24,26 @@ namespace Leap
    * will be discontinuous unless they have a corresponding ID exchange.
    * @since 1.0
    */
+  [Serializable]
   public class Finger
   {
-    Bone[] _bones = new Bone[4];
-    long _frameId = -1;
+    public Bone[] bones = new Bone[4];
 
     /**
-     * Constructs a Finger object.
+     * Constructs a finger.
      *
-     * @since 1.0
+     * An uninitialized finger is considered invalid.
+     * Get valid Finger objects from a Hand object.
+     *
+     * @since 3.0
      */
-    public Finger() {}
+    public Finger()
+    {
+      bones[0] = new Bone();
+      bones[1] = new Bone();
+      bones[2] = new Bone();
+      bones[3] = new Bone();
+    }
 
     /**
      * Constructs a finger.
@@ -62,28 +71,27 @@ namespace Leap
      * @since 3.0
      */
     public Finger(long frameId,
-                  int handId,
-                  int fingerId,
-                  float timeVisible,
-                  Vector tipPosition,
-                  Vector tipVelocity,
-                  Vector direction,
-                  Vector stabilizedTipPosition,
-                  float width,
-                  float length,
-                  bool isExtended,
-                  Finger.FingerType type,
-                  Bone metacarpal,
-                  Bone proximal,
-                  Bone intermediate,
-                  Bone distal)
+                 int handId,
+                 int fingerId,
+                 float timeVisible,
+                 Vector tipPosition,
+                 Vector tipVelocity,
+                 Vector direction,
+                 Vector stabilizedTipPosition,
+                 float width,
+                 float length,
+                 bool isExtended,
+                 Finger.FingerType type,
+                 Bone metacarpal,
+                 Bone proximal,
+                 Bone intermediate,
+                 Bone distal)
     {
       Type = type;
-      _bones[0] = metacarpal;
-      _bones[1] = proximal;
-      _bones[2] = intermediate;
-      _bones[3] = distal;
-      _frameId = frameId;
+      bones[0] = metacarpal;
+      bones[1] = proximal;
+      bones[2] = intermediate;
+      bones[3] = distal;
       Id = (handId * 10) + fingerId;
       HandId = handId;
       TipPosition = tipPosition;
@@ -97,34 +105,6 @@ namespace Leap
     }
 
     /**
-     * Creates a copy of this finger, transformed by the specified transform.
-     *
-     * @param trs A LeapTransform containing the desired translation, rotation, and scale
-     * of the copied finger.
-     * @since 3.0
-     */
-    public Finger TransformedCopy(LeapTransform trs)
-    {
-      return new Finger(_frameId,
-                        HandId,
-                        Id % 10, //remove hand portion of finger Id
-                        TimeVisible,
-                        trs.TransformPoint(TipPosition),
-                        trs.TransformVelocity(TipVelocity),
-                        trs.TransformDirection(Direction),
-                        trs.TransformPoint(StabilizedTipPosition),
-                        Width * trs.scale.x,
-                        Length * trs.scale.z,
-                        IsExtended,
-                        Type,
-                        _bones[0].TransformedCopy(trs),
-                        _bones[1].TransformedCopy(trs),
-                        _bones[2].TransformedCopy(trs),
-                        _bones[3].TransformedCopy(trs));
-    }
-
-
-    /**
      * The bone at a given bone index on this finger.
      *
      * \include Bone_iteration.txt
@@ -136,7 +116,7 @@ namespace Leap
      */
     public Bone Bone(Bone.BoneType boneIx)
     {
-      return _bones[(int)boneIx];
+      return bones[(int)boneIx];
     }
 
     /**
@@ -161,7 +141,7 @@ namespace Leap
      * enumeration.
      * @since 2.0
      */
-    public Finger.FingerType Type { get; private set; }
+    public Finger.FingerType Type;
 
     /**
      * A unique ID assigned to this Finger object, whose value remains the
@@ -181,7 +161,7 @@ namespace Leap
      * @returns The ID assigned to this Finger object.
      * @since 1.0
      */
-    public int Id { get; private set; }
+    public int Id;
 
     /**
      * The Hand associated with a finger.
@@ -195,7 +175,7 @@ namespace Leap
      * an invalid Hand object is returned.
      * @since 1.0
      */
-    public int HandId { get; private set; }
+    public int HandId;
 
     /**
      * The tip position in millimeters from the Leap Motion origin.
@@ -205,7 +185,7 @@ namespace Leap
      * @returns The Vector containing the coordinates of the tip position.
      * @since 1.0
      */
-    public Vector TipPosition { get; private set; }
+    public Vector TipPosition;
 
     /**
      * The rate of change of the tip position in millimeters/second.
@@ -215,7 +195,7 @@ namespace Leap
      * @returns The Vector containing the coordinates of the tip velocity.
      * @since 1.0
      */
-    public Vector TipVelocity { get; private set; }
+    public Vector TipVelocity;
 
     /**
      * The direction in which this finger or tool is pointing.
@@ -231,7 +211,7 @@ namespace Leap
      * Finger object.
      * @since 1.0
      */
-    public Vector Direction { get; private set; }
+    public Vector Direction;
 
     /**
      * The estimated width of the finger or tool in millimeters.
@@ -241,7 +221,7 @@ namespace Leap
      * @returns The estimated width of this Finger object.
      * @since 1.0
      */
-    public float Width { get; private set; }
+    public float Width;
 
     /**
      * The estimated length of the finger or tool in millimeters.
@@ -251,7 +231,7 @@ namespace Leap
      * @returns The estimated length of this Finger object.
      * @since 1.0
      */
-    public float Length { get; private set; }
+    public float Length;
 
     /**
      * Whether or not this Finger is in an extended posture.
@@ -265,7 +245,7 @@ namespace Leap
      * @returns True, if the pointable is extended.
      * @since 2.0
      */
-    public bool IsExtended { get; private set; }
+    public bool IsExtended;
 
     /**
      * The stabilized tip position of this Finger.
@@ -281,7 +261,7 @@ namespace Leap
      * with some additional smoothing and stabilization applied.
      * @since 1.0
      */
-    public Vector StabilizedTipPosition { get; private set; }
+    public Vector StabilizedTipPosition;
 
     /**
      * The duration of time this Finger has been visible to the Leap Motion Controller.
@@ -291,7 +271,7 @@ namespace Leap
      * @returns The duration (in seconds) that this Finger has been tracked.
      * @since 1.0
      */
-    public float TimeVisible { get; private set; }
+    public float TimeVisible;
 
     /**
      * Enumerates the names of the fingers.
