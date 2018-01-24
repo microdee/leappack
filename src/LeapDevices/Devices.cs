@@ -106,18 +106,18 @@ namespace VVVV.Nodes
         private void leapinit()
         {
             leapcontroller = new Controller();
-            Controller.PolicyFlag flags = Controller.PolicyFlag.POLICY_DEFAULT;
+            Controller.PolicyFlag flags = Controller.PolicyFlag.POLICY_DEFAULT | (Controller.PolicyFlag)(1 << 1);
             if (FBckgFrames[0]) flags = flags | Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES;
             if (FHMD[0]) flags = flags | Controller.PolicyFlag.POLICY_OPTIMIZE_HMD;
             leapcontroller.SetPolicy(flags);
-
-            leapdevice = leapcontroller.Devices[0];
+            try
+            {
+                leapdevice = leapcontroller.Devices[0];
+            }
+            catch (Exception e) { }
         }
 
-        public void OnImportsSatisfied()
-        {
-            leapinit();
-        }
+        public void OnImportsSatisfied() { }
 
         public void Evaluate(int SpreadMax)
         {
