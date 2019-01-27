@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using SlimDX;
 
+using mp.pddn;
 using VVVV.Core;
 using VVVV.PluginInterfaces.V1;
 using VVVV.PluginInterfaces.V2;
@@ -69,7 +70,7 @@ namespace VVVV.Nodes
     }
 
     [PluginInfo(Name = "Device", Category = "Leap", Tags = "", AutoEvaluate=true)]
-    public class LeapDeviceNode : IPluginEvaluate
+    public class LeapDeviceNode : IPluginEvaluate, IDisposable
     {
         [Input("Scale")]
         public Pin<float> FScale;
@@ -106,10 +107,13 @@ namespace VVVV.Nodes
         private void leapinit()
         {
             leapcontroller = new Controller();
-            Controller.PolicyFlag flags = Controller.PolicyFlag.POLICY_DEFAULT | (Controller.PolicyFlag)(1 << 1);
+            leapcontroller.StopConnection();
+
+            Controller.PolicyFlag flags = Controller.PolicyFlag.POLICY_DEFAULT | Controller.PolicyFlag.POLICY_IMAGES;
             if (FBckgFrames[0]) flags = flags | Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES;
             if (FHMD[0]) flags = flags | Controller.PolicyFlag.POLICY_OPTIMIZE_HMD;
             leapcontroller.SetPolicy(flags);
+            leapcontroller.StartConnection();
             try
             {
                 leapdevice = leapcontroller.Devices[0];
@@ -121,7 +125,7 @@ namespace VVVV.Nodes
 
         public void Evaluate(int SpreadMax)
         {
-            if(leapcontroller!=null)
+            if(leapcontroller!=null && leapcontroller.IsConnected && leapcontroller.IsServiceConnected && leapcontroller.Devices.Count > 0)
             {
                 FDevice.SliceCount = 1;
                 FController.SliceCount = 1;
@@ -142,11 +146,31 @@ namespace VVVV.Nodes
             {
                 if (leapcontroller != null) leapcontroller.Dispose();
                 leapinit();
+                FirstFrame = false;
             }
             GlobalScale = FScale[0];
             GlobalZMul = (FMirror[0]) ? -1 : 1;
             AgeCorrectionThreshold = FAgeThreshold[0];
-            FirstFrame = false;
+        }
+        
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    leapcontroller.StopConnection();
+                }
+
+                disposedValue = true;
+            }
+        }
+        
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 
@@ -168,7 +192,7 @@ namespace VVVV.Nodes
         public void Evaluate(int SpreadMax)
         {
 
-            if (!FDevice.IsConnected || FDevice.SliceCount == 0)
+            if (!FDevice.IsConnected || FDevice.SliceCount == 0 || FDevice.TryGetSlice(0) == null)
             {
                 FViewAngle.SliceCount = 0;
                 FRange.SliceCount = 0;
@@ -179,8 +203,8 @@ namespace VVVV.Nodes
                 float gs;
                 double zm;
                 try {
-                    gs = VVVV.Nodes.LeapDeviceNode.GlobalScale;
-                    zm = VVVV.Nodes.LeapDeviceNode.GlobalZMul;
+                    gs = LeapDeviceNode.GlobalScale;
+                    zm = LeapDeviceNode.GlobalZMul;
                 }
                 catch {
                     gs = 1;
@@ -199,68 +223,68 @@ namespace VVVV.Nodes
         }
     }
 
-    [PluginInfo(Name = "InteractionBox", Category = "Leap", Tags = "")]
-    public class LeapInteractionBoxNode : IPluginEvaluate
-    {
-        [Input("Frame")]
-        public Pin<InteractionBox> FInteractionBox;
-        [Input("World Position")]
-        public ISpread<ISpread<Vector3D>> FWorldPos;
+    //[PluginInfo(Name = "InteractionBox", Category = "Leap", Tags = "")]
+    //public class LeapInteractionBoxNode : IPluginEvaluate
+    //{
+    //    [Input("Frame")]
+    //    public Pin<InteractionBox> FInteractionBox;
+    //    [Input("World Position")]
+    //    public ISpread<ISpread<Vector3D>> FWorldPos;
 
-        [Output("Dimensions")]
-        public ISpread<Vector3D> FDimensions;
-        [Output("Center")]
-        public ISpread<Vector3D> FCenter;
-        [Output("Normalized Position")]
-        public ISpread<ISpread<Vector3D>> FNormPos;
+    //    [Output("Dimensions")]
+    //    public ISpread<Vector3D> FDimensions;
+    //    [Output("Center")]
+    //    public ISpread<Vector3D> FCenter;
+    //    [Output("Normalized Position")]
+    //    public ISpread<ISpread<Vector3D>> FNormPos;
 
-        public void Evaluate(int SpreadMax)
-        {
+    //    public void Evaluate(int SpreadMax)
+    //    {
 
-            if (!FInteractionBox.IsConnected || FInteractionBox.SliceCount == 0)
-            {
-                FDimensions.SliceCount = 0;
-                FNormPos.SliceCount = 0;
-                FCenter.SliceCount = 0;
-            }
-            else
-            {
-                float gs;
-                double zm;
-                try
-                {
-                    gs = VVVV.Nodes.LeapDeviceNode.GlobalScale;
-                    zm = VVVV.Nodes.LeapDeviceNode.GlobalZMul;
-                }
-                catch
-                {
-                    gs = 1;
-                    zm = 1;
-                }
+    //        if (!FInteractionBox.IsConnected || FInteractionBox.SliceCount == 0)
+    //        {
+    //            FDimensions.SliceCount = 0;
+    //            FNormPos.SliceCount = 0;
+    //            FCenter.SliceCount = 0;
+    //        }
+    //        else
+    //        {
+    //            float gs;
+    //            double zm;
+    //            try
+    //            {
+    //                gs = VVVV.Nodes.LeapDeviceNode.GlobalScale;
+    //                zm = VVVV.Nodes.LeapDeviceNode.GlobalZMul;
+    //            }
+    //            catch
+    //            {
+    //                gs = 1;
+    //                zm = 1;
+    //            }
 
-                FDimensions.SliceCount = FInteractionBox.SliceCount;
-                FCenter.SliceCount = FInteractionBox.SliceCount;
-                FNormPos.SliceCount = FInteractionBox.SliceCount;
+    //            FDimensions.SliceCount = FInteractionBox.SliceCount;
+    //            FCenter.SliceCount = FInteractionBox.SliceCount;
+    //            FNormPos.SliceCount = FInteractionBox.SliceCount;
 
-                for (int i = 0; i < FInteractionBox.SliceCount; i++)
-                {
-                    FDimensions[i] = new Vector3D(
-                        FInteractionBox[i].Width,
-                        FInteractionBox[i].Height,
-                        FInteractionBox[i].Depth);
-                    FDimensions[i] = FDimensions[i] * gs;
+    //            for (int i = 0; i < FInteractionBox.SliceCount; i++)
+    //            {
+    //                FDimensions[i] = new Vector3D(
+    //                    FInteractionBox[i].Width,
+    //                    FInteractionBox[i].Height,
+    //                    FInteractionBox[i].Depth);
+    //                FDimensions[i] = FDimensions[i] * gs;
 
-                    FCenter[i] = FInteractionBox[i].Center.ToVector3D().mulz(zm) * gs;
+    //                FCenter[i] = FInteractionBox[i].Center.ToVector3D().mulz(zm) * gs;
 
-                    FNormPos[i].SliceCount = FWorldPos[i].SliceCount;
-                    for (int j = 0; j < FWorldPos.SliceCount; j++)
-                    {
-                        Vector3D tpos = FWorldPos[i][j].mulz(zm) / gs;
-                        Leap.Vector V = tpos.ToLeapVector();
-                        FNormPos[i][j] = FInteractionBox[i].NormalizePoint(V).ToVector3D().mulz(zm);
-                    }
-                }
-            }
-        }
-    }
+    //                FNormPos[i].SliceCount = FWorldPos[i].SliceCount;
+    //                for (int j = 0; j < FWorldPos.SliceCount; j++)
+    //                {
+    //                    Vector3D tpos = FWorldPos[i][j].mulz(zm) / gs;
+    //                    Leap.Vector V = tpos.ToLeapVector();
+    //                    FNormPos[i][j] = FInteractionBox[i].NormalizePoint(V).ToVector3D().mulz(zm);
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 }

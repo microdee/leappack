@@ -17,7 +17,7 @@ namespace LeapInternal {
     /// Logs message to the a Console.
     /// </summary>
     public static void Log(object message) {
-      UnityEngine.Debug.Log(message);
+      //UnityEngine.Debug.Log(message);
     }
 
     public static void LogStruct(object thisObject, string title = "") {

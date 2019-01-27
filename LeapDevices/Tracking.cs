@@ -367,9 +367,9 @@ namespace VVVV.Nodes
             for (int i = 0; i < FFinger.SliceCount; i++)
             {
                 FPos[i] = FFinger[i].TipPosition.ToVector3D().mulz(zm) * ScaleVal;
-                FStabilPos[i] = FFinger[i].StabilizedTipPosition.ToVector3D().mulz(zm) * ScaleVal;
+                //FStabilPos[i] = FFinger[i].StabilizedTipPosition.ToVector3D().mulz(zm) * ScaleVal;
                 FDirection[i] = FFinger[i].Direction.ToVector3D().mulz(zm);
-                FVel[i] = FFinger[i].TipVelocity.ToVector3D().mulz(zm) * ScaleVal;
+                //FVel[i] = FFinger[i].ToVector3D().mulz(zm) * ScaleVal;
                 FWidth[i] = FFinger[i].Width * ScaleVal;
                 FLength[i] = FFinger[i].Length * ScaleVal;
                 

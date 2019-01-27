@@ -13,7 +13,7 @@ using VVVV.PluginInterfaces.V2;
 using VVVV.Utils.VMath;
 using VVVV.Utils.VColor;
 using VVVV.Utils.SharedMemory;
-
+using mp.pddn;
 using Leap;
 
 namespace VVVV.Nodes
@@ -22,7 +22,7 @@ namespace VVVV.Nodes
     public class LeapGetFrameNode : IPluginEvaluate
     {
         [Input("Controller")]
-        public ISpread<Leap.Controller> FController;
+        public Pin<Leap.Controller> FController;
         [Input("Frame ID in history")]
         public ISpread<int> FFID;
         [Output("Frame")]
@@ -30,10 +30,17 @@ namespace VVVV.Nodes
 
         public void Evaluate(int SpreadMax)
         {
-            FFrame.SliceCount = FFID.SliceCount;
-            for (int i = 0; i < FFID.SliceCount; i++)
+            if(FController.IsConnected && FController.TryGetSlice(0) != null)
             {
-                FFrame[i] = FController[0].Frame(FFID[i]);
+                FFrame.SliceCount = FFID.SliceCount;
+                for (int i = 0; i < FFID.SliceCount; i++)
+                {
+                    FFrame[i] = FController[0].Frame(FFID[i]);
+                }
+            }
+            else
+            {
+                FFrame.SliceCount = 0;
             }
         }
     }
@@ -48,37 +55,36 @@ namespace VVVV.Nodes
         public ISpread<float> FFPS;
         [Output("Timestamp")]
         public ISpread<float> FTimestamp;
-        [Output("Interaction Box")]
-        public ISpread<InteractionBox> FInteractBox;
+        //[Output("Interaction Box")]
+        //public ISpread<InteractionBox> FInteractBox;
 
         [Output("Hands")]
         public ISpread<ISpread<Hand>> FHand;
 
         public void Evaluate(int SpreadMax)
         {
-            if (!FFrame.IsConnected || FFrame.SliceCount == 0)
+            if (!FFrame.IsConnected || FFrame.SliceCount == 0 || FFrame.TryGetSlice(0) == null)
             {
                 FFPS.SliceCount = 0;
                 FTimestamp.SliceCount = 0;
-                FInteractBox.SliceCount = 0;
+                //FInteractBox.SliceCount = 0;
                 FHand.SliceCount = 0;
+                return;
             }
-            else
+
+            FFPS.SliceCount = FFrame.SliceCount;
+            FTimestamp.SliceCount = FFrame.SliceCount;
+            //FInteractBox.SliceCount = FFrame.SliceCount;
+            FHand.SliceCount = FFrame.SliceCount;
+
+            for (int i = 0; i < FFrame.SliceCount; i++)
             {
-                FFPS.SliceCount = FFrame.SliceCount;
-                FTimestamp.SliceCount = FFrame.SliceCount;
-                FInteractBox.SliceCount = FFrame.SliceCount;
-                FHand.SliceCount = FFrame.SliceCount;
+                FFPS[i] = FFrame[i].CurrentFramesPerSecond;
+                FTimestamp[i] = FFrame[i].Timestamp;
+                //FInteractBox[i] = FFrame[i].InteractionBox;
 
-                for (int i = 0; i < FFrame.SliceCount; i++)
-                {
-                    FFPS[i] = FFrame[i].CurrentFramesPerSecond;
-                    FTimestamp[i] = FFrame[i].Timestamp;
-                    FInteractBox[i] = FFrame[i].InteractionBox;
-
-                    FHand[i].SliceCount = 0;
-                    foreach (Hand h in FFrame[i].Hands) FHand[i].Add(h);
-                }
+                FHand[i].SliceCount = 0;
+                foreach (Hand h in FFrame[i].Hands) FHand[i].Add(h);
             }
         }
     }
@@ -95,6 +101,11 @@ namespace VVVV.Nodes
 
         public void Evaluate(int SpreadMax)
         {
+            if (!FFrame.IsConnected || FFrame.SliceCount == 0 || FFrame.TryGetSlice(0) == null)
+            {
+                FStream.SliceCount = 0;
+                return;
+            }
             FStream.SliceCount = FFrame.SliceCount;
             for (int i = 0; i < FFrame.SliceCount; i++)
             {

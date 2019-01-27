@@ -14,12 +14,14 @@ using VVVV.Utils.SharedMemory;
 
 using SlimDX.Direct3D11;
 using SlimDX;
+using mp.pddn;
 
 using FeralTic.DX11.Resources;
 using FeralTic.DX11;
 using VVVV.DX11;
 
 using Leap;
+using LeapInternal;
 
 namespace VVVV.Nodes
 {
@@ -31,143 +33,160 @@ namespace VVVV.Nodes
         [Input("Enabled")]
         public ISpread<bool> FEnabled;
 
-        [Output("Image")]
-        protected Pin<DX11Resource<DX11DynamicTexture2D>> FImgTexOut;
-        [Output("Distortion Map")]
-        protected Pin<DX11Resource<DX11DynamicTexture2D>> FDistMap;
-        
+        [Output("Image Left")]
+        protected Pin<DX11Resource<DX11DynamicTexture2D>> FImgTexOutL;
+        [Output("Distortion Map Left")]
+        protected Pin<DX11Resource<DX11DynamicTexture2D>> FDistMapL;
+
+        [Output("Image Right")]
+        protected Pin<DX11Resource<DX11DynamicTexture2D>> FImgTexOutR;
+        [Output("Distortion Map Right")]
+        protected Pin<DX11Resource<DX11DynamicTexture2D>> FDistMapR;
+
         [Output("Frame ID")]
         protected ISpread<long> FFrameID;
-        [Output("Image Failed")]
-        protected ISpread<bool> FImageFailed;
-        [Output("Image Failure")]
-        protected ISpread<ImageRequestFailedEventArgs> FImgFail;
 
         private Image ValidImage;
-        private byte[] imagedata = new byte[307200];
+        private byte[] imagedataL = new byte[307200];
+        private bool ImageReady = true;
+        
+        private byte[] imagedataR = new byte[307200];
 
         private bool FInvalidate;
-        private bool ImageReady = true;
         private int fcr = 0;
 
         public void Evaluate(int SpreadMax)
         {
-            if (FController.IsConnected && FEnabled[0])
+            if (FEnabled[0] && FController.IsConnected && FController.SliceCount > 0 && FController.TryGetSlice(0) != null)
             {
                 if(fcr == 0)
                 {
-                    FImgTexOut.SliceCount = FController.SliceCount;
-                    FDistMap.SliceCount = FController.SliceCount;
+                    FImgTexOutL.SliceCount = FDistMapL.SliceCount = FImgTexOutR.SliceCount = FDistMapR.SliceCount = FController.SliceCount;
+                    //Connection.GetConnection().
                     FController[0].FrameReady += (sender, args) =>
                     {
                         if (!ImageReady) return;
                         FFrameID[0] = args.frame.Id;
-                        FController[0].RequestImages(args.frame.Id, Image.ImageType.DEFAULT, imagedata);
                         ImageReady = false;
                     };
                     FController[0].ImageReady += (sender, args) =>
                     {
                         ValidImage = args.image;
+                        imagedataL = args.image.Data(Image.CameraType.LEFT);
+                        imagedataR = args.image.Data(Image.CameraType.RIGHT);
                         FInvalidate = true;
                         ImageReady = true;
-                        FImageFailed[0] = false;
-                    };
-                    FController[0].ImageRequestFailed += (sender, args) =>
-                    {
-                        FImageFailed[0] = true;
-                        FImgFail[0] = args;
-                        ImageReady = true;
+                        //FImageFailed[0] = false;
                     };
                 }
                 
-                for (int i = 0; i < FImgTexOut.SliceCount; i++)
+                for (int i = 0; i < FImgTexOutL.SliceCount; i++)
                 {
-                    if (FImgTexOut[i] == null) { FImgTexOut[i] = new DX11Resource<DX11DynamicTexture2D>(); }
-                    if (FDistMap[i] == null) { FDistMap[i] = new DX11Resource<DX11DynamicTexture2D>(); }
+                    if (FImgTexOutL[i] == null) { FImgTexOutL[i] = new DX11Resource<DX11DynamicTexture2D>(); }
+                    if (FDistMapL[i] == null) { FDistMapL[i] = new DX11Resource<DX11DynamicTexture2D>(); }
+                    if (FImgTexOutR[i] == null) { FImgTexOutR[i] = new DX11Resource<DX11DynamicTexture2D>(); }
+                    if (FDistMapR[i] == null) { FDistMapR[i] = new DX11Resource<DX11DynamicTexture2D>(); }
                 }
-                if(FImgTexOut.SliceCount > FController.SliceCount)
+                if(FImgTexOutL.SliceCount > FController.SliceCount)
                 {
-                    for(int i=FController.SliceCount; i<(FImgTexOut.SliceCount-FController.SliceCount); i++)
+                    for(int i=FController.SliceCount; i<(FImgTexOutL.SliceCount-FController.SliceCount); i++)
                     {
-                        if (FImgTexOut[i] != null) { FImgTexOut[i].Dispose(); }
-                        if (FDistMap[i] != null) { FDistMap[i].Dispose(); }
+                        FImgTexOutL[i]?.Dispose();
+                        FDistMapL[i]?.Dispose();
+                        FImgTexOutR[i]?.Dispose();
+                        FDistMapR[i]?.Dispose();
                     }
                 }
-                FImgTexOut.SliceCount = FController.SliceCount;
-                FDistMap.SliceCount = FController.SliceCount;
+                FImgTexOutL.SliceCount = FDistMapL.SliceCount = FImgTexOutR.SliceCount = FDistMapR.SliceCount = FController.SliceCount;
                 fcr++;
             }
             else
             {
-                if (FImgTexOut.SliceCount > 0)
+                if (FImgTexOutL.SliceCount > 0)
                 {
-                    for (int i = 0; i < FImgTexOut.SliceCount; i++)
+                    for (int i = 0; i < FImgTexOutL.SliceCount; i++)
                     {
-                        if (FImgTexOut[i] != null) { FImgTexOut[i].Dispose(); }
-                        if (FDistMap[i] != null) { FDistMap[i].Dispose(); }
+                        FImgTexOutL[i]?.Dispose();
+                        FDistMapL[i]?.Dispose();
+                        FImgTexOutR[i]?.Dispose();
+                        FDistMapR[i]?.Dispose();
                     }
-                    FImgTexOut.SliceCount = 0;
-                    FDistMap.SliceCount = 0;
+                    FImgTexOutL.SliceCount = 0;
+                    FDistMapL.SliceCount = 0;
+                    FImgTexOutR.SliceCount = 0;
+                    FDistMapR.SliceCount = 0;
                 }
                 fcr = 0;
+            }
+        }
+
+        public void UpdateImage(DX11RenderContext context, DX11Resource<DX11DynamicTexture2D> texture, byte[] data)
+        {
+            if (FInvalidate || !texture.Contains(context))
+            {
+
+                var fmt = SlimDX.DXGI.Format.R8_UNorm;
+
+                if (texture.Contains(context))
+                {
+                    var imgdesc = texture[context].Resource.Description;
+
+                    if (imgdesc.Width != ValidImage.Width || imgdesc.Height != ValidImage.Height || imgdesc.Format != fmt)
+                    {
+                        texture.Dispose(context);
+                        texture[context] = new DX11DynamicTexture2D(context, ValidImage.Width, ValidImage.Height, fmt);
+                    }
+                }
+                else
+                {
+                    texture[context] = new DX11DynamicTexture2D(context, ValidImage.Width, ValidImage.Height, fmt);
+#if DEBUG
+                    texture[context].Resource.DebugName = "DynamicTexture";
+#endif
+                }
+                texture[context].WriteData(data);
+            }
+        }
+
+        public void UpdateDistMap(DX11RenderContext context, DX11Resource<DX11DynamicTexture2D> texture, Image.CameraType side)
+        {
+            if (FInvalidate || !texture.Contains(context))
+            {
+
+                var fmt = SlimDX.DXGI.Format.R32G32_Float;
+
+                if (texture.Contains(context))
+                {
+                    var imgdesc = texture[context].Resource.Description;
+
+                    if (imgdesc.Width != ValidImage.DistortionWidth / 2 || imgdesc.Height != ValidImage.DistortionHeight || imgdesc.Format != fmt)
+                    {
+                        texture.Dispose(context);
+                        texture[context] = new DX11DynamicTexture2D(context, ValidImage.DistortionWidth / 2, ValidImage.DistortionHeight, fmt);
+                    }
+                }
+                else
+                {
+                    texture[context] = new DX11DynamicTexture2D(context, ValidImage.DistortionWidth / 2, ValidImage.DistortionHeight, fmt);
+#if DEBUG
+                    texture[context].Resource.DebugName = "DynamicTexture";
+#endif
+                }
+
+                texture[context].WriteData(ValidImage.Distortion(side), 2);
             }
         }
 
         public void Update(DX11RenderContext context)
         {
             if(ValidImage == null) return;
-            //if (FImgTexOut.SliceCount == 0) { return; }
-            for (int i = 0; i < FImgTexOut.SliceCount; i++)
+            if (FImgTexOutL.SliceCount == 0) { return; }
+            for (int i = 0; i < FImgTexOutL.SliceCount; i++)
             {
-                if (FInvalidate || !FImgTexOut[i].Contains(context))
-                {
-
-                    var fmt = SlimDX.DXGI.Format.R8_UNorm;
-
-                    if (FImgTexOut[i].Contains(context))
-                    {
-                        var imgdesc = FImgTexOut[i][context].Resource.Description;
-
-                        if (imgdesc.Width != ValidImage.Width || imgdesc.Height != ValidImage.Height*2 || imgdesc.Format != fmt)
-                        {
-                            FImgTexOut[i].Dispose(context);
-                            FImgTexOut[i][context] = new DX11DynamicTexture2D(context, ValidImage.Width, ValidImage.Height*2, fmt);
-                        }
-                    }
-                    else
-                    {
-                        FImgTexOut[i][context] = new DX11DynamicTexture2D(context, ValidImage.Width, ValidImage.Height*2, fmt);
-#if DEBUG
-                        FImgTexOut[i][context].Resource.DebugName = "DynamicTexture";
-#endif
-                    }
-                    FImgTexOut[i][context].WriteData(imagedata);
-                }
-                if (FInvalidate || !FDistMap[i].Contains(context))
-                {
-
-                    var fmt = SlimDX.DXGI.Format.R32G32_Float;
-
-                    if (FDistMap[i].Contains(context))
-                    {
-                        var imgdesc = FDistMap[i][context].Resource.Description;
-
-                        if (imgdesc.Width != ValidImage.DistortionWidth/2 || imgdesc.Height != ValidImage.DistortionHeight || imgdesc.Format != fmt)
-                        {
-                            FDistMap[i].Dispose(context);
-                            FDistMap[i][context] = new DX11DynamicTexture2D(context, ValidImage.DistortionWidth/2, ValidImage.DistortionHeight, fmt);
-                        }
-                    }
-                    else
-                    {
-                        FDistMap[i][context] = new DX11DynamicTexture2D(context, ValidImage.DistortionWidth/2, ValidImage.DistortionHeight, fmt);
-#if DEBUG
-                        FDistMap[i][context].Resource.DebugName = "DynamicTexture";
-#endif
-                    }
-
-                    FDistMap[i][context].WriteData(ValidImage.Distortion, 2);
-                }
+                UpdateImage(context, FImgTexOutL[i], imagedataL);
+                UpdateImage(context, FImgTexOutR[i], imagedataR);
+                UpdateDistMap(context, FDistMapL[i], Image.CameraType.LEFT);
+                UpdateDistMap(context, FDistMapR[i], Image.CameraType.RIGHT);
             }
             FInvalidate = false;
         }
@@ -175,10 +194,12 @@ namespace VVVV.Nodes
         public void Destroy(DX11RenderContext context, bool force)
         {
 
-            for (int i = 0; i < FImgTexOut.SliceCount; i++)
+            for (int i = 0; i < FImgTexOutL.SliceCount; i++)
             {
-                FImgTexOut[i].Dispose(context);
-                FDistMap[i].Dispose(context);
+                FImgTexOutL[i]?.Dispose(context);
+                FDistMapL[i]?.Dispose(context);
+                FImgTexOutR[i]?.Dispose(context);
+                FDistMapR[i]?.Dispose(context);
             }
         }
 
@@ -186,18 +207,14 @@ namespace VVVV.Nodes
         #region IDisposable Members
         public void Dispose()
         {
-            if (FImgTexOut.SliceCount > 0)
+            if (FImgTexOutL.SliceCount > 0)
             {
-                for (int i = 0; i < FImgTexOut.SliceCount; i++)
+                for (int i = 0; i < FImgTexOutL.SliceCount; i++)
                 {
-                    if (FImgTexOut[i] != null)
-                    {
-                        FImgTexOut[i].Dispose();
-                    }
-                    if (FDistMap[i] != null)
-                    {
-                        FDistMap[i].Dispose();
-                    }
+                    FImgTexOutL[i]?.Dispose();
+                    FDistMapL[i]?.Dispose();
+                    FImgTexOutR[i]?.Dispose();
+                    FDistMapR[i]?.Dispose();
                 }
             }
         }
